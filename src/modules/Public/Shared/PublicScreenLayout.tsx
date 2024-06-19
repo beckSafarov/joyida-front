@@ -15,6 +15,7 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import { Stack } from '@mui/material'
+import Link from 'next/link'
 
 interface Props {
   /**
@@ -23,6 +24,11 @@ interface Props {
    */
   window?: () => Window
   children?: React.ReactNode
+  showButtons?: boolean
+}
+
+const defaultProps = {
+  showButtons: true,
 }
 
 const drawerWidth = 240
@@ -81,25 +87,29 @@ export default function PublicScreenLayout(props: Props) {
               display: { xs: 'none', sm: 'block' },
             }}
           >
-            JOIDA
+            <Link href='/'>JOIDA</Link>
           </Typography>
-          <Stack
-            direction='row'
-            spacing={3}
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
-            <Button
-              variant='text'
-              size='large'
-              sx={{ px: '20px' }}
-              style={{ paddingRight: '20px' }}
+          {props.showButtons && (
+            <Stack
+              direction='row'
+              spacing={3}
+              sx={{ display: { xs: 'none', sm: 'block' } }}
             >
-              Kirish
-            </Button>
-            <Button size='large' variant='contained'>
-              Royxatdan otish
-            </Button>
-          </Stack>
+              <Link href='/login'>
+                <Button
+                  variant='text'
+                  size='large'
+                  sx={{ px: '20px' }}
+                  style={{ paddingRight: '20px' }}
+                >
+                  Kirish
+                </Button>
+              </Link>
+              <Button size='large' variant='contained'>
+                Royxatdan otish
+              </Button>
+            </Stack>
+          )}
         </Toolbar>
       </AppBar>
       <nav>
@@ -129,3 +139,5 @@ export default function PublicScreenLayout(props: Props) {
     </Box>
   )
 }
+
+PublicScreenLayout.defaultProps = defaultProps 
