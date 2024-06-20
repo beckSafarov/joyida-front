@@ -105,9 +105,11 @@ export default function PublicScreenLayout(props: Props) {
                   Kirish
                 </Button>
               </Link>
-              <Button size='large' variant='contained'>
-                Royxatdan otish
-              </Button>
+              <Link href='/sms-confirm'>
+                <Button size='large' variant='contained'>
+                  Royxatdan otish
+                </Button>
+              </Link>
             </Stack>
           )}
         </Toolbar>

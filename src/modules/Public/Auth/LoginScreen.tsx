@@ -7,6 +7,7 @@ import { MuiTelInput } from 'mui-tel-input'
 import Paper from '@mui/material/Paper'
 import StyledLink from '../Shared/StyledLink'
 import SecondaryText from '../Shared/SecondaryText'
+import Title from '../Shared/Title'
 
 const LoginScreen = () => {
   const [phoneNumber, setPhoneNumber] = React.useState<string>('')
@@ -19,9 +20,7 @@ const LoginScreen = () => {
     <>
       <PublicScreenLayout showButtons={false}>
         <FullyCentered top='40%'>
-          <Typography variant='h3' textAlign='center' mb='40px'>
-            Kirish
-          </Typography>
+          <Title sx={{ mb: '40px' }}>Kirish</Title>
           <Paper elevation={2} sx={{ width: '600px', padding: '16px' }}>
             <Stack direction='column' spacing={4}>
               <MuiTelInput

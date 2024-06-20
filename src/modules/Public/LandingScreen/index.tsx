@@ -13,8 +13,6 @@ const LandingScreen = () => {
       <Layout>
         <FullyCentered top='40%'>
           <Stack direction='column' spacing={2}>
-            {/* <Input color='neutral' variant='soft' /> */}
-
             <Stack
               direction={'row'}
               spacing={2}
@@ -35,12 +33,6 @@ const LandingScreen = () => {
               />
               <SearchIcon />
             </Stack>
-            {/* <TextField
-              id='filled-basic'
-              label='Qidiring'
-              variant='filled'
-              fullWidth
-            /> */}
           </Stack>
         </FullyCentered>
       </Layout>
