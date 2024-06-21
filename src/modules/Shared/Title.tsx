@@ -6,11 +6,13 @@ interface Props {
   sx?: SxProps
   children?: React.ReactNode
   fontStyle?: 'regular' | 'bold' | 'semibold'
+  textAlign: 'center' | 'left'
 }
 
 const defaultProps = {
   size: 'md',
   fontStyle: 'regular',
+  textAlign: 'center',
 }
 
 const Title = (props: Props) => {
@@ -22,12 +24,7 @@ const Title = (props: Props) => {
       ? '600'
       : '700'
   return (
-    <Typography
-      fontWeight={fontWeight}
-      variant={variant}
-      textAlign='center'
-      sx={props.sx}
-    >
+    <Typography fontWeight={fontWeight} variant={variant} {...props}>
       {props.children}
     </Typography>
   )

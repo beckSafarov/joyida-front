@@ -1,0 +1,80 @@
+import {
+  Avatar,
+  Box,
+  Button,
+  Divider,
+  Menu,
+  MenuItem,
+  Stack,
+  Typography,
+} from '@mui/material'
+import React from 'react'
+import Title from '../Title'
+import Settings from '@mui/icons-material/Settings'
+import Logout from '@mui/icons-material/Logout'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+
+interface AdminNavbarProps {}
+
+const AdminNavbar: React.FC<AdminNavbarProps> = ({}) => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => setAnchorEl(null)
+  return (
+    <React.Fragment>
+      <Box
+        display='flex'
+        alignItems='center'
+        justifyContent='space-between'
+        pt='20px'
+      >
+        <Title size='sm' fontStyle='bold'>
+          JOYIDA
+        </Title>
+        <Button
+          id='basic-button'
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup='true'
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+        >
+          <Avatar>ET</Avatar>
+        </Button>
+      </Box>
+      <Menu
+        anchorEl={anchorEl}
+        id='basic-menu'
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem onClick={handleClose}>
+          <Stack direction='row' spacing={1}>
+            <AccountCircleIcon />
+            <Typography>Profilim</Typography>
+          </Stack>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Stack direction='row' spacing={1}>
+            <Settings />
+            <Typography>Sozlamalar</Typography>
+          </Stack>
+        </MenuItem>
+        <Divider />
+        <MenuItem onClick={handleClose}>
+          <Stack direction='row' spacing={1}>
+            <Logout />
+            <Typography>Chiqish</Typography>
+          </Stack>
+        </MenuItem>
+      </Menu>
+    </React.Fragment>
+  )
+}
+
+export default AdminNavbar

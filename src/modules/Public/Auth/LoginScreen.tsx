@@ -1,13 +1,13 @@
 'use client'
 import React from 'react'
-import PublicScreenLayout from '../Shared/PublicScreenLayout'
-import FullyCentered from '../Shared/FullyCentered'
+import PublicScreenLayout from '../../Shared/PublicScreenLayout'
+import FullyCentered from '../../Shared/FullyCentered'
 import { Button, Stack, Typography } from '@mui/material'
 import { MuiTelInput } from 'mui-tel-input'
 import Paper from '@mui/material/Paper'
-import StyledLink from '../Shared/StyledLink'
-import SecondaryText from '../Shared/SecondaryText'
-import Title from '../Shared/Title'
+import StyledLink from '../../Shared/StyledLink'
+import SecondaryText from '../../Shared/SecondaryText'
+import Title from '@/modules/Shared/Title'
 
 const LoginScreen = () => {
   const [phoneNumber, setPhoneNumber] = React.useState<string>('')
