@@ -8,6 +8,7 @@ import Paper from '@mui/material/Paper'
 import StyledLink from '../../Shared/StyledLink'
 import SecondaryText from '../../Shared/SecondaryText'
 import Title from '@/modules/Shared/Title'
+import PhoneField from '@/modules/Shared/PhoneField'
 
 const LoginScreen = () => {
   const [phoneNumber, setPhoneNumber] = React.useState<string>('')
@@ -28,6 +29,7 @@ const LoginScreen = () => {
                 onChangeCapture={handleChange}
                 sx={{ width: '100%', borderColor: '#CAC4D0' }}
               />
+              <PhoneField />
               <Button type='submit' variant='contained' size='large' fullWidth>
                 Jo'natish
               </Button>

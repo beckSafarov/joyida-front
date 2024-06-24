@@ -7,10 +7,11 @@ import {
   MenuItem,
   Paper,
   Select,
+  SelectChangeEvent,
   Stack,
   TextField,
 } from '@mui/material'
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -21,6 +22,7 @@ import TableRow from '@mui/material/TableRow'
 import AdminLayout from '../Shared/Admin/AdminLayout'
 import Title from '@/modules/Shared/Title'
 import Tag from '../Shared/Tag'
+import NewAdminModal from './NewAdminModal'
 
 interface SuperAdminHomeScreenProps {}
 
@@ -48,19 +50,54 @@ const createRowData = (
 const rows: TableRowFace[] = [
   createRowData(
     'Karim Zaripov',
-    '+998957003022',
+    '+998908871265',
     'moderator',
     new Date('10/02/2024')
   ),
   createRowData('Toshmat Eshmatov', '+998957003022', 'superadmin', new Date()),
-  createRowData('Salim Salimov', '+998957003022', 'moderator', new Date()),
-  createRowData('Azim Azimov', '+998957003022', 'superadmin', new Date()),
-  createRowData('Tohir Saidov', '+998957003022', 'moderator', new Date()),
+  createRowData('Salim Salimov', '+998953641987', 'moderator', new Date()),
+  createRowData('Azim Azimov', '+998991234567', 'superadmin', new Date()),
+  createRowData('Tohir Saidov', '+998947768789', 'moderator', new Date()),
 ]
 
 const SuperAdminHomeScreen: React.FC<SuperAdminHomeScreenProps> = ({}) => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const [searchTerm, setSearchTerm] = React.useState('')
+  const [filterPosition, setFilterPosition] = React.useState('')
+  const [openModal, setOpenModal] = React.useState(false)
+  const [dataToDisplay, setDataToDisplay] = useState<TableRowFace[]>(rows)
+
+  useEffect(() => {
+    if (searchTerm) handleSearch()
+    if (filterPosition) handleFilter()
+    if (!filterPosition && !searchTerm) resetData()
+  }, [searchTerm, filterPosition])
+
+  const resetData = () => setDataToDisplay(rows)
+
+  const handleSearch = () => {
+    const rgx = new RegExp(searchTerm, 'gi')
+    setDataToDisplay(
+      rows.filter((row) => rgx.test(row.name) || rgx.test(row.phone))
+    )
+  }
+
+  const handleSearchTermChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSearchTerm(event.target.value)
+    setFilterPosition('')
+  }
+
+  const handleFilter = () => {
+    setSearchTerm('')
+    setDataToDisplay(rows.filter((row) => row.position === filterPosition))
+  }
+
+  const handleSelectChange = (event: SelectChangeEvent) => {
+    setFilterPosition(event.target.value)
+  }
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage)
@@ -91,11 +128,12 @@ const SuperAdminHomeScreen: React.FC<SuperAdminHomeScreenProps> = ({}) => {
               <TextField
                 variant='outlined'
                 size='small'
-                id='outlined'
+                id='search-field'
                 label='Qidiring'
                 placeholder='Ismi, telefon raqami'
                 sx={{ width: '300px' }}
-                value={''}
+                value={searchTerm}
+                onChange={handleSearchTermChange}
               />
               <FormControl>
                 <InputLabel size='small' id='demo-simple-select-label'>
@@ -104,21 +142,21 @@ const SuperAdminHomeScreen: React.FC<SuperAdminHomeScreenProps> = ({}) => {
                 <Select
                   labelId='demo-simple-select-label'
                   size='small'
-                  id='demo-simple-select'
-                  value={''}
-                  label='Age'
+                  id='position-select'
+                  value={filterPosition}
+                  label='Position'
                   sx={{ width: '180px' }}
-                  // onChange={handleChange}
+                  onChange={handleSelectChange}
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={'moderator'}>Moderator</MenuItem>
+                  <MenuItem value={'superadmin'}>Superadmin</MenuItem>
                 </Select>
               </FormControl>
             </Stack>
             <Button
               variant='contained'
               size='small'
+              onClick={() => setOpenModal(true)}
               sx={{
                 height: 'fit-content',
                 minWidth: '80px',
@@ -127,6 +165,9 @@ const SuperAdminHomeScreen: React.FC<SuperAdminHomeScreenProps> = ({}) => {
               Yangi +
             </Button>
           </Stack>
+          {filterPosition && (
+            <Tag onClear={() => setFilterPosition('')}>{filterPosition} </Tag>
+          )}
           <center>
             <TableContainer aria-label='sticky table'>
               <TableHead>
@@ -143,7 +184,7 @@ const SuperAdminHomeScreen: React.FC<SuperAdminHomeScreenProps> = ({}) => {
               </TableHead>
 
               <TableBody>
-                {rows
+                {dataToDisplay
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row: TableRowFace, index: number) => (
                     <TableRow component='div' hover key={index}>
@@ -183,6 +224,7 @@ const SuperAdminHomeScreen: React.FC<SuperAdminHomeScreenProps> = ({}) => {
           </center>
         </Paper>
       </Box>
+      <NewAdminModal open={openModal} onClose={() => setOpenModal(false)} />
     </AdminLayout>
   )
 }
