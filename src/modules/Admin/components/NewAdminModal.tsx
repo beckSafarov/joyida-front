@@ -12,7 +12,7 @@ import {
 import { useFormik } from 'formik'
 import { MuiTelInput } from 'mui-tel-input'
 import React from 'react'
-import Title from '../Shared/Title'
+import Title from '../../Shared/Title'
 
 interface NewAdminModalProps {
   open: boolean

@@ -14,9 +14,11 @@ import Settings from '@mui/icons-material/Settings'
 import Logout from '@mui/icons-material/Logout'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 
-interface AdminNavbarProps {}
+interface AdminNavbarProps {
+  showTitle?: boolean
+}
 
-const AdminNavbar: React.FC<AdminNavbarProps> = ({}) => {
+const AdminNavbar: React.FC<AdminNavbarProps> = ({ showTitle }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -25,13 +27,12 @@ const AdminNavbar: React.FC<AdminNavbarProps> = ({}) => {
   const handleClose = () => setAnchorEl(null)
   return (
     <React.Fragment>
-      <Box
-        display='flex'
-        alignItems='center'
-        justifyContent='space-between'
-        pt='20px'
-      >
-        <Title size='sm' fontStyle='bold'>
+      <Box display='flex' alignItems='center' justifyContent='space-between'>
+        <Title
+          // sx={{ display: showTitle ? 'block' : 'none' }}
+          size='sm'
+          fontStyle='bold'
+        >
           JOYIDA
         </Title>
         <Button

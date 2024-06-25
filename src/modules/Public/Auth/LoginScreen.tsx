@@ -29,7 +29,6 @@ const LoginScreen = () => {
                 onChangeCapture={handleChange}
                 sx={{ width: '100%', borderColor: '#CAC4D0' }}
               />
-              <PhoneField />
               <Button type='submit' variant='contained' size='large' fullWidth>
                 Jo'natish
               </Button>
