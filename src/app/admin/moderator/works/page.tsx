@@ -1,5 +1,5 @@
 'use client'
-import ModeratorWorksScreen from '@/modules/Admin/ModeratorWorksScreen'
+import WorksScreen from '@/modules/Admin/Moderator/WorksScreen'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
@@ -7,7 +7,7 @@ type Props = {}
 
 const ModeratorWorksPage = (props: Props) => {
   // const { pathname } = useRouter()
-  return <ModeratorWorksScreen />
+  return <WorksScreen />
 }
 
 export default ModeratorWorksPage

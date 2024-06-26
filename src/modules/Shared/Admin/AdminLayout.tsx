@@ -4,8 +4,9 @@ import React from 'react'
 import AdminNavbar from './Navbar'
 import Sidebar from '@/modules/Admin/components/Sidebar'
 import { AdminLayoutProps } from '@/modules/interfaces/AdminInterfaces'
+import Title from '../Title'
 
-const AdminLayout: React.FC<AdminLayoutProps> = ({ role, children }) => {
+const AdminLayout: React.FC<AdminLayoutProps> = ({ role, title, children }) => {
   return (
     <>
       {role === 'superadmin' ? (
@@ -26,7 +27,10 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ role, children }) => {
             pt='30px'
             px='34px'
           >
-            {children}
+            <Box sx={{ ml: '100px' }}>
+              <Title textAlign='left'>{title}</Title>
+              {children}
+            </Box>
           </Box>
         </>
       )}

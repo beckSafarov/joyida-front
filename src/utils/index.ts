@@ -1,3 +1,7 @@
+import dayjs from 'dayjs'
+import calendar from 'dayjs/plugin/calendar'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
 type RowFace = {
   name: string
   phone: string
@@ -19,6 +23,13 @@ const rows = [
   createRowData('Azim Azimov', '+998957003022', 'superadmin', new Date()),
   createRowData('Tohir Saidov', '+998957003022', 'moderator', new Date()),
 ]
+
+export const getDateFromNow = (date: Date) => {
+  dayjs.extend(relativeTime)
+  return dayjs(date).fromNow()
+}
+
+// console.log(dateFormat(new Date('1/1/2024')))
 
 // const result = rows.map((row: RowFace, index: number) =>
 //   Object.keys(row).map((prop: string, j: number) => {

@@ -38,4 +38,19 @@ export interface NewWorkValues {
 export interface AdminLayoutProps {
   children?: React.ReactNode
   role?: 'superadmin' | 'moderator'
+  title?: string
+}
+
+interface VideoProps {
+  title: string
+  author: string
+}
+
+export interface CommentsDataProps {
+  image: string
+  date: Date
+  video: VideoProps
+  author: string
+  rating: number
+  body: string
 }
