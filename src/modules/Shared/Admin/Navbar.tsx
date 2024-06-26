@@ -27,7 +27,19 @@ const AdminNavbar: React.FC<AdminNavbarProps> = ({ showTitle }) => {
   const handleClose = () => setAnchorEl(null)
   return (
     <React.Fragment>
-      <Box display='flex' alignItems='center' justifyContent='space-between'>
+      <Box
+        sx={{
+          position: 'fixed',
+          width: '100%',
+          top: 0,
+          left: 0,
+          px: '30px',
+          pt: '30px',
+        }}
+        display='flex'
+        alignItems='center'
+        justifyContent='space-between'
+      >
         <Title
           // sx={{ display: showTitle ? 'block' : 'none' }}
           size='sm'

@@ -10,7 +10,6 @@ import WorkIcon from '@mui/icons-material/Work'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-type Props = {}
 
 const MenuItems = [
   { label: 'Ishlar', icon: WorkIcon, path: '/admin/moderator/works' },
@@ -24,7 +23,7 @@ const MenuItems = [
   { label: 'Videolar', icon: VideoLibraryIcon, path: '/admin/moderator/reels' },
 ]
 
-const Sidebar = (props: Props) => {
+const Sidebar = () => {
   const pathname = usePathname()
   console.log(pathname)
   return (

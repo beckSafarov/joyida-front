@@ -1,5 +1,5 @@
 'use client'
-import ModeratorWorksScreen from '@/modules/Admin/ModeratorWorks'
+import ModeratorWorksScreen from '@/modules/Admin/ModeratorWorksScreen'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 

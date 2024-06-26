@@ -1,3 +1,9 @@
+import ModalBase from '@/modules/Shared/ModalBase'
+import {
+  NewWorkModalFace,
+  NewWorkValues,
+  category,
+} from '@/modules/interfaces/AdminInterfaces'
 import {
   Button,
   FormControl,
@@ -8,30 +14,18 @@ import {
   TextField,
 } from '@mui/material'
 import { useFormik } from 'formik'
-import { MuiTelInput } from 'mui-tel-input'
 import React from 'react'
-import ModalBase from '@/modules/Shared/ModalBase'
-import {
-  NewAdminModalProps,
-  NewAdminValues,
-} from '@/modules/interfaces/AdminInterfaces'
 
-const defaultProps = {
-  open: false,
-  onClose: () => void 0,
-}
-
-const NewAdminModal: React.FC<NewAdminModalProps> = ({ open, onClose }) => {
-  const initialValues: NewAdminValues = {
+const NewWorkModal = (props: NewWorkModalFace) => {
+  const initialValues: NewWorkValues = {
     name: '',
-    phone: '',
-    position: '',
+    categoryId: '',
   }
 
-  const handleSubmit = (values: NewAdminValues, actions: any) => {
+  const handleSubmit = (values: NewWorkValues, actions: any) => {
     console.log(values)
     actions.resetForm()
-    onClose()
+    props.onClose()
   }
   const formik = useFormik({
     initialValues,
@@ -40,18 +34,17 @@ const NewAdminModal: React.FC<NewAdminModalProps> = ({ open, onClose }) => {
 
   const handleClose = () => {
     formik.resetForm()
-    onClose()
+    props.onClose()
   }
-
   return (
-    <ModalBase open={open} onClose={handleClose} title={'Yangi Admin'}>
+    <ModalBase {...props} title='Yangi Ish'>
       <form onSubmit={formik.handleSubmit}>
         <Stack spacing={2}>
           <FormControl>
             <TextField
               name='name'
               id='name'
-              label='Ismi'
+              label='Nomi'
               value={formik.values['name']}
               type='text'
               onChange={formik.handleChange}
@@ -59,25 +52,20 @@ const NewAdminModal: React.FC<NewAdminModalProps> = ({ open, onClose }) => {
             />
           </FormControl>
           <FormControl>
-            <MuiTelInput
-              name={'phone'}
-              value={formik.values['phone']}
-              onChangeCapture={formik.handleChange}
-              sx={{ width: '100%', borderColor: '#CAC4D0' }}
-            />
-          </FormControl>
-          <FormControl>
-            <InputLabel>Admin turi</InputLabel>
+            <InputLabel>Kategoriya</InputLabel>
             <Select
-              name='position'
+              name='categoryId'
               labelId='demo-simple-select-label'
-              id='position-select'
-              value={formik.values['position']}
+              id='category-select'
+              value={formik.values['categoryId']}
               sx={{ width: '100%' }}
               onChange={formik.handleChange}
             >
-              <MenuItem value={'moderator'}>Moderator</MenuItem>
-              <MenuItem value={'superadmin'}>Superadmin</MenuItem>
+              {props.categories.map((category: category, i: number) => (
+                <MenuItem key={i} value={category.categoryId}>
+                  {category.label}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Stack>{' '}
@@ -99,6 +87,4 @@ const NewAdminModal: React.FC<NewAdminModalProps> = ({ open, onClose }) => {
   )
 }
 
-NewAdminModal.defaultProps = defaultProps
-
-export default NewAdminModal
+export default NewWorkModal

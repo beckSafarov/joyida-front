@@ -3,11 +3,7 @@ import { Box } from '@mui/material'
 import React from 'react'
 import AdminNavbar from './Navbar'
 import Sidebar from '@/modules/Admin/components/Sidebar'
-
-interface AdminLayoutProps {
-  children?: React.ReactNode
-  role?: 'superadmin' | 'moderator'
-}
+import { AdminLayoutProps } from '@/modules/interfaces/AdminInterfaces'
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ role, children }) => {
   return (
@@ -23,7 +19,13 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ role, children }) => {
             <AdminNavbar />
           </Box>
           <Sidebar />
-          <Box maxWidth='1200px' margin='0 auto' pt='30px' px='34px'>
+          <Box
+            // bgcolor='yellow'
+            maxWidth='1000px'
+            margin='0 auto'
+            pt='30px'
+            px='34px'
+          >
             {children}
           </Box>
         </>

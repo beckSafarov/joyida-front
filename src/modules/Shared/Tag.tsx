@@ -15,7 +15,6 @@ const defaultProps = {
 const Tag: React.FC<TagProps> = ({ children, bgcolor, onClear }) => {
   return (
     <Box
-      // fontFamily='Helvetica'
       p='10px'
       bgcolor={bgcolor}
       borderRadius='100px'

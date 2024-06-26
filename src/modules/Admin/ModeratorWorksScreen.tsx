@@ -9,88 +9,105 @@ import {
   Select,
   SelectChangeEvent,
   Stack,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
   TextField,
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TablePagination from '@mui/material/TablePagination'
-import TableRow from '@mui/material/TableRow'
+import React, { useEffect } from 'react'
+import Title from '../Shared/Title'
 import AdminLayout from '../Shared/Admin/AdminLayout'
-import Title from '@/modules/Shared/Title'
-import Tag from '@/modules/Shared/Tag'
-import NewAdminModal from './components/NewAdminModal'
-import { TableRowFace } from '@/modules/interfaces/AdminInterfaces'
-
-interface SuperAdminHomeScreenProps {}
-
+import Tag from '../Shared/Tag'
+import { ModeratorWorkRow } from '../interfaces/AdminInterfaces'
+import NewWorkModal from './components/NewWorkModal'
 
 const columns = [
-  { id: 'name', label: 'Admin', minWidth: 300 },
-  { id: 'phone', label: 'Telefon raqami', minWidth: 250 },
-  { id: 'position', label: 'Vazifasi', minWidth: 250 },
-  { id: 'date', label: "Qo'shilgan sana", minWidth: 250 },
+  { id: 'id', label: 'ID', minWidth: 250 },
+  { id: 'name', label: 'Ish nomi', minWidth: 250 },
+  { id: 'category', label: 'Kategoriyasi', minWidth: 250 },
 ]
 
-const createRowData = (
-  name: string,
-  phone: string,
-  position: string,
-  date: Date
-) => ({ name, phone, position, date })
-
-const rows: TableRowFace[] = [
-  createRowData(
-    'Karim Zaripov',
-    '+998908871265',
-    'moderator',
-    new Date('10/02/2024')
-  ),
-  createRowData('Toshmat Eshmatov', '+998957003022', 'superadmin', new Date()),
-  createRowData('Salim Salimov', '+998953641987', 'moderator', new Date()),
-  createRowData('Azim Azimov', '+998991234567', 'superadmin', new Date()),
-  createRowData('Tohir Saidov', '+998947768789', 'moderator', new Date()),
+const rows = [
+  {
+    id: '34567',
+    name: 'Lorem Ipsum',
+    category: 'Texnik Ishlar',
+    categoryId: '12345',
+  },
+  {
+    id: '34568',
+    name: 'Lorem Ipsum',
+    category: 'IT va Kompyuter xizmatlari',
+    categoryId: '12355',
+  },
+  {
+    id: '34569',
+    name: 'Lorem Ipsum',
+    category: "Go'zallik va hayot",
+    categoryId: '12346',
+  },
+  {
+    id: '34570',
+    name: 'Lorem Ipsum',
+    category: "Sport va sog'lomlashtirish",
+    categoryId: '12347',
+  },
+  {
+    id: '34571',
+    name: 'Lorem Ipsum',
+    category: 'Texnik Ishlar',
+    categoryId: '12345',
+  },
 ]
 
-const SuperAdminHomeScreen: React.FC<SuperAdminHomeScreenProps> = ({}) => {
+const categories = [
+  { label: 'Texnik Ishlar', categoryId: '12345' },
+  { label: "Sport va sog'lomlashtirish", categoryId: '12347' },
+  { label: "Go'zallik va hayot", categoryId: '12346' },
+  { label: 'IT va Kompyuter xizmatlari', categoryId: '12355' },
+]
+
+const ModeratorWorksScreen = () => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [searchTerm, setSearchTerm] = React.useState('')
-  const [filterPosition, setFilterPosition] = React.useState('')
+  const [filterTerm, setFilterTerm] = React.useState('')
   const [openModal, setOpenModal] = React.useState(false)
-  const [dataToDisplay, setDataToDisplay] = useState<TableRowFace[]>(rows)
+  const [dataToDisplay, setDataToDisplay] =
+    React.useState<ModeratorWorkRow[]>(rows)
 
   useEffect(() => {
     if (searchTerm) handleSearch()
-    if (filterPosition) handleFilter()
-    if (!filterPosition && !searchTerm) resetData()
-  }, [searchTerm, filterPosition])
+    if (filterTerm) handleFilter()
+    if (!filterTerm && !searchTerm) resetData()
+  }, [searchTerm, filterTerm])
 
   const resetData = () => setDataToDisplay(rows)
 
   const handleSearch = () => {
     const rgx = new RegExp(searchTerm, 'gi')
-    setDataToDisplay(
-      rows.filter((row) => rgx.test(row.name) || rgx.test(row.phone))
-    )
+    setDataToDisplay(rows.filter((row) => rgx.test(row.name)))
   }
 
   const handleSearchTermChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setSearchTerm(event.target.value)
-    setFilterPosition('')
+    setFilterTerm('')
   }
 
   const handleFilter = () => {
     setSearchTerm('')
-    setDataToDisplay(rows.filter((row) => row.position === filterPosition))
+    setDataToDisplay(
+      rows.filter((row) => row.categoryId === filterTerm && row.category)
+    )
   }
 
   const handleSelectChange = (event: SelectChangeEvent) => {
-    setFilterPosition(event.target.value)
+    setFilterTerm(event.target.value)
   }
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -105,10 +122,10 @@ const SuperAdminHomeScreen: React.FC<SuperAdminHomeScreenProps> = ({}) => {
   }
 
   return (
-    <AdminLayout>
-      <Box mt='50px'>
-        <Title textAlign='left' sx={{ mb: '24px' }}>
-          Adminlar
+    <AdminLayout role='moderator'>
+      <Box sx={{ ml: '100px' }}>
+        <Title textAlign='left' sx={{ mb: '20px' }}>
+          Ishlar
         </Title>
         <Paper elevation={1} sx={{ p: '24px' }}>
           <Stack pb='16px' direction='row' justifyContent={'space-between'}>
@@ -131,19 +148,22 @@ const SuperAdminHomeScreen: React.FC<SuperAdminHomeScreenProps> = ({}) => {
               />
               <FormControl>
                 <InputLabel size='small' id='demo-simple-select-label'>
-                  Vazifasi
+                  Kategoriyasi
                 </InputLabel>
                 <Select
                   labelId='demo-simple-select-label'
                   size='small'
                   id='position-select'
-                  value={filterPosition}
-                  label='Position'
+                  value={filterTerm}
+                  label='Category'
                   sx={{ width: '180px' }}
                   onChange={handleSelectChange}
                 >
-                  <MenuItem value={'moderator'}>Moderator</MenuItem>
-                  <MenuItem value={'superadmin'}>Superadmin</MenuItem>
+                  {categories.map((option, i: number) => (
+                    <MenuItem key={i} value={option.categoryId}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Stack>
@@ -159,8 +179,8 @@ const SuperAdminHomeScreen: React.FC<SuperAdminHomeScreenProps> = ({}) => {
               Yangi +
             </Button>
           </Stack>
-          {filterPosition && (
-            <Tag onClear={() => setFilterPosition('')}>{filterPosition} </Tag>
+          {filterTerm && (
+            <Tag onClear={() => setFilterTerm('')}>{filterTerm} </Tag>
           )}
           <center>
             <TableContainer aria-label='sticky table'>
@@ -180,12 +200,10 @@ const SuperAdminHomeScreen: React.FC<SuperAdminHomeScreenProps> = ({}) => {
               <TableBody>
                 {dataToDisplay
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row: TableRowFace, index: number) => (
+                  .map((row: ModeratorWorkRow, index: number) => (
                     <TableRow component='div' hover key={index}>
                       {columns.map((column) => {
-                        let value = row[column?.id as keyof TableRowFace]
-                        value =
-                          typeof value === 'object' ? String(value) : value
+                        let value = row[column?.id as keyof ModeratorWorkRow]
                         return (
                           <TableCell
                             style={{
@@ -194,7 +212,7 @@ const SuperAdminHomeScreen: React.FC<SuperAdminHomeScreenProps> = ({}) => {
                             }}
                             key={column.id}
                           >
-                            {column.id === 'position' ? (
+                            {column.id === 'category' ? (
                               <Tag>{value}</Tag>
                             ) : (
                               value
@@ -218,9 +236,13 @@ const SuperAdminHomeScreen: React.FC<SuperAdminHomeScreenProps> = ({}) => {
           </center>
         </Paper>
       </Box>
-      <NewAdminModal open={openModal} onClose={() => setOpenModal(false)} />
+      <NewWorkModal
+        categories={categories}
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+      />
     </AdminLayout>
   )
 }
 
-export default SuperAdminHomeScreen
+export default ModeratorWorksScreen
