@@ -16,6 +16,8 @@ export interface NewAdminModalProps {
   onClose(): void
 }
 
+
+
 export interface category {
   label: string
   categoryId: string
@@ -35,6 +37,8 @@ export interface NewWorkValues {
   categoryId: string
 }
 
+export interface EditWorkValues extends NewWorkValues {}
+
 export interface AdminLayoutProps {
   children?: React.ReactNode
   role?: 'superadmin' | 'moderator'
@@ -47,10 +51,27 @@ interface VideoProps {
 }
 
 export interface CommentsDataProps {
+  id: string
   image: string
   date: Date
   video: VideoProps
   author: string
   rating: number
   body: string
+}
+
+export interface WorkEditModalProps extends NewAdminModalProps {
+  workId: string
+  categories: category[]
+}
+
+export interface WorkFormBaseProps {
+  initialValues: {
+    name: string
+    categoryId: string
+  }
+  onSubmit(values: { name: string; categoryId: string }): void
+  onClose(): void
+  categories: category[]
+  mode?: 'create' | 'update'
 }

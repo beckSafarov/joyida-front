@@ -29,6 +29,12 @@ export const getDateFromNow = (date: Date) => {
   return dayjs(date).fromNow()
 }
 
+export const createColumnData = (
+  id: string,
+  label: string,
+  minWidth: number
+) => ({ id, label, minWidth })
+
 // console.log(dateFormat(new Date('1/1/2024')))
 
 // const result = rows.map((row: RowFace, index: number) =>

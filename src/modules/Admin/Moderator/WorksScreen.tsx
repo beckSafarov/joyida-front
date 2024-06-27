@@ -9,6 +9,7 @@ import {
   Select,
   SelectChangeEvent,
   Stack,
+  Table,
   TableBody,
   TableCell,
   TableContainer,
@@ -17,17 +18,19 @@ import {
   TableRow,
   TextField,
 } from '@mui/material'
-import React, { useEffect } from 'react'
-import Title from '../../Shared/Title'
-import AdminLayout from '../../Shared/Admin/AdminLayout'
-import Tag from '../../Shared/Tag'
-import { ModeratorWorkRow } from '../../interfaces/AdminInterfaces'
+import React, { useEffect, useState } from 'react'
+import Title from '@/modules/Shared/Title'
+import AdminLayout from '@/modules/Shared/Admin/AdminLayout'
+import Tag from '@/modules/Shared/Tag'
+import { ModeratorWorkRow } from '@/modules/interfaces/AdminInterfaces'
 import NewWorkModal from '../components/NewWorkModal'
+import { createColumnData } from '@/utils'
+import WorkEditModal from '../components/WorkEditModal'
 
 const columns = [
-  { id: 'id', label: 'ID', minWidth: 250 },
-  { id: 'name', label: 'Ish nomi', minWidth: 250 },
-  { id: 'category', label: 'Kategoriyasi', minWidth: 250 },
+  createColumnData('id', 'ID', 250),
+  createColumnData('name', 'Ish nomi', 250),
+  createColumnData('category', 'Kategoriyasi', 250),
 ]
 
 const rows = [
@@ -70,12 +73,21 @@ const categories = [
   { label: 'IT va Kompyuter xizmatlari', categoryId: '12355' },
 ]
 
+const defaultActiveRowValues = {
+  workId: '',
+  intialValues: {
+    name: '',
+    categoryId: '',
+  },
+}
+
 const WorksScreen = () => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [searchTerm, setSearchTerm] = React.useState('')
   const [filterTerm, setFilterTerm] = React.useState('')
   const [openModal, setOpenModal] = React.useState(false)
+  const [activeRowId, setActiveRowId] = useState<string>('')
   const [dataToDisplay, setDataToDisplay] =
     React.useState<ModeratorWorkRow[]>(rows)
 
@@ -183,45 +195,52 @@ const WorksScreen = () => {
         )}
         <center>
           <TableContainer aria-label='sticky table'>
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    style={{ minWidth: column.minWidth }}
-                    key={column.id}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      style={{ minWidth: column.minWidth }}
+                      key={column.id}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
 
-            <TableBody>
-              {dataToDisplay
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row: ModeratorWorkRow, index: number) => (
-                  <TableRow component='div' hover key={index}>
-                    {columns.map((column) => {
-                      let value = row[column?.id as keyof ModeratorWorkRow]
-                      return (
-                        <TableCell
-                          style={{
-                            minWidth: column.minWidth,
-                            cursor: 'pointer',
-                          }}
-                          key={column.id}
-                        >
-                          {column.id === 'category' ? (
-                            <Tag>{value}</Tag>
-                          ) : (
-                            value
-                          )}
-                        </TableCell>
-                      )
-                    })}
-                  </TableRow>
-                ))}
-            </TableBody>
+              <TableBody>
+                {dataToDisplay
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row: ModeratorWorkRow, index: number) => (
+                    <TableRow
+                      onClick={() => setActiveRowId(row.id)}
+                      component='div'
+                      hover
+                      key={index}
+                    >
+                      {columns.map((column) => {
+                        let value = row[column?.id as keyof ModeratorWorkRow]
+                        return (
+                          <TableCell
+                            style={{
+                              minWidth: column.minWidth,
+                              cursor: 'pointer',
+                            }}
+                            key={column.id}
+                          >
+                            {column.id === 'category' ? (
+                              <Tag>{value}</Tag>
+                            ) : (
+                              value
+                            )}
+                          </TableCell>
+                        )
+                      })}
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
           </TableContainer>
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
@@ -238,6 +257,12 @@ const WorksScreen = () => {
         categories={categories}
         open={openModal}
         onClose={() => setOpenModal(false)}
+      />
+      <WorkEditModal
+        workId={activeRowId}
+        open={!!activeRowId}
+        categories={categories}
+        onClose={() => setActiveRowId('')}
       />
     </AdminLayout>
   )

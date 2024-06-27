@@ -1,3 +1,4 @@
+'use client'
 import AdminLayout from '@/modules/Shared/Admin/AdminLayout'
 import SecondaryText from '@/modules/Shared/SecondaryText'
 import Title from '@/modules/Shared/Title'
@@ -12,14 +13,16 @@ import {
 } from '@mui/material'
 import FilterAltIcon from '@mui/icons-material/FilterAlt'
 import SortIcon from '@mui/icons-material/Sort'
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import { Circle } from '@mui/icons-material'
 import { CommentsDataProps } from '@/modules/interfaces/AdminInterfaces'
 import { getDateFromNow } from '@/utils'
+import truncate from 'lodash.truncate'
 
 const commentsData = [
   {
+    id: '1',
     image:
       'https://fjwp.s3.amazonaws.com/blog/wp-content/uploads/2015/12/09112429/work-life-balance-working-from-home-1024x513.jpg',
     date: new Date('06/10/2024'),
@@ -32,6 +35,7 @@ const commentsData = [
     body: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia quo at aliquam. Expedita soluta veritatis similique modi, saepe sintrepudiandae, quasi odio, quia explicabo esse voluptatibus liberovitae! Quo, debitis!',
   },
   {
+    id: '2',
     image:
       'https://fjwp.s3.amazonaws.com/blog/wp-content/uploads/2015/12/09112429/work-life-balance-working-from-home-1024x513.jpg',
     date: new Date('06/20/2024'),
@@ -46,8 +50,18 @@ const commentsData = [
 ]
 
 export default function CommentsScreen() {
+  const [activeComments, setActiveComments] = useState<String[]>([])
+
+  const isActive = (id: string) =>
+    activeComments.find((commentId) => commentId === id)
+
+  const toggleActive = (id: string) => {
+    if (!isActive(id)) return setActiveComments([...activeComments, id])
+    setActiveComments(activeComments.filter((commentId) => commentId != id))
+  }
+
   return (
-    <AdminLayout role='moderator' title='Feedbacks here'>
+    <AdminLayout role='moderator' title='Izohlar'>
       <Stack pt='10px' mb='30px' direction='row' justifyContent='space-between'>
         <SecondaryText>29/10/2021</SecondaryText>
         <Stack direction='row' spacing={1}>
@@ -99,9 +113,19 @@ export default function CommentsScreen() {
                   </Stack>
                 </Stack>
               </Stack>
-              <Box py='10px'>{comment.body}</Box>
+              <Box py='10px'>
+                {truncate(comment.body, {
+                  length: activeComments.find(
+                    (commentId) => commentId === comment.id
+                  )
+                    ? 500
+                    : 180,
+                })}
+              </Box>
               <Stack pt='10px' direction='row' spacing={2}>
-                <Button variant='outlined'>Kengaytirish</Button>
+                <Button variant='text' onClick={() => toggleActive(comment.id)}>
+                  {isActive(comment.id) ? 'Qisqartirish' : 'Kengaytirish'}
+                </Button>
                 <Button variant='contained' color='error'>
                   O'chirish
                 </Button>

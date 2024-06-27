@@ -1,18 +1,19 @@
 import ModalBase from '@/modules/Shared/ModalBase'
 import {
-  NewWorkModalFace,
-  NewWorkValues,
+  EditWorkValues,
+  WorkEditModalProps,
 } from '@/modules/interfaces/AdminInterfaces'
 import React from 'react'
 import WorkFormBase from './WorkFormBase'
 
-const NewWorkModal = (props: NewWorkModalFace) => {
-  const initialValues: NewWorkValues = {
+const WorkEditModal = (props: WorkEditModalProps) => {
+  // get the initialValues for the work info from the global state using props.id
+  const initialValues: EditWorkValues = {
     name: '',
     categoryId: '',
   }
 
-  const handleSubmit = (values: NewWorkValues) => {
+  const handleSubmit = (values: EditWorkValues) => {
     console.log(values)
     props.onClose()
   }
@@ -21,15 +22,16 @@ const NewWorkModal = (props: NewWorkModalFace) => {
     props.onClose()
   }
   return (
-    <ModalBase {...props} title='Yangi Ish'>
+    <ModalBase {...props} title="Ishni o'zgartirish">
       <WorkFormBase
         initialValues={initialValues}
         categories={props.categories}
         onSubmit={handleSubmit}
         onClose={handleClose}
+        mode={'update'}
       />
     </ModalBase>
   )
 }
 
-export default NewWorkModal
+export default WorkEditModal
