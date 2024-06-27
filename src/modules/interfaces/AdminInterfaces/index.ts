@@ -75,3 +75,10 @@ export interface WorkFormBaseProps {
   categories: category[]
   mode?: 'create' | 'update'
 }
+
+export interface UsersTableRowProps {
+  name: string
+  phone: string
+  address: string
+  date: Date
+}
