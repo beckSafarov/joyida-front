@@ -10,117 +10,118 @@ import {
   SelectChangeEvent,
   Stack,
   Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
   TextField,
 } from '@mui/material'
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TablePagination from '@mui/material/TablePagination'
+import TableRow from '@mui/material/TableRow'
 import AdminLayout from '@/modules/Shared/Admin/AdminLayout'
 import Tag from '@/modules/Shared/Tag'
+import { AdTableRowDataProps } from '@/modules/interfaces/AdminInterfaces'
 import { createColumnData } from '@/utils'
-import { UsersTableRowProps } from '@/modules/interfaces/AdminInterfaces'
-import locations, { LocationType } from '@/modules/data/locations'
 import { FilterByTypes, FilterType } from '@/modules/types'
+import locations, { LocationType } from '@/modules/data/locations'
+import categories, { CategoryProps } from '@/modules/data/categories'
+
+type Props = {}
 
 const columns = [
-  createColumnData('name', 'Foydalanuvchi', 200),
-  createColumnData('phone', 'Telefon raqami', 200),
-  createColumnData('address', 'Manzili', 200),
-  createColumnData('feedbacks', 'Fidbeklar', 100),
-  createColumnData('date', "Qo'shilgan sana", 200),
+  createColumnData('name', 'Nomi', 200),
+  createColumnData('location', 'Joylashuvi', 200),
+  createColumnData('category', 'Reklama Kategoriyasi', 200),
+  createColumnData('beginningDate', 'Reklama boshlanishi', 200),
+  createColumnData('endingDate', 'Reklama tugashi', 200),
 ]
 
-const createRowData = (
+const createAdRow = (
   name: string,
-  phone: string,
-  address: string,
-  feedback: number,
-  date: Date
-) => ({ name, phone, address, feedback, date })
+  location: string,
+  category: string,
+  beginningDate: Date,
+  endingDate: Date
+) => ({ name, location, category, beginningDate, endingDate })
 
 const rows = [
-  createRowData(
-    'Eshmatov Toshmat',
-    '+998988884554',
-    "Arnasoy ko'chasi, 14-uy, 2",
-    3,
-    new Date('11/02/2024')
+  createAdRow(
+    'KFC Uchtepa',
+    'IzaiahPort',
+    'Restoranlar',
+    new Date('06/01/2024'),
+    new Date('06/15/2024')
   ),
-  createRowData(
-    'Xamza Rahmatov',
-    '+998988884554',
-    "Arnasoy ko'chasi, 14-uy, 2",
-    3,
-    new Date('10/02/2024')
+  createAdRow(
+    'Bro Barbershop',
+    'IzaiahPort',
+    "Go'zallik",
+    new Date('06/01/2024'),
+    new Date('06/15/2024')
   ),
-  createRowData(
-    'Ibrohim Qosimov',
-    '+998988884554',
-    "Arnasoy ko'chasi, 14-uy, 2",
-    3,
-    new Date('12/02/2024')
+  createAdRow(
+    'SAMO Collections',
+    'IzaiahPort',
+    'Salomatlik',
+    new Date('06/01/2024'),
+    new Date('06/15/2024')
   ),
-  createRowData(
-    'Eshmatov Toshmat',
-    '+998988884554',
-    "Arnasoy ko'chasi, 14-uy, 2",
-    3,
-    new Date('13/02/2024')
+  createAdRow(
+    'PDP University',
+    'IzaiahPort',
+    'Hayot mamot',
+    new Date('06/01/2024'),
+    new Date('06/15/2024')
   ),
-  createRowData(
-    'Eshmatov Toshmat',
-    '+998988884554',
-    "Arnasoy ko'chasi, 14-uy, 2",
-    3,
-    new Date('14/02/2024')
+  createAdRow(
+    'Kira company',
+    'IzaiahPort',
+    'Texnik ishlar',
+    new Date('06/01/2024'),
+    new Date('06/15/2024')
   ),
 ]
 
-const statusOptions = [
-  { label: 'Aktiv', id: 'active' },
-  { label: 'Passiv', id: 'passive' },
-]
-
-const UsersScreen = () => {
+const AdsScreen = (props: Props) => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [searchTerm, setSearchTerm] = React.useState('')
   const [filter, setFilter] = React.useState<FilterType>({ by: '', option: '' })
-  const [filterBy, setFilterBy] = React.useState<FilterByTypes>('')
-  const [filterPosition, setFilterPosition] = React.useState('')
   const [openModal, setOpenModal] = React.useState(false)
   const [dataToDisplay, setDataToDisplay] =
-    React.useState<UsersTableRowProps[]>(rows)
+    React.useState<AdTableRowDataProps[]>(rows)
 
   useEffect(() => {
     if (searchTerm) handleSearch()
-    if (filterPosition) handleFilter()
-    if (!filterPosition && !searchTerm) resetData()
-  }, [searchTerm, filterPosition])
+    if (filter.option) handleFilter()
+    if (!filter.option && !searchTerm) resetData()
+  }, [searchTerm, filter.option])
 
   const resetData = () => setDataToDisplay(rows)
 
   const handleSearch = () => {
     const rgx = new RegExp(searchTerm, 'gi')
-    setDataToDisplay(
-      rows.filter((row) => rgx.test(row.name) || rgx.test(row.phone))
-    )
+    setDataToDisplay(rows.filter((row) => rgx.test(row.name)))
   }
 
   const handleSearchTermChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setSearchTerm(event.target.value)
-    setFilterPosition('')
   }
 
   const handleFilter = () => {
     setSearchTerm('')
-    // setDataToDisplay(rows.filter((row) => row.position === filterPosition))
+    setDataToDisplay((data) =>
+      data.filter(
+        (single) =>
+          single.category ===
+          categories.find(
+            (category: CategoryProps) => category.id === +filter.option
+          )?.label
+      )
+    )
   }
 
   const handleSelectChange = (event: SelectChangeEvent, prop: string) => {
@@ -139,21 +140,23 @@ const UsersScreen = () => {
   }
 
   const getOptionsByFilter = useCallback(() => {
-    return filter.by === 'address' ? locations : statusOptions
+    return filter.by === 'address' ? locations : categories
   }, [filter.by])
 
-  const getLocNameById = (locId: number) => {
-    return locations.find((myLoc: LocationType) => myLoc?.id === locId)?.label
+  const getLabelByPropId = (locId: number) => {
+    return filter.by === 'address'
+      ? locations.find((myLoc: LocationType) => myLoc?.id === locId)?.label
+      : categories.find((category: CategoryProps) => category?.id === locId)
+          ?.label
   }
 
   return (
-    <AdminLayout role='moderator' title='Foydalanuvchilar'>
-      <Box mt='50px'>
+    <AdminLayout role='moderator' title='Reklamalar'>
+      <Box my='50px'>
         <Paper elevation={1} sx={{ p: '24px' }}>
-          <Stack pb='16px' direction='row' justifyContent={'space-between'}>
+          <Stack pb='16px' direction='row'>
             <Stack
               width='100%'
-              // sx={{ bgcolor: 'blue' }}
               direction='row'
               spacing={4}
               alignItems={'center'}
@@ -182,12 +185,14 @@ const UsersScreen = () => {
                   onChange={(e) => handleSelectChange(e, 'by')}
                 >
                   <MenuItem value={'address'}>Manzil</MenuItem>
-                  <MenuItem value={'status'}>Status</MenuItem>
+                  <MenuItem value={'category'}>Kategoriya</MenuItem>
                 </Select>
               </FormControl>
               <FormControl>
                 <InputLabel size='small' id='demo-simple-select-label'>
-                  {filter.by === 'address' ? 'Shahar yoki Viloyat' : 'Status'}
+                  {filter.by === 'address'
+                    ? 'Shahar yoki Viloyat'
+                    : 'Kategoriya'}
                 </InputLabel>
                 <Select
                   labelId='demo-simple-select-label'
@@ -205,11 +210,19 @@ const UsersScreen = () => {
                   ))}
                 </Select>
               </FormControl>
+              <Button
+                type='button'
+                variant='contained'
+                size='small'
+                sx={{ width: 'fit-content', height: 'fit-content' }}
+              >
+                Yangi
+              </Button>
             </Stack>
           </Stack>
           {filter?.option && (
             <Tag onClear={() => setFilter({ ...filter, option: '' })}>
-              {getLocNameById(+filter.option)}
+              {getLabelByPropId(+filter.option)}
             </Tag>
           )}
           <center>
@@ -231,11 +244,11 @@ const UsersScreen = () => {
                 <TableBody>
                   {dataToDisplay
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row: UsersTableRowProps, index: number) => (
+                    .map((row: AdTableRowDataProps, index: number) => (
                       <TableRow component='div' hover key={index}>
                         {columns.map((column) => {
                           let value =
-                            row[column?.id as keyof UsersTableRowProps]
+                            row[column?.id as keyof AdTableRowDataProps]
                           value =
                             typeof value === 'object' ? String(value) : value
                           return (
@@ -275,4 +288,4 @@ const UsersScreen = () => {
   )
 }
 
-export default UsersScreen
+export default AdsScreen

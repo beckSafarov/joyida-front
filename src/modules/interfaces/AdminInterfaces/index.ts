@@ -16,8 +16,6 @@ export interface NewAdminModalProps {
   onClose(): void
 }
 
-
-
 export interface category {
   label: string
   categoryId: string
@@ -81,4 +79,12 @@ export interface UsersTableRowProps {
   phone: string
   address: string
   date: Date
+}
+
+export interface AdTableRowDataProps {
+  name: string
+  location: string
+  category: string
+  beginningDate: Date
+  endingDate: Date
 }

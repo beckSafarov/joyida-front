@@ -1,4 +1,4 @@
-export type LocationType = {
+export interface LocationType {
   label: string
   id: number
 }

@@ -23,7 +23,7 @@ const rows = [
   createRowData('Azim Azimov', '+998957003022', 'superadmin', new Date()),
   createRowData('Tohir Saidov', '+998957003022', 'moderator', new Date()),
 ]
-
+   
 export const getDateFromNow = (date: Date) => {
   dayjs.extend(relativeTime)
   return dayjs(date).fromNow()
