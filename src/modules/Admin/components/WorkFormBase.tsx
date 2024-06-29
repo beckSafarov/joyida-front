@@ -5,15 +5,19 @@ import {
 } from '@/modules/interfaces/AdminInterfaces'
 import {
   Button,
+  Divider,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
   Stack,
   TextField,
+  Typography,
 } from '@mui/material'
 import { useFormik } from 'formik'
+import ClearIcon from '@mui/icons-material/Clear'
 import React from 'react'
+import { blue } from '@mui/material/colors'
 
 const WorkFormBase = (props: WorkFormBaseProps) => {
   const { initialValues } = props
@@ -33,6 +37,10 @@ const WorkFormBase = (props: WorkFormBaseProps) => {
     formik.resetForm()
     props.onClose()
   }
+
+  const handleEditCategory = () => {}
+  const handleDeleteCategory = () => {}
+  const handleNewCategory = () => {}
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -60,9 +68,20 @@ const WorkFormBase = (props: WorkFormBaseProps) => {
           >
             {props.categories.map((category: category, i: number) => (
               <MenuItem key={i} value={category.categoryId}>
-                {category.label}
+                <Stack
+                  justifyContent={'space-between'}
+                  direction='row'
+                  sx={{ width: '100%' }}
+                >
+                  <Typography>{category.label}</Typography>
+                  <ClearIcon />
+                </Stack>
               </MenuItem>
             ))}
+            <Divider />
+            <MenuItem onClick={() => console.log('new')}>
+              <Typography color={blue[600]}>Yangi +</Typography>
+            </MenuItem>
           </Select>
         </FormControl>
       </Stack>{' '}
