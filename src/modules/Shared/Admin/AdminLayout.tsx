@@ -20,13 +20,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ role, title, children }) => {
             <AdminNavbar />
           </Box>
           <Sidebar />
-          <Box
-            // bgcolor='yellow'
-            maxWidth='1000px'
-            margin='0 auto'
-            pt='30px'
-            px='34px'
-          >
+          <Box maxWidth='1000px' margin='0 auto' pt='30px' px='34px'>
             <Box sx={{ ml: '100px' }}>
               <Title textAlign='left'>{title}</Title>
               {children}

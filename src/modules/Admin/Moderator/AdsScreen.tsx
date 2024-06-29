@@ -26,6 +26,7 @@ import { createColumnData } from '@/utils'
 import { FilterByTypes, FilterType } from '@/modules/types'
 import locations, { LocationType } from '@/modules/data/locations'
 import categories, { CategoryProps } from '@/modules/data/categories'
+import Link from 'next/link'
 
 type Props = {}
 
@@ -210,14 +211,16 @@ const AdsScreen = (props: Props) => {
                   ))}
                 </Select>
               </FormControl>
-              <Button
-                type='button'
-                variant='contained'
-                size='small'
-                sx={{ width: 'fit-content', height: 'fit-content' }}
-              >
-                Yangi
-              </Button>
+              <Link href='/admin/moderator/ads/create'>
+                <Button
+                  type='button'
+                  variant='contained'
+                  size='small'
+                  sx={{ width: 'fit-content', height: 'fit-content' }}
+                >
+                  Yangi
+                </Button>
+              </Link>
             </Stack>
           </Stack>
           {filter?.option && (
