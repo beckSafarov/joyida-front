@@ -88,3 +88,17 @@ export interface AdTableRowDataProps {
   beginningDate: Date
   endingDate: Date
 }
+
+export interface ReelsProps {
+  id: string
+  thumbnail: string
+  title: string
+  date: Date
+  views: number
+  status: boolean
+}
+
+export interface ReelsOptionProps {
+  label: string
+  id: string
+}

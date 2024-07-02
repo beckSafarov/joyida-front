@@ -1,22 +1,23 @@
 import { Box, Stack } from '@mui/material'
 import React from 'react'
 import ClearIcon from '@mui/icons-material/Clear'
+import { green } from '@mui/material/colors'
 
 interface TagProps {
   children?: React.ReactNode
-  bgcolor?: string
   onClear?(): void
+  variant?: 'secondary' | 'primary'
 }
 
 const defaultProps = {
   bgcolor: 'grey.300',
 }
 
-const Tag: React.FC<TagProps> = ({ children, bgcolor, onClear }) => {
+const Tag: React.FC<TagProps> = ({ children, variant, onClear }) => {
   return (
     <Box
       p='10px'
-      bgcolor={bgcolor}
+      bgcolor={variant === 'primary' ? green[200] : 'grey.300'}
       borderRadius='100px'
       textAlign='center'
       width='fit-content'

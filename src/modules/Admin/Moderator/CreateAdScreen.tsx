@@ -5,6 +5,8 @@ import {
   Box,
   Button,
   FormControl,
+  FormLabel,
+  Input,
   InputLabel,
   MenuItem,
   Select,
@@ -19,6 +21,8 @@ import React from 'react'
 import { useFormik } from 'formik'
 import categories, { CategoryProps } from '@/modules/data/categories'
 import { useRouter } from 'next/navigation'
+import CreateAdFormRow from '../components/CreateAdFormRow'
+import UploadFileField from '@/modules/Shared/UploadFileField'
 
 type Props = {}
 
@@ -71,261 +75,137 @@ const CreateAdScreen = (props: Props) => {
         </Stack>
         <form onSubmit={f.handleSubmit}>
           <Stack direction='column'>
-            <Stack direction='row' sx={{ mb: '40px' }}>
-              <Stack flex='1'>
-                <Typography
-                  ml='-2px'
-                  mb='6px'
-                  sx={{ fontWeight: '300' }}
-                  variant='h4'
+            <CreateAdFormRow
+              title="Rasm qo'ying"
+              subtitle='Reklamangizni tushuntirib beruvchi rasm qo’ying. Iloji boricha
+                  3x5 nisbatda bo’lsin'
+            >
+              <UploadFileField
+                name={'image'}
+                onChange={f.handleChange}
+                value={f.values['image']}
+              />
+            </CreateAdFormRow>
+            <CreateAdFormRow title="Boshlang'ich ma'lumotlar">
+              <FormControl>
+                <TextField
+                  label='Reklama sarlavhasi'
+                  placeholder='Bro Barbershop'
+                  id='title'
+                  name='title'
+                  aria-describedby='input'
+                  value={f.values.title}
+                  onChange={f.handleChange}
+                  onBlur={f.handleBlur}
+                  error={f.touched.title && Boolean(f.errors.title)}
+                  helperText={f.touched.title && f.errors.title}
+                  sx={{ width: '400px' }}
+                />
+              </FormControl>
+              <FormControl>
+                <TextField
+                  id='address'
+                  label='Manzil'
+                  placeholder='Chilonzor, Arnasoy k, 24/3'
+                  name='address'
+                  aria-describedby='input'
+                  value={f.values.address}
+                  onChange={f.handleChange}
+                  onBlur={f.handleBlur}
+                  error={f.touched.address && Boolean(f.errors.address)}
+                  helperText={f.touched.address && f.errors.address}
+                  sx={{ width: '400px' }}
+                />
+              </FormControl>
+              <FormControl>
+                <InputLabel htmlFor='category'>Reklama kategoriyasi</InputLabel>
+                <Select
+                  name='category'
+                  id='category'
+                  value={f.values['category']}
+                  onChange={f.handleChange}
+                  sx={{ width: '400px' }}
                 >
-                  Rasm qo'ying
-                </Typography>
-                <Typography
-                  maxWidth='250px'
-                  variant='caption'
-                  color='grey.600'
-                  fontWeight='200'
-                >
-                  Reklamangizni tushuntirib beruvchi rasm qo’ying. Iloji boricha
-                  3x5 nisbatda bo’lsin
-                </Typography>
-              </Stack>
-              <Box flex='2' display='flex' justifyContent='left'>
-                <Stack
-                  direction='column'
-                  width='400px'
-                  height='150px'
-                  border='2px dashed'
-                  borderColor='grey.200'
-                  justifyContent={'center'}
-                  alignItems={'center'}
-                >
-                  <UploadFileIcon sx={{ color: blue[500] }} />
-                  <Typography>
-                    <Typography
-                      sx={{
-                        textDecoration: 'underline',
-                        fontWeight: '300',
-                        textTransform: 'unset',
-                      }}
-                      variant='overline'
-                      color={blue[500]}
-                    >
-                      Yuklash uchun bosing
-                    </Typography>{' '}
-                    yoki tortib olib keling
-                  </Typography>
-                  <Typography
-                    color='grey.500'
-                    fontWeight='300'
-                    fontSize='0.8rem'
-                  >
-                    PNG yoki JPG (max. 3 MB)
-                  </Typography>
-                </Stack>
-              </Box>
-            </Stack>
-            <Stack direction='row' sx={{ mb: '40px' }}>
-              <Stack flex='1'>
-                <Typography
-                  ml='-2px'
-                  mb='6px'
-                  maxWidth='300px'
-                  sx={{ fontWeight: '300' }}
-                  variant='h4'
-                >
-                  Boshlang'ich ma'lumotlar
-                </Typography>
-              </Stack>
-              <Stack
-                flex='2'
-                display='flex'
-                justifyContent='left'
-                direction='column'
-                spacing={'25px'}
-              >
-                <FormControl>
-                  <InputLabel id='title-label' htmlFor='title'>
-                    Reklama sarlavhasi
-                  </InputLabel>
-                  <TextField
-                    id='title'
-                    name='title'
-                    aria-describedby='input'
-                    value={f.values.title}
-                    onChange={f.handleChange}
-                    onBlur={f.handleBlur}
-                    error={f.touched.title && Boolean(f.errors.title)}
-                    helperText={f.touched.title && f.errors.title}
-                    sx={{ width: '400px' }}
-                  />
-                </FormControl>
-                <FormControl>
-                  <InputLabel id='address-label' htmlFor='address'>
-                    Manzil
-                  </InputLabel>
-                  <TextField
-                    id='address'
-                    name='address'
-                    aria-describedby='input'
-                    value={f.values.address}
-                    onChange={f.handleChange}
-                    onBlur={f.handleBlur}
-                    error={f.touched.address && Boolean(f.errors.address)}
-                    helperText={f.touched.address && f.errors.address}
-                    sx={{ width: '400px' }}
-                  />
-                </FormControl>
-                <FormControl>
-                  <InputLabel htmlFor='category'>
-                    Reklama kategoriyasi
-                  </InputLabel>
-                  <Select
-                    name='category'
-                    id='category'
-                    value={f.values['category']}
-                    onChange={f.handleChange}
-                    sx={{ width: '400px' }}
-                  >
-                    {categories.map((category: CategoryProps, i: number) => (
-                      <MenuItem key={i} value={category.id}>
-                        {category.label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <FormControl>
-                  <InputLabel id='workingTime-label' htmlFor='workingTime'>
-                    Ish vaqti
-                  </InputLabel>
-                  <TextField
-                    id='workingTime'
-                    name='workingTime'
-                    aria-describedby='input'
-                    value={f.values.workingTime}
-                    onChange={f.handleChange}
-                    onBlur={f.handleBlur}
-                    error={
-                      f.touched.workingTime && Boolean(f.errors.workingTime)
-                    }
-                    helperText={f.touched.workingTime && f.errors.workingTime}
-                    sx={{ width: '400px' }}
-                  />
-                </FormControl>
-                <FormControl>
-                  <TextField
-                    id='adStartDate'
-                    type='date'
-                    name='adStartDate'
-                    aria-describedby='input'
-                    placeholder='DD/MM/YYY'
-                    value={f.values.adStartDate}
-                    onChange={f.handleChange}
-                    onBlur={f.handleBlur}
-                    error={
-                      f.touched.adStartDate && Boolean(f.errors.adStartDate)
-                    }
-                    sx={{ width: '400px' }}
-                  />
-                </FormControl>
-                <FormControl>
-                  <TextField
-                    id='adEndDate'
-                    type='date'
-                    name='adEndDate'
-                    aria-describedby='input'
-                    placeholder='DD/MM/YYY'
-                    value={f.values.adEndDate}
-                    onChange={f.handleChange}
-                    onBlur={f.handleBlur}
-                    error={f.touched.adEndDate && Boolean(f.errors.adEndDate)}
-                    sx={{ width: '400px' }}
-                  />
-                </FormControl>
-              </Stack>
-            </Stack>
-            <Stack direction='row' sx={{ mb: '40px' }}>
-              <Stack flex='1'>
-                <Typography
-                  ml='-2px'
-                  mb='6px'
-                  sx={{ fontWeight: '300' }}
-                  variant='h4'
-                >
-                  Reklama tavsifi
-                </Typography>
-              </Stack>
-              <Box flex='2' display='flex' justifyContent='left'>
-                <FormControl>
-                  <TextareaAutosize
-                    id='adDescription'
-                    placeholder='Tavsif'
-                    name='adDescription'
-                    style={{
-                      width: '400px',
-                      borderRadius: '4px',
-                      background: 'none',
-                      padding: '10px',
-                      border: '1px solid',
-                      borderColor: grey[400],
-                      // '&hover:'{}
-                    }}
-                    aria-label='text area'
-                    onChange={f.handleChange}
-                    onBlur={f.handleBlur}
-                    value={f.values.adDescription}
-                    minRows={3}
-                  />
-                </FormControl>
-              </Box>
-            </Stack>
-            <Stack direction='row' sx={{ mb: '40px' }}>
-              <Stack flex='1'>
-                <Typography
-                  ml='-2px'
-                  mb='6px'
-                  sx={{ fontWeight: '300' }}
-                  variant='h4'
-                >
-                  Reklama ikonkasi
-                </Typography>
-              </Stack>
-              <Box flex='2' display='flex' justifyContent='left'>
-                <Stack
-                  direction='column'
-                  width='400px'
-                  height='150px'
-                  border='2px dashed'
-                  borderColor='grey.200'
-                  justifyContent={'center'}
-                  alignItems={'center'}
-                >
-                  <UploadFileIcon sx={{ color: blue[500] }} />
-                  <Typography>
-                    <Typography
-                      sx={{
-                        textDecoration: 'underline',
-                        fontWeight: '300',
-                        textTransform: 'unset',
-                      }}
-                      variant='overline'
-                      color={blue[500]}
-                    >
-                      Yuklash uchun bosing
-                    </Typography>{' '}
-                    yoki tortib olib keling
-                  </Typography>
-                  <Typography
-                    color='grey.500'
-                    fontWeight='300'
-                    fontSize='0.8rem'
-                  >
-                    PNG yoki JPG (max. 3 MB)
-                  </Typography>
-                </Stack>
-              </Box>
-            </Stack>
+                  {categories.map((category: CategoryProps, i: number) => (
+                    <MenuItem key={i} value={category.id}>
+                      {category.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl>
+                <TextField
+                  label='Ish vaqti'
+                  placeholder='Dushanba - Juma, 9:00 - 18:00'
+                  id='workingTime'
+                  name='workingTime'
+                  aria-describedby='input'
+                  value={f.values.workingTime}
+                  onChange={f.handleChange}
+                  onBlur={f.handleBlur}
+                  error={f.touched.workingTime && Boolean(f.errors.workingTime)}
+                  helperText={f.touched.workingTime && f.errors.workingTime}
+                  sx={{ width: '400px' }}
+                />
+              </FormControl>
+              <FormControl>
+                <TextField
+                  id='adStartDate'
+                  type='date'
+                  name='adStartDate'
+                  aria-describedby='input'
+                  placeholder='DD/MM/YYY'
+                  value={f.values.adStartDate}
+                  onChange={f.handleChange}
+                  onBlur={f.handleBlur}
+                  error={f.touched.adStartDate && Boolean(f.errors.adStartDate)}
+                  sx={{ width: '400px' }}
+                />
+              </FormControl>
+              <FormControl>
+                <TextField
+                  id='adEndDate'
+                  type='date'
+                  name='adEndDate'
+                  aria-describedby='input'
+                  placeholder='DD/MM/YYY'
+                  value={f.values.adEndDate}
+                  onChange={f.handleChange}
+                  onBlur={f.handleBlur}
+                  error={f.touched.adEndDate && Boolean(f.errors.adEndDate)}
+                  sx={{ width: '400px' }}
+                />
+              </FormControl>
+            </CreateAdFormRow>
+            <CreateAdFormRow title='Reklama tavsifi'>
+              <FormControl>
+                <TextareaAutosize
+                  id='adDescription'
+                  placeholder='Tavsif'
+                  name='adDescription'
+                  style={{
+                    width: '400px',
+                    borderRadius: '4px',
+                    background: 'none',
+                    padding: '10px',
+                    border: '1px solid',
+                    borderColor: grey[400],
+                  }}
+                  aria-label='text area'
+                  onChange={f.handleChange}
+                  onBlur={f.handleBlur}
+                  value={f.values.adDescription}
+                  minRows={3}
+                />
+              </FormControl>
+            </CreateAdFormRow>
+            <CreateAdFormRow title='Reklama ikonkasi'>
+              <UploadFileField
+                name='icon'
+                onChange={f.handleChange}
+                value={f.values['icon']}
+              />
+            </CreateAdFormRow>
             <Stack mt='50px' direction='row'>
               <Stack flex='1'></Stack>
               <Stack
