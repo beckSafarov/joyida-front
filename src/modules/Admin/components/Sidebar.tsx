@@ -13,7 +13,11 @@ import { usePathname } from 'next/navigation'
 
 const MenuItems = [
   { label: 'Ishlar', icon: WorkIcon, path: '/admin/moderator/works' },
-  { label: 'Izohlar', icon: CommentIcon, path: '/admin/moderator/comments' },
+  {
+    label: 'Shikoyatlar',
+    icon: CommentIcon,
+    path: '/admin/moderator/complaints',
+  },
   {
     label: 'Foydalanuvchilar',
     icon: PeopleAltIcon,

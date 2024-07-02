@@ -1,10 +1,10 @@
-import CommentsScreen from '@/modules/Admin/Moderator/CommentsScreen'
+import ComplaintsScreen from '@/modules/Admin/Moderator/ComplaintsScreen'
 import React from 'react'
 
 type Props = {}
 
 const ModeratorWorksPage = (props: Props) => {
-  return <CommentsScreen />
+  return <ComplaintsScreen />
 }
 
 export default ModeratorWorksPage

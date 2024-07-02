@@ -48,11 +48,17 @@ interface VideoProps {
   author: string
 }
 
+export interface ComplaintOverPerson {
+  name: string
+  title: string
+}
+
 export interface CommentsDataProps {
   id: string
   image: string
   date: Date
   video: VideoProps
+  to: ComplaintOverPerson
   author: string
   rating: number
   body: string

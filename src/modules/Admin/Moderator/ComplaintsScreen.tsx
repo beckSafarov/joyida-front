@@ -6,6 +6,7 @@ import {
   Avatar,
   Box,
   Button,
+  Divider,
   Pagination,
   Rating,
   Stack,
@@ -17,7 +18,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import { Circle } from '@mui/icons-material'
 import { CommentsDataProps } from '@/modules/interfaces/AdminInterfaces'
-import { getDateFromNow } from '@/utils'
+import { getAvatarLetters, getDateFromNow } from '@/utils'
 import truncate from 'lodash.truncate'
 
 const commentsData = [
@@ -26,6 +27,10 @@ const commentsData = [
     image:
       'https://fjwp.s3.amazonaws.com/blog/wp-content/uploads/2015/12/09112429/work-life-balance-working-from-home-1024x513.jpg',
     date: new Date('06/10/2024'),
+    to: {
+      name: 'Bahrom Karimov',
+      title: 'Texnik muhandis',
+    },
     video: {
       title: 'Sample video title 1',
       author: 'Toshmat Eshmatov',
@@ -39,6 +44,10 @@ const commentsData = [
     image:
       'https://fjwp.s3.amazonaws.com/blog/wp-content/uploads/2015/12/09112429/work-life-balance-working-from-home-1024x513.jpg',
     date: new Date('06/20/2024'),
+    to: {
+      name: 'Bahrom Karimov',
+      title: 'Texnik muhandis',
+    },
     video: {
       title: 'Sample video title 2',
       author: 'John Doe',
@@ -61,7 +70,7 @@ export default function CommentsScreen() {
   }
 
   return (
-    <AdminLayout role='moderator' title='Izohlar'>
+    <AdminLayout role='moderator' title='Shikoyatlar'>
       <Stack pt='10px' mb='30px' direction='row' justifyContent='space-between'>
         <SecondaryText>29/10/2021</SecondaryText>
         <Stack direction='row' spacing={1}>
@@ -80,21 +89,14 @@ export default function CommentsScreen() {
           >
             <Stack direction='column' spacing={1}>
               <Stack direction='row' spacing={2}>
-                <Image
-                  alt='work'
-                  src={comment.image}
-                  width={76}
-                  height={53}
-                  style={{ border: '1px solid #ccc', borderRadius: '4px' }}
-                />
+                <Avatar>{getAvatarLetters(comment.to.name)}</Avatar>
                 <Stack direction={'column'}>
-                  <Typography fontWeight='600'>
-                    {comment.video.title}
-                  </Typography>
-                  <SecondaryText>{comment.video.author}</SecondaryText>
+                  <Typography fontWeight='600'>{comment.to.name}</Typography>
+                  <SecondaryText>{comment.to.title}</SecondaryText>
                 </Stack>
               </Stack>
             </Stack>
+            <Divider sx={{ py: '10px' }} />
             <Box p='16px 0'>
               <Stack direction='row' spacing={2}>
                 <Box>

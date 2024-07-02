@@ -44,3 +44,13 @@ export const createColumnData = (
 // )
 
 // console.log(result)
+
+
+export const getAvatarLetters = (name: string) => {
+  return name
+    .split(' ')
+    .map((name) => name[0])
+    .join('')
+}
+
+// console.log(getAvatarLetters('Bahrom Karimov'))
