@@ -4,7 +4,6 @@ import { createColumnData } from '@/utils'
 import React, { useEffect } from 'react'
 import {
   Box,
-  Button,
   FormControl,
   InputLabel,
   MenuItem,
@@ -21,18 +20,10 @@ import {
   TableRow,
   TextField,
 } from '@mui/material'
-import Title from '@/modules/Shared/Title'
 import Tag from '@/modules/Shared/Tag'
-import {
-  ModeratorWorkRow,
-  ReelsProps,
-} from '@/modules/interfaces/AdminInterfaces'
-import NewWorkModal from '../components/NewWorkModal'
-import WorkEditModal from '../components/WorkEditModal'
+import { ReelsProps } from '@/modules/interfaces/AdminInterfaces'
 import Image from 'next/image'
-import { green } from '@mui/material/colors'
-
-type Props = {}
+import ReelsModal from '../components/ReelsModal'
 
 const columns = [
   createColumnData('thumbnail', 'Video Rasmi', 200),
@@ -287,6 +278,10 @@ const ReelsScreen = () => {
           </center>
         </Paper>
       </Box>
+      <ReelsModal
+        open={Boolean(activeRowId)}
+        onClose={() => setActiveRowId('')}
+      />
     </AdminLayout>
   )
 }

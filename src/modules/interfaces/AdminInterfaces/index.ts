@@ -21,6 +21,8 @@ export interface NewAdminModalProps {
   onClose(): void
 }
 
+export interface ReelsModalProps extends NewAdminModalProps {}
+
 export interface NewWorkModalFace extends NewAdminModalProps {
   categories: category[]
 }
@@ -106,6 +108,10 @@ export interface ReelsProps {
   date: Date
   views: number
   status: boolean
+}
+
+export interface ReelsViewProps extends ReelsProps {
+  source: string
 }
 
 export interface ReelsOptionProps {
