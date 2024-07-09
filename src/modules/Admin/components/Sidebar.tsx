@@ -29,7 +29,6 @@ const MenuItems = [
 
 const Sidebar = () => {
   const pathname = usePathname()
-  console.log(pathname)
   return (
     <Box
       sx={{
