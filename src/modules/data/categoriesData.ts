@@ -1,4 +1,4 @@
-import { LocationType } from './locations'
+import { LocationType } from './locationsData'
 
 const categoryLabels = [
   'Restoranlar',
@@ -10,9 +10,9 @@ const categoryLabels = [
 
 export interface CategoryProps extends LocationType {}
 
-const categories = categoryLabels.map((category: string, i: number) => ({
+const categoriesData = categoryLabels.map((category: string, i: number) => ({
   label: category,
   id: i,
 }))
 
-export default categories
+export default categoriesData

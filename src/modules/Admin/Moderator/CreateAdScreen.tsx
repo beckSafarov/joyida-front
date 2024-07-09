@@ -19,24 +19,13 @@ import { blue, grey } from '@mui/material/colors'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import React from 'react'
 import { useFormik } from 'formik'
-import categories, { CategoryProps } from '@/modules/data/categories'
+import categoriesData, { CategoryProps } from '@/modules/data/categoriesData'
 import { useRouter } from 'next/navigation'
 import CreateAdFormRow from '../components/CreateAdFormRow'
 import UploadFileField from '@/modules/Shared/UploadFileField'
+import { CreateAdProps } from '@/modules/interfaces/AdminInterfaces'
 
 type Props = {}
-
-type CreateAdProps = {
-  image: string
-  title: string
-  address: string
-  category: string
-  workingTime: string
-  adStartDate: Date
-  adEndDate: Date
-  adDescription: string
-  icon: string
-}
 
 const CreateAdScreen = (props: Props) => {
   const router = useRouter()
@@ -126,7 +115,7 @@ const CreateAdScreen = (props: Props) => {
                   onChange={f.handleChange}
                   sx={{ width: '400px' }}
                 >
-                  {categories.map((category: CategoryProps, i: number) => (
+                  {categoriesData.map((category: CategoryProps, i: number) => (
                     <MenuItem key={i} value={category.id}>
                       {category.label}
                     </MenuItem>

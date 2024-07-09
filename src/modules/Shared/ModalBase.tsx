@@ -7,6 +7,7 @@ type Props = {
   open: boolean
   onClose(): void
   title: string
+  titleAlign?: 'left' | 'center'
   top?: string
   width?: string
   children: React.ReactNode
@@ -27,7 +28,9 @@ const ModalBase = (props: Props) => {
       }}
     >
       <Box bgcolor={'white'} p='44px' borderRadius='4px' zIndex='2'>
-        <Title sx={{ mb: '30px' }}>{props.title}</Title>
+        <Title textAlign={props.titleAlign} sx={{ mb: '30px' }}>
+          {props.title}
+        </Title>
         {props.children}
       </Box>
     </Modal>

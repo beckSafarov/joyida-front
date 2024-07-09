@@ -22,6 +22,6 @@ const cities = [
 
 // const locations = [{ label: 'Toshkent shahar', id: 0 }]
 
-const locations = cities.map((city, id) => ({ label: city, id }))
+const locationsData = cities.map((city, id) => ({ label: city, id }))
 
-export default locations
+export default locationsData

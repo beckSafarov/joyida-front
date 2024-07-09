@@ -24,9 +24,10 @@ import Tag from '@/modules/Shared/Tag'
 import { AdTableRowDataProps } from '@/modules/interfaces/AdminInterfaces'
 import { createColumnData } from '@/utils'
 import { FilterByTypes, FilterType } from '@/modules/types'
-import locations, { LocationType } from '@/modules/data/locations'
-import categories, { CategoryProps } from '@/modules/data/categories'
+import locationsData, { LocationType } from '@/modules/data/locationsData'
+import categoriesData, { CategoryProps } from '@/modules/data/categoriesData'
 import Link from 'next/link'
+import AdInfoModal from '../components/AdInfoModal'
 
 type Props = {}
 
@@ -39,15 +40,17 @@ const columns = [
 ]
 
 const createAdRow = (
+  id: string,
   name: string,
   location: string,
   category: string,
   beginningDate: Date,
   endingDate: Date
-) => ({ name, location, category, beginningDate, endingDate })
+) => ({ id, name, location, category, beginningDate, endingDate })
 
 const rows = [
   createAdRow(
+    '1',
     'KFC Uchtepa',
     'IzaiahPort',
     'Restoranlar',
@@ -55,6 +58,7 @@ const rows = [
     new Date('06/15/2024')
   ),
   createAdRow(
+    '2',
     'Bro Barbershop',
     'IzaiahPort',
     "Go'zallik",
@@ -62,6 +66,7 @@ const rows = [
     new Date('06/15/2024')
   ),
   createAdRow(
+    '3',
     'SAMO Collections',
     'IzaiahPort',
     'Salomatlik',
@@ -69,6 +74,7 @@ const rows = [
     new Date('06/15/2024')
   ),
   createAdRow(
+    '4',
     'PDP University',
     'IzaiahPort',
     'Hayot mamot',
@@ -76,6 +82,7 @@ const rows = [
     new Date('06/15/2024')
   ),
   createAdRow(
+    '5',
     'Kira company',
     'IzaiahPort',
     'Texnik ishlar',
@@ -89,7 +96,7 @@ const AdsScreen = (props: Props) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [searchTerm, setSearchTerm] = React.useState('')
   const [filter, setFilter] = React.useState<FilterType>({ by: '', option: '' })
-  const [openModal, setOpenModal] = React.useState(false)
+  const [openModal, setOpenModal] = React.useState('')
   const [dataToDisplay, setDataToDisplay] =
     React.useState<AdTableRowDataProps[]>(rows)
 
@@ -118,7 +125,7 @@ const AdsScreen = (props: Props) => {
       data.filter(
         (single) =>
           single.category ===
-          categories.find(
+          categoriesData.find(
             (category: CategoryProps) => category.id === +filter.option
           )?.label
       )
@@ -141,13 +148,13 @@ const AdsScreen = (props: Props) => {
   }
 
   const getOptionsByFilter = useCallback(() => {
-    return filter.by === 'address' ? locations : categories
+    return filter.by === 'address' ? locationsData : categoriesData
   }, [filter.by])
 
   const getLabelByPropId = (locId: number) => {
     return filter.by === 'address'
-      ? locations.find((myLoc: LocationType) => myLoc?.id === locId)?.label
-      : categories.find((category: CategoryProps) => category?.id === locId)
+      ? locationsData.find((myLoc: LocationType) => myLoc?.id === locId)?.label
+      : categoriesData.find((category: CategoryProps) => category?.id === locId)
           ?.label
   }
 
@@ -248,7 +255,12 @@ const AdsScreen = (props: Props) => {
                   {dataToDisplay
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row: AdTableRowDataProps, index: number) => (
-                      <TableRow component='div' hover key={index}>
+                      <TableRow
+                        onClick={() => setOpenModal(row.id)}
+                        component='div'
+                        hover
+                        key={index}
+                      >
                         {columns.map((column) => {
                           let value =
                             row[column?.id as keyof AdTableRowDataProps]
@@ -287,6 +299,11 @@ const AdsScreen = (props: Props) => {
           </center>
         </Paper>
       </Box>
+      <AdInfoModal
+        open={Boolean(openModal)}
+        id={openModal}
+        onClose={() => setOpenModal('')}
+      />
     </AdminLayout>
   )
 }

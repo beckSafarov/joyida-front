@@ -5,6 +5,11 @@ export interface TableRowFace {
   date: Date
 }
 
+export interface category {
+  label: string
+  categoryId: string
+}
+
 export interface ModeratorWorkRow {
   id: string
   name: string
@@ -16,15 +21,13 @@ export interface NewAdminModalProps {
   onClose(): void
 }
 
-export interface category {
-  label: string
-  categoryId: string
-}
-
 export interface NewWorkModalFace extends NewAdminModalProps {
   categories: category[]
 }
 
+export interface AdInfoModalProps extends NewAdminModalProps {
+  id: string
+}
 export interface NewAdminValues {
   name: string
   phone: string
@@ -88,6 +91,7 @@ export interface UsersTableRowProps {
 }
 
 export interface AdTableRowDataProps {
+  id: string
   name: string
   location: string
   category: string
@@ -108,3 +112,17 @@ export interface ReelsOptionProps {
   label: string
   id: string
 }
+
+export interface CreateAdProps {
+  image: string
+  title: string
+  address: string
+  category: string
+  workingTime: string
+  adStartDate: Date
+  adEndDate: Date
+  adDescription: string
+  icon: string
+}
+
+export interface AdInfoProps extends CreateAdProps {}

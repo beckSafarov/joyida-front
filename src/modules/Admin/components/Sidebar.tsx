@@ -14,17 +14,17 @@ import { usePathname } from 'next/navigation'
 const MenuItems = [
   { label: 'Ishlar', icon: WorkIcon, path: '/admin/moderator/works' },
   {
-    label: 'Shikoyatlar',
-    icon: CommentIcon,
-    path: '/admin/moderator/complaints',
-  },
-  {
     label: 'Foydalanuvchilar',
     icon: PeopleAltIcon,
     path: '/admin/moderator/users',
   },
   { label: 'Reklamalar', icon: WebAssetIcon, path: '/admin/moderator/ads' },
   { label: 'Videolar', icon: VideoLibraryIcon, path: '/admin/moderator/reels' },
+  {
+    label: 'Shikoyatlar',
+    icon: CommentIcon,
+    path: '/admin/moderator/complaints',
+  },
 ]
 
 const Sidebar = () => {

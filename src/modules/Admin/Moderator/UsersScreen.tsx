@@ -23,7 +23,7 @@ import AdminLayout from '@/modules/Shared/Admin/AdminLayout'
 import Tag from '@/modules/Shared/Tag'
 import { createColumnData } from '@/utils'
 import { UsersTableRowProps } from '@/modules/interfaces/AdminInterfaces'
-import locations, { LocationType } from '@/modules/data/locations'
+import locationsData, { LocationType } from '@/modules/data/locationsData'
 import { FilterByTypes, FilterType } from '@/modules/types'
 
 const columns = [
@@ -139,11 +139,12 @@ const UsersScreen = () => {
   }
 
   const getOptionsByFilter = useCallback(() => {
-    return filter.by === 'address' ? locations : statusOptions
+    return filter.by === 'address' ? locationsData : statusOptions
   }, [filter.by])
 
   const getLocNameById = (locId: number) => {
-    return locations.find((myLoc: LocationType) => myLoc?.id === locId)?.label
+    return locationsData.find((myLoc: LocationType) => myLoc?.id === locId)
+      ?.label
   }
 
   return (

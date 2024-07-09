@@ -8,6 +8,7 @@ import {
   Button,
   Divider,
   Pagination,
+  Paper,
   Rating,
   Stack,
   Typography,
@@ -80,12 +81,14 @@ export default function CommentsScreen() {
       </Stack>
       <Stack direction='column' spacing={1}>
         {commentsData.map((comment: CommentsDataProps, i: number) => (
-          <Box
+          <Paper
+            elevation={1}
             key={i}
-            border='1px solid'
-            borderColor='grey.300'
-            borderRadius='4px'
-            p='25px 15px 10px 25px'
+            // border='1px solid'
+            // borderColor='grey.300'
+            // borderRadius='4px'
+            sx={{ p: '25px 15px 10px 25px' }}
+            // p='25px 15px 10px 25px'
           >
             <Stack direction='column' spacing={1}>
               <Stack direction='row' spacing={2}>
@@ -133,7 +136,7 @@ export default function CommentsScreen() {
                 </Button>
               </Stack>
             </Box>
-          </Box>
+          </Paper>
         ))}
       </Stack>
       <Stack pt='30px' pb='20px' alignItems={'center'}>
