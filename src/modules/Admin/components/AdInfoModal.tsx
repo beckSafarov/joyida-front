@@ -47,6 +47,9 @@ const AdInfoModal = (props: AdInfoModalProps) => {
   const adDuration = `${sampleAd.adStartDate.toDateString()} - ${sampleAd.adEndDate.toDateString()}`
 
   const handleClose = () => {
+    props.onClose()
+  }
+  const handleDelete = () => {
     if (window.confirm("Haqiqattan o'chirmoqchimisiz?")) {
       props.onClose()
     }
@@ -89,7 +92,7 @@ const AdInfoModal = (props: AdInfoModalProps) => {
         {sampleAd.adDescription}
       </Box>
       <Row spacing={2} sx={{ justifyContent: 'right', mt: '21px' }}>
-        <Button onClick={handleClose} variant='outlined' color='error'>
+        <Button onClick={handleDelete} variant='outlined' color='error'>
           O'chirish
         </Button>
         <Button variant='outlined' color='info'>
