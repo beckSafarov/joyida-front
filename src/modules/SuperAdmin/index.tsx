@@ -104,7 +104,7 @@ const SuperAdminHomeScreen: React.FC<SuperAdminHomeScreenProps> = ({}) => {
 
   return (
     <AdminLayout title='Adminlar'>
-      <Box mt='50px'>
+      <Box mt='100px'>
         <Paper elevation={1} sx={{ p: '24px' }}>
           <Stack pb='16px' direction='row' justifyContent={'space-between'}>
             <Stack
