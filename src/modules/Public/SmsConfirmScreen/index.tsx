@@ -1,9 +1,9 @@
 'use client'
 import React, { useState } from 'react'
-import PublicScreenLayout from '../../Shared/PublicScreenLayout'
-import FullyCentered from '../../Shared/FullyCentered'
+import PublicScreenLayout from '../../common/PublicScreenLayout'
+import FullyCentered from '../../common/FullyCentered'
 import { Box, Stack, TextField, Typography } from '@mui/material'
-import Title from '@/modules/Shared/Title'
+import Title from '@/modules/common/Title'
 
 const SmsConfirmScreen = () => {
   const [code, setCode] = useState<string>('')
