@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
-import PublicScreenLayout from '../../common/PublicScreenLayout'
-import FullyCentered from '../../common/FullyCentered'
+import PublicScreenLayout from '@/modules/common/PublicScreenLayout'
+import FullyCentered from '@/modules/common/FullyCentered'
 import { Box, Stack, TextField, Typography } from '@mui/material'
 import Title from '@/modules/common/Title'
 

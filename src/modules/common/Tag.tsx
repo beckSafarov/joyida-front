@@ -9,9 +9,6 @@ interface TagProps {
   variant?: 'secondary' | 'primary'
 }
 
-const defaultProps = {
-  bgcolor: 'grey.300',
-}
 
 const Tag: React.FC<TagProps> = ({ children, variant, onClear }) => {
   return (
@@ -34,6 +31,6 @@ const Tag: React.FC<TagProps> = ({ children, variant, onClear }) => {
   )
 }
 
-Tag.defaultProps = defaultProps
+
 
 export default Tag

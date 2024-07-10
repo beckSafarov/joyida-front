@@ -11,7 +11,7 @@ import { useFormik } from 'formik'
 import { MuiTelInput } from 'mui-tel-input'
 import React from 'react'
 import ModalBase from '@/modules/common/ModalBase'
-import { NewAdminModalProps, NewAdminValues } from '@/interfaces'
+import { NewAdminModalProps, NewAdminValues } from '@/interfaces/superadmin'
 
 const defaultProps = {
   open: false,
@@ -22,6 +22,7 @@ const NewAdminModal: React.FC<NewAdminModalProps> = ({ open, onClose }) => {
   const initialValues: NewAdminValues = {
     name: '',
     phone: '',
+    password: '',
     position: '',
   }
 
@@ -61,6 +62,17 @@ const NewAdminModal: React.FC<NewAdminModalProps> = ({ open, onClose }) => {
               value={formik.values['phone']}
               onChangeCapture={formik.handleChange}
               sx={{ width: '100%', borderColor: '#CAC4D0' }}
+            />
+          </FormControl>
+          <FormControl>
+            <TextField
+              name='password'
+              id='password'
+              label='Paroli'
+              value={formik.values['password']}
+              type='password'
+              onChange={formik.handleChange}
+              autoFocus={true}
             />
           </FormControl>
           <FormControl>

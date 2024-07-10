@@ -155,7 +155,12 @@ const SuperAdminHomeScreen: React.FC<SuperAdminHomeScreenProps> = ({}) => {
             </Button>
           </Stack>
           {filterPosition && (
-            <Tag onClear={() => setFilterPosition('')}>{filterPosition} </Tag>
+            <Tag
+              variant={filterPosition === 'moderator' ? 'secondary' : 'primary'}
+              onClear={() => setFilterPosition('')}
+            >
+              {filterPosition}{' '}
+            </Tag>
           )}
           <center>
             <TableContainer aria-label='sticky table'>
@@ -190,7 +195,15 @@ const SuperAdminHomeScreen: React.FC<SuperAdminHomeScreenProps> = ({}) => {
                             key={column.id}
                           >
                             {column.id === 'position' ? (
-                              <Tag>{value}</Tag>
+                              <Tag
+                                variant={
+                                  row.position === 'moderator'
+                                    ? 'secondary'
+                                    : 'primary'
+                                }
+                              >
+                                {value}
+                              </Tag>
                             ) : (
                               value
                             )}
