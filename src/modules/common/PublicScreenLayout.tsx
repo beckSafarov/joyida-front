@@ -18,10 +18,6 @@ import { Stack } from '@mui/material'
 import Link from 'next/link'
 
 interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
   window?: () => Window
   children?: React.ReactNode
   showButtons?: boolean
@@ -105,9 +101,11 @@ export default function PublicScreenLayout(props: Props) {
                   Kirish
                 </Button>
               </Link>
-              <Button size='large' variant='contained'>
-                Royxatdan otish
-              </Button>
+              <Link href='/sms-confirm'>
+                <Button size='large' variant='contained'>
+                  Royxatdan otish
+                </Button>
+              </Link>
             </Stack>
           )}
         </Toolbar>
