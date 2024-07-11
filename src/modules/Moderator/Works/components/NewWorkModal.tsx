@@ -1,13 +1,15 @@
+'use client'
 import ModalBase from '@/modules/common/ModalBase'
 import { NewWorkModalFace } from '@/interfaces/Works'
-import React from 'react'
+import React, { useState } from 'react'
 import { NewWorkValues } from '@/interfaces/Works'
 import WorkFormBase from './WorkFormBase'
 
 const NewWorkModal = (props: NewWorkModalFace) => {
+  useState
   const initialValues: NewWorkValues = {
     name: '',
-    categoryId: '',
+    categoryId: 0,
   }
 
   const handleSubmit = (values: NewWorkValues) => {

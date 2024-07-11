@@ -20,4 +20,14 @@ export interface RowProps {
   spacing?: number
 }
 
+export interface ModalBaseProps {
+  open: boolean
+  onClose(): void
+  title: string
+  titleAlign?: 'left' | 'center'
+  top?: string
+  width?: string
+  children?: React.ReactNode
+}
+
 export interface VStackProps extends RowProps {}

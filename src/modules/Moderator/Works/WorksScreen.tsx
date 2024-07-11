@@ -37,46 +37,46 @@ const rows = [
     id: '34567',
     name: 'Lorem Ipsum',
     category: 'Texnik Ishlar',
-    categoryId: '12345',
+    categoryId: 1,
   },
   {
     id: '34568',
     name: 'Lorem Ipsum',
     category: 'IT va Kompyuter xizmatlari',
-    categoryId: '12355',
+    categoryId: 2,
   },
   {
     id: '34569',
     name: 'Lorem Ipsum',
     category: "Go'zallik va hayot",
-    categoryId: '12346',
+    categoryId: 3,
   },
   {
     id: '34570',
     name: 'Lorem Ipsum',
     category: "Sport va sog'lomlashtirish",
-    categoryId: '12347',
+    categoryId: 4,
   },
   {
     id: '34571',
     name: 'Lorem Ipsum',
     category: 'Texnik Ishlar',
-    categoryId: '12345',
+    categoryId: 1,
   },
 ]
 
 const categories = [
-  { label: 'Texnik Ishlar', categoryId: '12345' },
-  { label: "Sport va sog'lomlashtirish", categoryId: '12347' },
-  { label: "Go'zallik va hayot", categoryId: '12346' },
-  { label: 'IT va Kompyuter xizmatlari', categoryId: '12355' },
+  { label: 'Texnik Ishlar', categoryId: 1 },
+  { label: "Sport va sog'lomlashtirish", categoryId: 4 },
+  { label: "Go'zallik va hayot", categoryId: 3 },
+  { label: 'IT va Kompyuter xizmatlari', categoryId: 2 },
 ]
 
 const WorksScreen = () => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [searchTerm, setSearchTerm] = React.useState('')
-  const [filterTerm, setFilterTerm] = React.useState('')
+  const [filterTerm, setFilterTerm] = React.useState<number | null>(null)
   const [openModal, setOpenModal] = React.useState(false)
   const [activeRowId, setActiveRowId] = useState<string>('')
   const [dataToDisplay, setDataToDisplay] =
@@ -92,14 +92,16 @@ const WorksScreen = () => {
 
   const handleSearch = () => {
     const rgx = new RegExp(searchTerm, 'gi')
-    setDataToDisplay(rows.filter((row) => rgx.test(row.name)))
+    setDataToDisplay(
+      rows.filter((row) => rgx.test(row.name) || rgx.test(row.id))
+    )
   }
 
   const handleSearchTermChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setSearchTerm(event.target.value)
-    setFilterTerm('')
+    setFilterTerm(null)
   }
 
   const handleFilter = () => {
@@ -110,7 +112,7 @@ const WorksScreen = () => {
   }
 
   const handleSelectChange = (event: SelectChangeEvent) => {
-    setFilterTerm(event.target.value)
+    setFilterTerm(Number(event.target.value))
   }
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -122,6 +124,10 @@ const WorksScreen = () => {
   ) => {
     setRowsPerPage(+event.target.value)
     setPage(0)
+  }
+
+  const getLabelById = (id: number) => {
+    return categories.find((category) => category.categoryId === id)?.label
   }
 
   return (
@@ -143,7 +149,7 @@ const WorksScreen = () => {
               size='small'
               id='search-field'
               label='Qidiring'
-              placeholder='Ismi, telefon raqami'
+              placeholder='Id, nomi'
               sx={{ width: '300px' }}
               value={searchTerm}
               onChange={handleSearchTermChange}
@@ -155,8 +161,9 @@ const WorksScreen = () => {
               <Select
                 labelId='demo-simple-select-label'
                 size='small'
+                placeholder='Hammasi'
                 id='position-select'
-                value={filterTerm}
+                value={String(filterTerm)}
                 label='Category'
                 sx={{ width: '180px' }}
                 onChange={handleSelectChange}
@@ -182,7 +189,9 @@ const WorksScreen = () => {
           </Button>
         </Stack>
         {filterTerm && (
-          <Tag onClear={() => setFilterTerm('')}>{filterTerm} </Tag>
+          <Tag onClear={() => setFilterTerm(null)}>
+            {getLabelById(filterTerm)}{' '}
+          </Tag>
         )}
         <center>
           <TableContainer aria-label='sticky table'>

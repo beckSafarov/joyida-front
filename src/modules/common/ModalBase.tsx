@@ -2,16 +2,7 @@ import { Modal } from '@mui/material'
 import { Box } from '@mui/system'
 import React from 'react'
 import Title from './Title'
-
-type ModalBaseProps = {
-  open: boolean
-  onClose(): void
-  title: string
-  titleAlign?: 'left' | 'center'
-  top?: string
-  width?: string
-  children: React.ReactNode
-}
+import { ModalBaseProps } from '@/interfaces/common'
 
 const ModalBase = (props: ModalBaseProps) => {
   return (

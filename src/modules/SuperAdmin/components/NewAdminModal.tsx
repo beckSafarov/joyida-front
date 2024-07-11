@@ -1,3 +1,4 @@
+'use client'
 import {
   Button,
   FormControl,
@@ -42,69 +43,71 @@ const NewAdminModal: React.FC<NewAdminModalProps> = ({ open, onClose }) => {
   }
 
   return (
-    <ModalBase open={open} onClose={handleClose} title={'Yangi Admin'}>
-      <form onSubmit={formik.handleSubmit}>
-        <Stack spacing={2}>
-          <FormControl>
-            <TextField
-              name='name'
-              id='name'
-              label='Ismi'
-              value={formik.values['name']}
-              type='text'
-              onChange={formik.handleChange}
-              autoFocus={true}
-            />
-          </FormControl>
-          <FormControl>
-            <MuiTelInput
-              name={'phone'}
-              value={formik.values['phone']}
-              onChangeCapture={formik.handleChange}
-              sx={{ width: '100%', borderColor: '#CAC4D0' }}
-            />
-          </FormControl>
-          <FormControl>
-            <TextField
-              name='password'
-              id='password'
-              label='Paroli'
-              value={formik.values['password']}
-              type='password'
-              onChange={formik.handleChange}
-              autoFocus={true}
-            />
-          </FormControl>
-          <FormControl>
-            <InputLabel>Admin turi</InputLabel>
-            <Select
-              name='position'
-              labelId='demo-simple-select-label'
-              id='position-select'
-              value={formik.values['position']}
-              sx={{ width: '100%' }}
-              onChange={formik.handleChange}
+    <>
+      <ModalBase open={open} onClose={handleClose} title={'Yangi Admin'}>
+        <form onSubmit={formik.handleSubmit}>
+          <Stack spacing={2}>
+            <FormControl>
+              <TextField
+                name='name'
+                id='name'
+                label='Ismi'
+                value={formik.values['name']}
+                type='text'
+                onChange={formik.handleChange}
+                autoFocus={true}
+              />
+            </FormControl>
+            <FormControl>
+              <MuiTelInput
+                name={'phone'}
+                value={formik.values['phone']}
+                onChangeCapture={formik.handleChange}
+                sx={{ width: '100%', borderColor: '#CAC4D0' }}
+              />
+            </FormControl>
+            <FormControl>
+              <TextField
+                name='password'
+                id='password'
+                label='Paroli'
+                value={formik.values['password']}
+                type='password'
+                onChange={formik.handleChange}
+                autoFocus={true}
+              />
+            </FormControl>
+            <FormControl>
+              <InputLabel>Admin turi</InputLabel>
+              <Select
+                name='position'
+                labelId='demo-simple-select-label'
+                id='position-select'
+                value={formik.values['position']}
+                sx={{ width: '100%' }}
+                onChange={formik.handleChange}
+              >
+                <MenuItem value={'moderator'}>Moderator</MenuItem>
+                <MenuItem value={'superadmin'}>Superadmin</MenuItem>
+              </Select>
+            </FormControl>
+          </Stack>{' '}
+          <Stack mt='40px' direction='row' spacing={1}>
+            <Button
+              onClick={handleClose}
+              sx={{ width: '50%' }}
+              type='reset'
+              variant='outlined'
             >
-              <MenuItem value={'moderator'}>Moderator</MenuItem>
-              <MenuItem value={'superadmin'}>Superadmin</MenuItem>
-            </Select>
-          </FormControl>
-        </Stack>{' '}
-        <Stack mt='40px' direction='row' spacing={1}>
-          <Button
-            onClick={handleClose}
-            sx={{ width: '50%' }}
-            type='reset'
-            variant='outlined'
-          >
-            Bekor qilish
-          </Button>
-          <Button sx={{ width: '50%' }} type='submit' variant='contained'>
-            Yaratish
-          </Button>
-        </Stack>
-      </form>
-    </ModalBase>
+              Bekor qilish
+            </Button>
+            <Button sx={{ width: '50%' }} type='submit' variant='contained'>
+              Yaratish
+            </Button>
+          </Stack>
+        </form>
+      </ModalBase>
+    </>
   )
 }
 

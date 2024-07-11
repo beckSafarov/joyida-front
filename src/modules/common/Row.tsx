@@ -1,6 +1,6 @@
+import { RowProps } from '@/interfaces/common'
 import { Stack, SxProps } from '@mui/material'
 import React from 'react'
-import { RowProps } from '../../interfaces/Others'
 
 const Row = (props: RowProps) => {
   return (
