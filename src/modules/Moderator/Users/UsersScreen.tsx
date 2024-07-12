@@ -1,7 +1,6 @@
 'use client'
 import {
   Box,
-  Button,
   FormControl,
   InputLabel,
   MenuItem,
@@ -18,96 +17,60 @@ import {
   TableRow,
   TextField,
 } from '@mui/material'
-import React, { useCallback, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import AdminLayout from '@/modules/common/AdminLayout'
 import Tag from '@/modules/common/Tag'
-import { createColumnData } from '@/utils'
-import { UsersTableRowProps } from '@/interfaces/Users'
-import locationsData, { LocationType } from '@/data/locationsData'
-import { FilterByTypes, FilterType } from '@/types'
-
-const columns = [
-  createColumnData('name', 'Foydalanuvchi', 200),
-  createColumnData('phone', 'Telefon raqami', 200),
-  createColumnData('address', 'Manzili', 200),
-  createColumnData('feedbacks', 'Fidbeklar', 100),
-  createColumnData('date', "Qo'shilgan sana", 200),
-]
-
-const createRowData = (
-  name: string,
-  phone: string,
-  address: string,
-  feedback: number,
-  date: Date
-) => ({ name, phone, address, feedback, date })
-
-const rows = [
-  createRowData(
-    'Eshmatov Toshmat',
-    '+998988884554',
-    "Arnasoy ko'chasi, 14-uy, 2",
-    3,
-    new Date('11/02/2024')
-  ),
-  createRowData(
-    'Xamza Rahmatov',
-    '+998988884554',
-    "Arnasoy ko'chasi, 14-uy, 2",
-    3,
-    new Date('10/02/2024')
-  ),
-  createRowData(
-    'Ibrohim Qosimov',
-    '+998988884554',
-    "Arnasoy ko'chasi, 14-uy, 2",
-    3,
-    new Date('12/02/2024')
-  ),
-  createRowData(
-    'Eshmatov Toshmat',
-    '+998988884554',
-    "Arnasoy ko'chasi, 14-uy, 2",
-    3,
-    new Date('13/02/2024')
-  ),
-  createRowData(
-    'Eshmatov Toshmat',
-    '+998988884554',
-    "Arnasoy ko'chasi, 14-uy, 2",
-    3,
-    new Date('14/02/2024')
-  ),
-]
-
-const statusOptions = [
-  { label: 'Aktiv', id: 'active' },
-  { label: 'Passiv', id: 'passive' },
-]
+import {
+  FilterOption,
+  SelectFilterOption,
+  UsersTableDataToDisplay,
+} from '@/interfaces/Users'
+import usersData, { filterOptions, usersTableColumns } from '@/data/usersData'
+import { formatDate } from '@/utils/dateUtils'
+const columns = usersTableColumns
+const rows = usersData
 
 const UsersScreen = () => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [searchTerm, setSearchTerm] = React.useState('')
-  const [filter, setFilter] = React.useState<FilterType>({ by: '', option: '' })
-  const [filterBy, setFilterBy] = React.useState<FilterByTypes>('')
-  const [filterPosition, setFilterPosition] = React.useState('')
+  const [filter, setFilter] = React.useState<SelectFilterOption>({
+    name: '',
+    label: '',
+    options: [],
+    selectedSuboption: { label: '', id: null },
+  })
   const [openModal, setOpenModal] = React.useState(false)
-  const [dataToDisplay, setDataToDisplay] =
-    React.useState<UsersTableRowProps[]>(rows)
+  const [dataToDisplay, setDataToDisplay] = React.useState<
+    UsersTableDataToDisplay[] | null
+  >(null)
 
   useEffect(() => {
-    if (searchTerm) handleSearch()
-    if (filterPosition) handleFilter()
-    if (!filterPosition && !searchTerm) resetData()
-  }, [searchTerm, filterPosition])
+    if (typeof dataToDisplay === null) setRefinedData()
+    if (!searchTerm) resetData()
+    if (!filter.name && !searchTerm) resetData()
+  }, [typeof dataToDisplay, searchTerm, filter.name])
 
-  const resetData = () => setDataToDisplay(rows)
+  const setRefinedData = () => {
+    setDataToDisplay(
+      rows.map((currData) => ({
+        ...currData,
+        date: formatDate(currData.date),
+        isBusiness: currData.isBusiness ? 'Biznes' : 'Oddiy',
+        gender: currData.gender === 'male' ? 'erkak' : 'ayol',
+      }))
+    )
+  }
+
+  const resetData = setRefinedData
 
   const handleSearch = () => {
+    if (!dataToDisplay) return []
     const rgx = new RegExp(searchTerm, 'gi')
     setDataToDisplay(
-      rows.filter((row) => rgx.test(row.name) || rgx.test(row.phone))
+      dataToDisplay?.filter(({ name, phone, jobTitle }) => {
+        return rgx.test(jobTitle || '') || rgx.test(name) || rgx.test(phone)
+      })
     )
   }
 
@@ -115,16 +78,37 @@ const UsersScreen = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setSearchTerm(event.target.value)
-    setFilterPosition('')
+    handleSearch()
   }
 
-  const handleFilter = () => {
-    setSearchTerm('')
-    // setDataToDisplay(rows.filter((row) => row.position === filterPosition))
+  const handleFilter = (newFilter: SelectFilterOption) => {
+    if (!dataToDisplay) return
+    setDataToDisplay(
+      dataToDisplay.filter(
+        (data) =>
+          data[filter.name as keyof UsersTableDataToDisplay] ===
+          newFilter.selectedSuboption.label
+      )
+    )
   }
 
-  const handleSelectChange = (event: SelectChangeEvent, prop: string) => {
-    setFilter({ ...filter, [prop]: event.target.value })
+  const handleSelectOption = ({ target: { value } }: SelectChangeEvent) => {
+    setFilter({
+      ...filter,
+      ...filterOptions.find((option) => option.name === value),
+    })
+  }
+  const handleSelectSubOption = ({ target: { value } }: SelectChangeEvent) => {
+    console.log({ options: filter.options, value })
+    const newFilter = {
+      ...filter,
+      selectedSuboption:
+        filter.options.find((option) => option?.id === Number(value)) ||
+        filter.selectedSuboption,
+    }
+    setFilter(newFilter)
+    console.log({ dataToDisplay, newFilter })
+    handleFilter(newFilter)
   }
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -138,15 +122,6 @@ const UsersScreen = () => {
     setPage(0)
   }
 
-  const getOptionsByFilter = useCallback(() => {
-    return filter.by === 'address' ? locationsData : statusOptions
-  }, [filter.by])
-
-  const getLocNameById = (locId: number) => {
-    return locationsData.find((myLoc: LocationType) => myLoc?.id === locId)
-      ?.label
-  }
-
   return (
     <AdminLayout role='moderator' title='Foydalanuvchilar'>
       <Box mt='50px'>
@@ -154,7 +129,6 @@ const UsersScreen = () => {
           <Stack pb='16px' direction='row' justifyContent={'space-between'}>
             <Stack
               width='100%'
-              // sx={{ bgcolor: 'blue' }}
               direction='row'
               spacing={4}
               alignItems={'center'}
@@ -177,30 +151,33 @@ const UsersScreen = () => {
                   labelId='demo-simple-select-label'
                   size='small'
                   id='filter-select'
-                  value={filter.by}
+                  value={filter.name}
                   label='Filter'
                   sx={{ width: '180px' }}
-                  onChange={(e) => handleSelectChange(e, 'by')}
+                  onChange={handleSelectOption}
                 >
-                  <MenuItem value={'address'}>Manzil</MenuItem>
-                  <MenuItem value={'status'}>Status</MenuItem>
+                  {filterOptions.map((option: FilterOption) => (
+                    <MenuItem key={option.name} value={option.name}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <FormControl>
                 <InputLabel size='small' id='demo-simple-select-label'>
-                  {filter.by === 'address' ? 'Shahar yoki Viloyat' : 'Status'}
+                  Keyingi tanlov
                 </InputLabel>
                 <Select
                   labelId='demo-simple-select-label'
                   size='small'
                   id='city-select'
-                  value={filter?.option}
+                  value={String(filter.selectedSuboption.id)}
                   label='City'
                   sx={{ width: '180px' }}
-                  onChange={(e) => handleSelectChange(e, 'option')}
+                  onChange={handleSelectSubOption}
                 >
-                  {getOptionsByFilter().map((option, i: number) => (
-                    <MenuItem key={i} value={option.id}>
+                  {filter.options.map((option, i: number) => (
+                    <MenuItem key={i} value={option.id || ''}>
                       {option.label}
                     </MenuItem>
                   ))}
@@ -208,9 +185,16 @@ const UsersScreen = () => {
               </FormControl>
             </Stack>
           </Stack>
-          {filter?.option && (
-            <Tag onClear={() => setFilter({ ...filter, option: '' })}>
-              {getLocNameById(+filter.option)}
+          {filter.selectedSuboption.id !== null && (
+            <Tag
+              onClear={() =>
+                setFilter({
+                  ...filter,
+                  selectedSuboption: { label: '', id: null },
+                })
+              }
+            >
+              {filter.selectedSuboption.label}
             </Tag>
           )}
           <center>
@@ -230,33 +214,46 @@ const UsersScreen = () => {
                 </TableHead>
 
                 <TableBody>
-                  {dataToDisplay
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row: UsersTableRowProps, index: number) => (
-                      <TableRow component='div' hover key={index}>
-                        {columns.map((column) => {
-                          let value =
-                            row[column?.id as keyof UsersTableRowProps]
-                          value =
-                            typeof value === 'object' ? String(value) : value
-                          return (
-                            <TableCell
-                              style={{
-                                minWidth: column.minWidth,
-                                cursor: 'pointer',
-                              }}
-                              key={column.id}
-                            >
-                              {column.id === 'position' ? (
-                                <Tag>{value}</Tag>
-                              ) : (
-                                value
-                              )}
-                            </TableCell>
-                          )
-                        })}
-                      </TableRow>
-                    ))}
+                  {dataToDisplay &&
+                    dataToDisplay
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((row: UsersTableDataToDisplay, index: number) => (
+                        <TableRow component='div' hover key={index}>
+                          {columns.map((column) => {
+                            let value =
+                              row[
+                                column?.id as keyof UsersTableDataToDisplay
+                              ] || '-'
+                            value = typeof value === 'object' ? '-' : value
+                            return (
+                              <TableCell
+                                style={{
+                                  minWidth: column.minWidth,
+                                  cursor: 'pointer',
+                                }}
+                                key={column.id}
+                              >
+                                {column.id.match(/gender|isBusiness/) ? (
+                                  <Tag
+                                    variant={
+                                      value.match(/erkak|biznes/gi)
+                                        ? 'primary'
+                                        : 'secondary'
+                                    }
+                                  >
+                                    {value}
+                                  </Tag>
+                                ) : (
+                                  value
+                                )}
+                              </TableCell>
+                            )
+                          })}
+                        </TableRow>
+                      ))}
                 </TableBody>
               </Table>
             </TableContainer>

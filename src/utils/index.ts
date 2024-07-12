@@ -1,14 +1,3 @@
-import dayjs from 'dayjs'
-import calendar from 'dayjs/plugin/calendar'
-import relativeTime from 'dayjs/plugin/relativeTime'
-
-type RowFace = {
-  name: string
-  phone: string
-  position: string
-  date: Date
-}
-
 const createRowData = (
   name: string,
   phone: string,
@@ -23,11 +12,6 @@ const rows = [
   createRowData('Azim Azimov', '+998957003022', 'superadmin', new Date()),
   createRowData('Tohir Saidov', '+998957003022', 'moderator', new Date()),
 ]
-   
-export const getDateFromNow = (date: Date) => {
-  dayjs.extend(relativeTime)
-  return dayjs(date).fromNow()
-}
 
 export const createColumnData = (
   id: string,
@@ -44,7 +28,6 @@ export const createColumnData = (
 // )
 
 // console.log(result)
-
 
 export const getAvatarLetters = (name: string) => {
   return name

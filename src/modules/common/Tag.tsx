@@ -13,7 +13,7 @@ interface TagProps {
 const Tag: React.FC<TagProps> = ({ children, variant, onClear }) => {
   return (
     <Box
-      p='10px'
+      p='5px 15px'
       bgcolor={variant === 'primary' ? green[200] : 'grey.300'}
       borderRadius='100px'
       textAlign='center'

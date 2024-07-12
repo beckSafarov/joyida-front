@@ -1,6 +1,12 @@
 import { SxProps } from '@mui/material'
 import React from 'react'
 
+export interface ColumnProps {
+  id: string
+  label: string
+  minWidth: number
+}
+
 export interface TableRowFace {
   name: string
   phone: string
