@@ -27,6 +27,7 @@ import {
 } from '@/interfaces/Users'
 import usersData, { filterOptions, usersTableColumns } from '@/data/usersData'
 import { formatDate } from '@/utils/dateUtils'
+import UserInfoModal from './components/UserInfoModal'
 const columns = usersTableColumns
 const rows = usersData
 
@@ -221,7 +222,12 @@ const UsersScreen = () => {
                         page * rowsPerPage + rowsPerPage
                       )
                       .map((row: UsersTableDataToDisplay, index: number) => (
-                        <TableRow component='div' hover key={index}>
+                        <TableRow
+                          onClick={() => setOpenModal(true)}
+                          component='div'
+                          hover
+                          key={index}
+                        >
                           {columns.map((column) => {
                             let value =
                               row[
@@ -269,6 +275,7 @@ const UsersScreen = () => {
           </center>
         </Paper>
       </Box>
+      <UserInfoModal open={openModal} onClose={() => setOpenModal(false)} />
     </AdminLayout>
   )
 }

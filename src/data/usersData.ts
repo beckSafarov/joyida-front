@@ -133,3 +133,40 @@ export default [
     ''
   ),
 ]
+
+
+
+
+export interface UserInfoProps {
+  id: 1
+  name: string
+  avatar: string
+  title: string
+  gender: boolean
+  categories: category[]
+  address: string
+  phone: string
+  isBusiness: boolean
+  description: string
+  experience: number
+}
+
+export const sampleUserInfo: UserInfoProps = {
+  id: 1,
+  name: 'Toshmat Eshmatov',
+  avatar: '',
+  title: 'Jurnalist',
+  gender: true,
+  categories: [
+    { label: 'maqola yozish', categoryId: 15 },
+    { label: 'boshlovchilik', categoryId: 16 },
+    { label: 'geosiyosat', categoryId: 17 },
+    { label: 'tarix', categoryId: 18 },
+  ],
+  address: "Guliston shahri, Yakkabog' tumani, 24",
+  phone: '+998991354565',
+  isBusiness: true,
+  description:
+    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Error voluptas repudiandae, laboriosam, beatae deleniti, porro tempore commodi quasi nam magnam quas debitis recusandae quidem aspernatur magni eaque numquam dolores necessitatibus quod illum architecto amet eveniet incidunt. Dolore voluptatibus voluptatum, cum corporis officia vitae nesciunt quidem unde eos ipsum numquam repellat!',
+  experience: 3,
+}

@@ -1,4 +1,5 @@
 import { category } from './Works'
+import { NewAdminModalProps } from './superadmin'
 
 export interface UsersTableRowProps {
   name: string
@@ -35,4 +36,8 @@ export interface FilterOption {
 
 export interface SelectFilterOption extends FilterOption {
   selectedSuboption: FilterSubOption
+}
+
+export interface UserInfoModalProps extends NewAdminModalProps {
+  id?: number
 }
