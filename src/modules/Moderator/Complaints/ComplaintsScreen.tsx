@@ -19,8 +19,9 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import { Circle } from '@mui/icons-material'
 import { ComplaintDataProps } from '@/interfaces/Complaints'
-import { getAvatarLetters, getDateFromNow } from '@/utils'
+import { getAvatarLetters } from '@/utils'
 import truncate from 'lodash.truncate'
+import { getDateFromNow } from '@/utils/dateUtils'
 
 const commentsData = [
   {
