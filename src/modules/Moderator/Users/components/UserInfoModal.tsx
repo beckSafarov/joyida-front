@@ -36,8 +36,8 @@ const UserInfoModal = (props: UserInfoModalProps) => {
       case 'categories':
         return (
           <Row sx={{ width: 'inherit', flexWrap: 'wrap', gap: '10px' }}>
-            {user.categories.map((category) => (
-              <Tag>{category.label}</Tag>
+            {user.categories.map((category, i) => (
+              <Tag key={i}>{category.label}</Tag>
             ))}
           </Row>
         )
