@@ -9,7 +9,7 @@ const WorkEditModal = (props: WorkEditModalProps) => {
   // get the initialValues for the work info from the global state using props.id
   const initialValues: EditWorkValues = {
     name: '',
-    categoryId: '',
+    categoryId: 0,
   }
 
   const handleSubmit = (values: EditWorkValues) => {
