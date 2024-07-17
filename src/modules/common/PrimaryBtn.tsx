@@ -6,10 +6,6 @@ interface PrimaryBtnProps {
   size: 'small' | 'medium' | 'large'
 }
 
-const defaultProps = {
-  size: 'medium',
-}
-
 const PrimaryBtn: React.FC<PrimaryBtnProps> = ({ children, size }) => {
   return (
     <Button variant='contained' size={size}>
@@ -17,7 +13,5 @@ const PrimaryBtn: React.FC<PrimaryBtnProps> = ({ children, size }) => {
     </Button>
   )
 }
-
-// PrimaryBtn.defaultProps = defaultProps
 
 export default PrimaryBtn

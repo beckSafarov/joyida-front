@@ -1,6 +1,6 @@
+import { VStackProps } from '@/interfaces/common'
 import { Stack } from '@mui/material'
 import React from 'react'
-import { VStackProps } from '../../interfaces/Others'
 
 const VStack = (props: VStackProps) => {
   return (
