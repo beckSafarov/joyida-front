@@ -30,7 +30,7 @@ const infoRows: InfoRowType[] = [
 const sampleAd: AdInfoProps = {
   image: '/images/working.jpg',
   title: 'Bro Barbershop',
-  address: "Chilonzor, Arnasoy ko'chasi, 24",
+  address: 'Chilonzor, Arnasoy ko&apos;chasi, 24',
   category: categoriesData[0].label,
   workingTime: 'Dushanba - Juma, 9:00 - 18:00',
   adStartDate: new Date('07/24/2024'),

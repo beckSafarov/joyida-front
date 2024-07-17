@@ -75,7 +75,7 @@ export default [
   createRowData(
     'Eshmatov Toshmat',
     '+998988884554',
-    "Arnasoy ko'chasi, 14-uy, 2",
+    'Arnasoy ko&apos;chasi, 14-uy, 2',
     new Date('11/02/2024'),
     'male',
     false
@@ -83,7 +83,7 @@ export default [
   createRowData(
     'Xamza Rahmatov',
     '+998988884554',
-    "Arnasoy ko'chasi, 14-uy, 2",
+    'Arnasoy ko&apos;chasi, 14-uy, 2',
     new Date('10/02/2024'),
     'male',
     true,
@@ -96,7 +96,7 @@ export default [
   createRowData(
     'Ibrohim Qosimov',
     '+998988884554',
-    "Arnasoy ko'chasi, 14-uy, 2",
+    'Arnasoy ko&apos;chasi, 14-uy, 2',
     new Date('12/02/2024'),
     'male',
     false
@@ -104,7 +104,7 @@ export default [
   createRowData(
     'Zafar Asliddinov',
     '+998988884554',
-    "Arnasoy ko'chasi, 14-uy, 2",
+    'Arnasoy ko&apos;chasi, 14-uy, 2',
     new Date('02/13/2024'),
     'male',
     true,
@@ -117,7 +117,7 @@ export default [
   createRowData(
     'Qudratilla Sadiyev',
     '+998988884554',
-    "Arnasoy ko'chasi, 14-uy, 2",
+    'Arnasoy ko&apos;chasi, 14-uy, 2',
     new Date('04/15/2024'),
     'male',
     false,
@@ -126,7 +126,7 @@ export default [
   createRowData(
     'Tatasha Sharipova',
     '+998977845165',
-    "Arnasoy ko'chasi, 14-uy, 2",
+    'Arnasoy ko&apos;chasi, 14-uy, 2',
     new Date('04/15/2024'),
     'female',
     false,
