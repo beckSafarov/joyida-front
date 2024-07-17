@@ -1,11 +1,12 @@
 import ModalBase from '@/modules/common/ModalBase'
 import Row from '@/modules/common/Row'
-import { NewAdminModalProps, ReelsViewProps } from '@/interfaces'
+import { ReelsViewProps } from '@/interfaces/Reels'
 import { Button, Typography } from '@mui/material'
 import React from 'react'
 import ReactPlayer from 'react-player'
 import CheckIcon from '@mui/icons-material/Check'
 import ClearIcon from '@mui/icons-material/Clear'
+import { NewAdminModalProps } from '@/interfaces/superadmin'
 
 const video: ReelsViewProps = {
   id: '1',

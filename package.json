@@ -17,6 +17,7 @@
     "@reduxjs/toolkit": "^2.2.5",
     "@types/lodash.truncate": "^4.4.9",
     "@types/lodash.uniq": "^4.5.9",
+    "axios": "^1.7.2",
     "dayjs": "^1.11.11",
     "formik": "^2.4.6",
     "formik-mui": "^5.0.0-alpha.0",
