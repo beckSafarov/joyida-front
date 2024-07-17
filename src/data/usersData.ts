@@ -71,7 +71,7 @@ const createRowData = (
   jobTitle,
   categories,
 })
-export default [
+const usersData = [
   createRowData(
     'Eshmatov Toshmat',
     '+998988884554',
@@ -133,6 +133,7 @@ export default [
     ''
   ),
 ]
+export default usersData
 
 
 

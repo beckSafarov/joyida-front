@@ -54,7 +54,7 @@ const rows = [
   createRow(
     '2',
     '/images/working.jpg',
-    "Professional ta'mirlash",
+    'Professional ta&apos;mirlash',
     new Date(),
     10,
     true
@@ -62,7 +62,7 @@ const rows = [
   createRow(
     '3',
     '/images/working.jpg',
-    "Go'zal soch turmaklari",
+    'Go&apos;zal soch turmaklari',
     new Date(),
     10,
     false
@@ -78,7 +78,7 @@ const rows = [
   createRow(
     '5',
     '/images/working.jpg',
-    "Qanday qilib eng zo'r",
+    'Qanday qilib eng zo&apos;r',
     new Date(),
     10,
     false

@@ -66,7 +66,7 @@ const AdInfoModal = (props: AdInfoModalProps) => {
         </Box>
         <Box flex='2' pl='50px'>
           <Typography fontWeight='600' fontSize='20px'>
-            Boshlang'ich ma'lumotlar
+            Boshlang&apos;ich ma&apos;lumotlar
           </Typography>
           <VStack spacing={2} sx={{ mt: '18px' }}>
             {infoRows.map((row) => {
@@ -90,10 +90,10 @@ const AdInfoModal = (props: AdInfoModalProps) => {
       </Box>
       <Row spacing={2} sx={{ justifyContent: 'right', mt: '21px' }}>
         <Button onClick={handleDelete} variant='outlined' color='error'>
-          O'chirish
+          O&apos;chirish
         </Button>
         <Button variant='outlined' color='info'>
-          O'zgartirish
+          O&apos;zgartirish
         </Button>
       </Row>
     </ModalBase>

@@ -37,7 +37,7 @@ const ReelsModal = (props: NewAdminModalProps) => {
         <Button sx={{ width: '50%' }} variant='contained' color='error'>
           <Row spacing={1}>
             <ClearIcon />
-            <Typography>O'chirish</Typography>
+            <Typography>O&apos;chirish</Typography>
           </Row>
         </Button>
       </Row>
