@@ -1,4 +1,10 @@
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import {
+  PayloadAction,
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+} from '@reduxjs/toolkit'
+import { RootState } from '@reduxjs/toolkit/query'
 
 interface UserProps {
   id: number
@@ -58,6 +64,8 @@ const userSlice = createSlice({
     )
   },
 })
+
+// const selectUsers = () => state.users.entities
 
 export const { setUser } = userSlice.actions
 export default userSlice.reducer
