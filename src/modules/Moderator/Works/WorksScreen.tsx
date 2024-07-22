@@ -49,7 +49,7 @@ const rows = [
   {
     id: '34569',
     name: 'Lorem Ipsum',
-    category: "Go'zallik va hayot",
+    category: 'Go&apos;zallik va hayot',
     categoryId: 3,
   },
   {

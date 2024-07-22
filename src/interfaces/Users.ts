@@ -12,6 +12,36 @@ export interface UsersTableRowProps {
   categories?: category[]
 }
 
+
+export interface DataFromServerProps {
+  id: number
+  birth_of_date: string
+  business: string
+  created_at: string
+  email: string
+  first_name: string
+  last_name: string
+  gender: string
+  image_path: string
+  is_active: boolean
+  phone: string
+  updated_at: string
+}
+
+type AdaptedProps = {
+  id: string
+  name: string
+  isActive: string
+  updatedAt: string
+  birthDate: string
+  createdAt: string
+  isBusiness: string
+}
+
+export interface NormalizedUserDataProps
+  extends Omit<DataFromServerProps, keyof AdaptedProps>,
+    AdaptedProps {}
+
 export interface UsersTableDataToDisplay {
   name: string
   phone: string
