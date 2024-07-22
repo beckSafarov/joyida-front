@@ -23,17 +23,17 @@ const TestPage = (props: Props) => {
   //   dispatch(fetchUsers())
   // }
 
-  const { isLoading, error, data } = useQuery({
-    queryKey: ['usersData'],
-    queryFn: async () =>
-      await axios.get('https://account.joida.uz/auth/user/list', {
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjE1NTc4NzYsInVzZXJfaWQiOjV9.KfttYkCXYpedu74r8wEpR2j6XYznHfp_ynyQ5hAGFG8`,
-        },
-      }),
-  })
+  // const { isLoading, error, data } = useQuery({
+  //   queryKey: ['usersData'],
+  //   queryFn: async () =>
+  //     await axios.get('https://account.joida.uz/auth/user/list', {
+  //       headers: {
+  //         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjE1NTc4NzYsInVzZXJfaWQiOjV9.KfttYkCXYpedu74r8wEpR2j6XYznHfp_ynyQ5hAGFG8`,
+  //       },
+  //     }),
+  // })
 
-  console.log({ isLoading, error, data })
+  // console.log({ isLoading, error, data })
 
   return (
     <QueryWrapper>
