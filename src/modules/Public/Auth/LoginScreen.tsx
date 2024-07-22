@@ -56,7 +56,7 @@ const LoginScreen = () => {
                 />
               </FormControl>
               <Button type='submit' variant='contained' size='large' fullWidth>
-                Jo'natish
+                Jo&apos;natish
               </Button>
             </Stack>
           </form>
@@ -64,9 +64,9 @@ const LoginScreen = () => {
 
         <Stack direction='column' spacing={1} mt='47px' textAlign='center'>
           <SecondaryText size='sm'>
-            Ro'yxatdan o'tmaganmisiz?{' '}
+            Ro&apos;yxatdan o&apos;tmaganmisiz?{' '}
             <StyledLink size='sm' href='/register'>
-              O'ting
+              O&apos;ting
             </StyledLink>
           </SecondaryText>
           <StyledLink size='sm' href='/forgot-password' display='block'>

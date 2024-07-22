@@ -1,5 +1,5 @@
 import { RowProps } from '@/interfaces/common'
-import { Stack, SxProps } from '@mui/material'
+import { Stack } from '@mui/material'
 import React from 'react'
 
 const Row = (props: RowProps) => {

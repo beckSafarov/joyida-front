@@ -1,5 +1,10 @@
 import { NewAdminModalProps } from './superadmin'
 
+export interface AdFilterProps {
+  by: string
+  option: string
+}
+
 export interface AdInfoModalProps extends NewAdminModalProps {
   id: string
 }

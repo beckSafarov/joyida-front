@@ -1,7 +1,6 @@
 'use client'
 import AdminLayout from '@/modules/common/AdminLayout'
 import SecondaryText from '@/modules/common/SecondaryText'
-import Title from '@/modules/common/Title'
 import {
   Avatar,
   Box,
@@ -16,7 +15,6 @@ import {
 import FilterAltIcon from '@mui/icons-material/FilterAlt'
 import SortIcon from '@mui/icons-material/Sort'
 import React, { useState } from 'react'
-import Image from 'next/image'
 import { Circle } from '@mui/icons-material'
 import { ComplaintDataProps } from '@/interfaces/Complaints'
 import { getAvatarLetters } from '@/utils'
@@ -82,15 +80,7 @@ export default function CommentsScreen() {
       </Stack>
       <Stack direction='column' spacing={1}>
         {commentsData.map((comment: ComplaintDataProps, i: number) => (
-          <Paper
-            elevation={1}
-            key={i}
-            // border='1px solid'
-            // borderColor='grey.300'
-            // borderRadius='4px'
-            sx={{ p: '25px 15px 10px 25px' }}
-            // p='25px 15px 10px 25px'
-          >
+          <Paper elevation={1} key={i} sx={{ p: '25px 15px 10px 25px' }}>
             <Stack direction='column' spacing={1}>
               <Stack direction='row' spacing={2}>
                 <Avatar>{getAvatarLetters(comment.to.name)}</Avatar>
@@ -133,7 +123,7 @@ export default function CommentsScreen() {
                   {isActive(comment.id) ? 'Qisqartirish' : 'Kengaytirish'}
                 </Button>
                 <Button variant='contained' color='error'>
-                  O'chirish
+                  O&apos;chirish
                 </Button>
               </Stack>
             </Box>

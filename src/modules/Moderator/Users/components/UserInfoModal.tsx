@@ -36,8 +36,8 @@ const UserInfoModal = (props: UserInfoModalProps) => {
       case 'categories':
         return (
           <Row sx={{ width: 'inherit', flexWrap: 'wrap', gap: '10px' }}>
-            {user.categories.map((category) => (
-              <Tag>{category.label}</Tag>
+            {user.categories.map((category, i) => (
+              <Tag key={i}>{category.label}</Tag>
             ))}
           </Row>
         )
@@ -62,8 +62,8 @@ const UserInfoModal = (props: UserInfoModalProps) => {
         </Box>
         <VStack spacing={2}>
           {infoRows.map((row: { label: string; prop: string }) => (
-            <React.Fragment>
-              <Row spacing={2} key={row.prop}>
+            <React.Fragment key={row.prop}>
+              <Row spacing={2}>
                 <Typography sx={{ flex: 1 }} fontWeight='500'>
                   {row.label}
                 </Typography>
@@ -72,10 +72,6 @@ const UserInfoModal = (props: UserInfoModalProps) => {
               <Divider />
             </React.Fragment>
           ))}
-          {/* <Row spacing={2}>
-            <Typography fontWeight='500'>Manzili: </Typography>
-            <Typography fontWeight='400'>{user.address}</Typography>
-          </Row> */}
         </VStack>
       </Row>
     </ModalBase>

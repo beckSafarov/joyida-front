@@ -25,6 +25,7 @@ import { ModeratorWorkRow } from '@/interfaces/Works'
 import NewWorkModal from './components/NewWorkModal'
 import { createColumnData } from '@/utils'
 import WorkEditModal from './components/WorkEditModal'
+import axios from 'axios'
 
 const columns = [
   createColumnData('id', 'ID', 250),
@@ -48,7 +49,7 @@ const rows = [
   {
     id: '34569',
     name: 'Lorem Ipsum',
-    category: "Go'zallik va hayot",
+    category: 'Go&apos;zallik va hayot',
     categoryId: 3,
   },
   {
@@ -85,8 +86,16 @@ const WorksScreen = () => {
   useEffect(() => {
     if (searchTerm) handleSearch()
     if (filterTerm) handleFilter()
-    if (!filterTerm && !searchTerm) resetData()
-  }, [searchTerm, filterTerm])
+    if (!filterTerm && !searchTerm) {
+      resetData()
+    }
+  }, [searchTerm, filterTerm, dataToDisplay.length])
+
+  const retrieveData = async () => {
+    if (dataToDisplay.length >= 1) return
+    const response = await axios.get('https://admin.joida.uz/api/service/')
+    console.log(response)
+  }
 
   const resetData = () => setDataToDisplay(rows)
 

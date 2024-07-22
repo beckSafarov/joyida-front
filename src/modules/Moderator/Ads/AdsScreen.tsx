@@ -12,7 +12,7 @@ import {
   Table,
   TextField,
 } from '@mui/material'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
@@ -20,9 +20,8 @@ import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
 import Tag from '@/modules/common/Tag'
-import { AdTableRowDataProps } from '@/interfaces/Ads'
+import { AdFilterProps, AdTableRowDataProps } from '@/interfaces/Ads'
 import { createColumnData } from '@/utils'
-import { FilterByTypes, FilterType } from '@/types'
 import locationsData, { LocationType } from '@/data/locationsData'
 import categoriesData, { CategoryProps } from '@/data/categoriesData'
 import Link from 'next/link'
@@ -95,7 +94,10 @@ const AdsScreen = (props: Props) => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [searchTerm, setSearchTerm] = React.useState('')
-  const [filter, setFilter] = React.useState<FilterType>({ by: '', option: '' })
+  const [filter, setFilter] = React.useState<AdFilterProps>({
+    by: '',
+    option: '',
+  })
   const [openModal, setOpenModal] = React.useState('')
   const [dataToDisplay, setDataToDisplay] =
     React.useState<AdTableRowDataProps[]>(rows)
