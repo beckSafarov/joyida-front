@@ -12,22 +12,34 @@ export interface category {
   categoryId: number
 }
 
+export interface categoryFromServerProps {
+  id: number
+  name: string
+}
+
 export interface NewWorkValues {
   name: string
   categoryId: number
 }
 
 export interface NewCategoryModal extends NewAdminModalProps {
-  onSubmit(newCategory: category): void
+  onSubmit(newCategory: categoryFromServerProps): void
 }
 
 export interface NewWorkModalFace extends NewAdminModalProps {
-  categories: category[]
+  categories: categoryFromServerProps[]
 }
 
 export interface WorkEditModalProps extends NewAdminModalProps {
-  workId: string
-  categories: category[]
+  workId: number | null
+  categories: categoryFromServerProps[]
+}
+
+export interface WorkTableDataProps {
+  id: number
+  name: string
+  category: string
+  categoryId: number
 }
 
 export interface EditWorkValues extends NewWorkValues {}
@@ -39,6 +51,6 @@ export interface WorkFormBaseProps {
   }
   onSubmit(values: { name: string; categoryId: number }): void
   onClose(): void
-  categories: category[]
+  categories: categoryFromServerProps[]
   mode?: 'create' | 'update'
 }

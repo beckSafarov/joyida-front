@@ -1,4 +1,9 @@
-import { NewWorkValues, WorkFormBaseProps, category } from '@/interfaces/Works'
+import {
+  NewWorkValues,
+  WorkFormBaseProps,
+  category,
+  categoryFromServerProps,
+} from '@/interfaces/Works'
 import {
   Button,
   Divider,
@@ -40,9 +45,9 @@ const WorkFormBase = (props: WorkFormBaseProps) => {
   const handleEditCategory = () => {}
   const handleDeleteCategory = () => {}
 
-  const handleNewCategory = (newCategory: category) => {
+  const handleNewCategory = (newCategory: categoryFromServerProps) => {
     setAllCategories([...allCategories, newCategory])
-    formik.setFieldValue('categoryId', newCategory.categoryId)
+    formik.setFieldValue('categoryId', newCategory.id)
   }
 
   return (
@@ -70,18 +75,20 @@ const WorkFormBase = (props: WorkFormBaseProps) => {
               sx={{ width: '100%' }}
               onChange={formik.handleChange}
             >
-              {allCategories.map((category: category, i: number) => (
-                <MenuItem key={i} value={category.categoryId}>
-                  <Stack
-                    justifyContent={'space-between'}
-                    direction='row'
-                    sx={{ width: '100%' }}
-                  >
-                    <Typography>{category.label}</Typography>
-                    <ClearIcon />
-                  </Stack>
-                </MenuItem>
-              ))}
+              {allCategories.map(
+                (category: categoryFromServerProps, i: number) => (
+                  <MenuItem key={i} value={category.id}>
+                    <Stack
+                      justifyContent={'space-between'}
+                      direction='row'
+                      sx={{ width: '100%' }}
+                    >
+                      <Typography>{category.name}</Typography>
+                      <ClearIcon />
+                    </Stack>
+                  </MenuItem>
+                )
+              )}
               <Divider />
               <MenuItem onClick={() => setOpenNewCategoryModal(true)}>
                 <Typography color={blue[600]}>Yangi +</Typography>
