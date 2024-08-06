@@ -44,23 +44,21 @@ const Sidebar = () => {
         {MenuItems.map((item, i: number) => {
           const isActive = item.path === pathname
           return (
-            <>
-              <Link key={i} href={item.path}>
-                <Stack
-                  sx={{
-                    bgcolor: isActive ? '#C1E7FE' : 'white',
-                    borderTopRightRadius: '50px',
-                    borderBottomRightRadius: '50px',
-                    p: '10px 30px',
-                  }}
-                  direction='row'
-                  spacing={2}
-                >
-                  <item.icon />
-                  <Typography>{item.label}</Typography>
-                </Stack>
-              </Link>
-            </>
+            <Link key={i} href={item.path}>
+              <Stack
+                sx={{
+                  bgcolor: isActive ? '#C1E7FE' : 'white',
+                  borderTopRightRadius: '50px',
+                  borderBottomRightRadius: '50px',
+                  p: '10px 30px',
+                }}
+                direction='row'
+                spacing={2}
+              >
+                <item.icon />
+                <Typography>{item.label}</Typography>
+              </Stack>
+            </Link>
           )
         })}
       </Stack>

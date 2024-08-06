@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios'
 import { category } from './Works'
 import { NewAdminModalProps } from './superadmin'
 
@@ -12,7 +13,6 @@ export interface UsersTableRowProps {
   categories?: category[]
 }
 
-
 export interface DataFromServerProps {
   id: number
   birth_of_date: string
@@ -26,6 +26,12 @@ export interface DataFromServerProps {
   is_active: boolean
   phone: string
   updated_at: string
+}
+
+export interface UserRequestResponseProps {
+  isLoading: boolean
+  error: AxiosError | null
+  data: any | null
 }
 
 type AdaptedProps = {
