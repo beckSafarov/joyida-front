@@ -1,10 +1,17 @@
 import { SxProps } from '@mui/material'
+import { AxiosError } from 'axios'
 import React from 'react'
 
 export interface ColumnProps {
   id: string
   label: string
   minWidth: number
+}
+
+export interface ResponseProps {
+  isLoading: boolean
+  error: AxiosError | null
+  data: any | null
 }
 
 export interface TableRowFace {
@@ -37,3 +44,8 @@ export interface ModalBaseProps {
 }
 
 export interface VStackProps extends RowProps {}
+
+export interface ModalProps {
+  open: boolean
+  onClose(): void
+}

@@ -39,8 +39,18 @@ export interface WorkTableDataProps {
   id: number
   name: string
   category: string
-  categoryId: number
+  categoryId: number | null
 }
+
+export interface CategoriesFromServerProps {
+  id: number
+  name: string
+}
+
+export interface WorksDataFromServerProps extends CategoriesFromServerProps {
+  category_id: number
+}
+
 
 export interface EditWorkValues extends NewWorkValues {}
 

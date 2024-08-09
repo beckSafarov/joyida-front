@@ -3,6 +3,8 @@ import { NewCategoryModal as NewCategoryModalProps } from '@/interfaces/Works'
 import ModalBase from '@/modules/common/ModalBase'
 import VStack from '@/modules/common/VStack'
 import { Button, FormControl, TextField } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
 import React, { useState } from 'react'
 
 const NewCategoryModal = (props: NewCategoryModalProps) => {
@@ -12,9 +14,22 @@ const NewCategoryModal = (props: NewCategoryModalProps) => {
     setCategoryName(e.target.value)
   }
 
-  const handleSubmit = () => {
-    props.onSubmit({ label: categoryName, categoryId: 1 })
-    props.onClose()
+  const handleSubmit = async () => {
+    const data = { name: categoryName, id: 1 }
+    props.onSubmit(data)
+    const submitRes = await axios.post(
+      'https://admin.joida.uz/api/add-category',
+      { name: categoryName }
+    )
+    // const submitRes = useQuery({
+    //   queryKey: ['newCategorySubmit'],
+    //   queryFn: async () => {
+    //     const res = await axios.post('https://admin.joida.uz/api/add-category', data)
+    //     return res
+    //   },
+    // })
+    console.log(submitRes)
+    // props.onClose()
   }
 
   return (

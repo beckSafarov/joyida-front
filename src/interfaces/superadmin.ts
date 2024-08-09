@@ -1,7 +1,6 @@
-export interface NewAdminModalProps {
-  open: boolean
-  onClose(): void
-}
+import { ModalProps } from './common'
+
+export interface NewAdminModalProps extends ModalProps {}
 
 export interface LoginFormProps {
   phone: string

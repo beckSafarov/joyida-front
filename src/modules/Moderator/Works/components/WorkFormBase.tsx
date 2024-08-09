@@ -27,7 +27,7 @@ const WorkFormBase = (props: WorkFormBaseProps) => {
   const [openNewCategoryModal, setOpenNewCategoryModal] = useState(false)
 
   const handleSubmit = (values: NewWorkValues, actions: any) => {
-    console.log(values)
+    // console.log(values)
     actions.resetForm()
     props.onSubmit(values)
   }

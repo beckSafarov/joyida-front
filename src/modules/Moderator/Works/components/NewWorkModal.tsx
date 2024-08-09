@@ -4,6 +4,7 @@ import { NewWorkModalFace } from '@/interfaces/Works'
 import React, { useState } from 'react'
 import { NewWorkValues } from '@/interfaces/Works'
 import WorkFormBase from './WorkFormBase'
+import axios from 'axios'
 
 const NewWorkModal = (props: NewWorkModalFace) => {
   useState
@@ -12,8 +13,13 @@ const NewWorkModal = (props: NewWorkModalFace) => {
     categoryId: 0,
   }
 
-  const handleSubmit = (values: NewWorkValues) => {
-    console.log(values)
+  const handleSubmit = async (values: NewWorkValues) => {
+    // console.log(values)
+    const submitRes = await axios.post(
+      'https://admin.joida.uz/api/add-service',
+      values
+    )
+    console.log(submitRes)
     props.onClose()
   }
 

@@ -23,9 +23,8 @@ export const getNormalizedUserData = (
 export const fetchUsers = async () => {
   const response = await axios.get('https://account.joida.uz/auth/user/list', {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjMwMDIxNzQsInVzZXJfaWQiOjV9.Dusmpl8zLeaCBaRV6elI33cWR47JkHVdclxk8psWAh8`,
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1LCJleHAiOjE3MjI5OTExMTV9.V2FJi4kpB7tatty-MKdTPcmZpeqqwnCSxhFF3i3o604`,
     },
   })
-  console.log(response)
   return response.data
 }

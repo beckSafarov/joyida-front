@@ -13,6 +13,7 @@ import { fetchUsers, getNormalizedUserData } from './utils'
 import { getDataFromLCS, storeDataToLCS } from '@/utils/lcsUtils'
 import UsersTable from './components/UsersTable'
 import axios from 'axios'
+import SkeletonLoading from '@/modules/common/SkeletonLoading'
 
 const UsersScreen = () => {
   const [openModal, setOpenModal] = React.useState(false)
@@ -26,18 +27,7 @@ const UsersScreen = () => {
     ? responseFromLC
     : useQuery({
         queryKey: ['usersData'],
-        queryFn: async () => {
-          const response = await axios.get(
-            'https://account.joida.uz/auth/user/list',
-            {
-              headers: {
-                Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjMwMDIxNzQsInVzZXJfaWQiOjV9.Dusmpl8zLeaCBaRV6elI33cWR47JkHVdclxk8psWAh8`,
-              },
-            }
-          )
-          // console.log(response)
-          return response.data
-        },
+        queryFn: fetchUsers,
       })
 
   const getNormalizedDataFromResponse = () => {
@@ -72,13 +62,7 @@ const UsersScreen = () => {
     <AdminLayout role='moderator' title='Foydalanuvchilar'>
       <Box my='50px'>
         {response.isLoading ? (
-          <>
-            {Array(10)
-              .fill(0)
-              .map((i) => (
-                <Skeleton height={30} key={i} animation='wave' variant='text' />
-              ))}
-          </>
+          <SkeletonLoading rows={10} />
         ) : (
           <Paper elevation={1} sx={{ p: '24px' }}>
             <UsersTable
