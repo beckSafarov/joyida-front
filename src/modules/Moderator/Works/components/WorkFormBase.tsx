@@ -8,6 +8,7 @@ import {
   Button,
   Divider,
   FormControl,
+  Icon,
   InputLabel,
   MenuItem,
   Select,
@@ -20,6 +21,7 @@ import ClearIcon from '@mui/icons-material/Clear'
 import React, { useState } from 'react'
 import { blue } from '@mui/material/colors'
 import NewCategoryModal from './NewCategoryModal'
+import axios from 'axios'
 
 const WorkFormBase = (props: WorkFormBaseProps) => {
   const { initialValues } = props
@@ -43,7 +45,22 @@ const WorkFormBase = (props: WorkFormBaseProps) => {
   }
 
   const handleEditCategory = () => {}
-  const handleDeleteCategory = () => {}
+
+  const handleDeleteCategory = async (id: number) => {
+    if (
+      window.confirm(
+        `Are you sure to delet the category "${
+          allCategories.find((cat) => cat.id === id)?.name
+        }"? This action is irreversible`
+      )
+    ) {
+      const submitRes = await axios.delete(
+        `https://admin.joida.uz/api/category/${id}`
+      )
+      setAllCategories((data) => data.filter((cat) => cat.id !== id))
+      console.log(submitRes)
+    }
+  }
 
   const handleNewCategory = (newCategory: categoryFromServerProps) => {
     setAllCategories([...allCategories, newCategory])
@@ -84,7 +101,14 @@ const WorkFormBase = (props: WorkFormBaseProps) => {
                       sx={{ width: '100%' }}
                     >
                       <Typography>{category.name}</Typography>
-                      <ClearIcon />
+                      {/* <ContentEditable
+                        html={category.name}
+                        onChange={(e) => e.target.value}
+                      /> */}
+                      <Icon
+                        component={ClearIcon}
+                        onClick={() => handleDeleteCategory(category.id)}
+                      />
                     </Stack>
                   </MenuItem>
                 )

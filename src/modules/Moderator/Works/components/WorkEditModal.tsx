@@ -4,6 +4,8 @@ import React from 'react'
 import WorkFormBase from './WorkFormBase'
 import { WorkEditModalProps } from '@/interfaces/Works'
 import ModalBase from '@/modules/common/ModalBase'
+import axios from 'axios'
+import { sanitizeString } from '../utils'
 
 const WorkEditModal = (props: WorkEditModalProps) => {
   // get the initialValues for the work info from the global state using props.id
@@ -12,9 +14,14 @@ const WorkEditModal = (props: WorkEditModalProps) => {
     categoryId: 0,
   }
 
-  const handleSubmit = (values: EditWorkValues) => {
-    console.log(values)
-    props.onClose()
+  const handleSubmit = async (values: EditWorkValues) => {
+    const nameSanitized = sanitizeString(values.name)
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API}/add-service?name=${nameSanitized}&category_id=${values.categoryId}`,
+      values
+    )
+    console.log(res)
+    // props.onClose()
   }
 
   const handleClose = () => {

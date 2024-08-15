@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import { NewWorkValues } from '@/interfaces/Works'
 import WorkFormBase from './WorkFormBase'
 import axios from 'axios'
+import { sanitizeString } from '../utils'
 
 const NewWorkModal = (props: NewWorkModalFace) => {
   useState
@@ -14,12 +15,11 @@ const NewWorkModal = (props: NewWorkModalFace) => {
   }
 
   const handleSubmit = async (values: NewWorkValues) => {
-    // console.log(values)
-    const submitRes = await axios.post(
-      'https://admin.joida.uz/api/add-service',
+    const nameSanitized = sanitizeString(values.name)
+    await axios.post(
+      `${process.env.NEXT_PUBLIC_API}/add-service?name=${nameSanitized}&category_id=${values.categoryId}`,
       values
     )
-    console.log(submitRes)
     props.onClose()
   }
 

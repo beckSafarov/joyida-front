@@ -15,6 +15,7 @@ import {
   TablePagination,
   TableRow,
   TextField,
+  Typography,
 } from '@mui/material'
 import React, { useEffect } from 'react'
 import Tag from '@/modules/common/Tag'
@@ -34,6 +35,9 @@ const columns = [
 type WorksTableProps = {
   onNewWorkClicked(status: boolean): void
   onInfoRequest(id: number): void
+  onChangeRowsPerPage(rows: number): void
+  onChangePage(page: number): void
+  onRefreshTable(): void
   categories: categoryFromServerProps[]
   data: WorkTableDataProps[]
 }
@@ -41,23 +45,27 @@ type WorksTableProps = {
 const WorksTable = ({
   onNewWorkClicked,
   onInfoRequest,
+  onRefreshTable,
+  onChangeRowsPerPage,
+  onChangePage,
   categories,
   data: rows,
 }: WorksTableProps) => {
   const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const [rowsPerPage, setRowsPerPage] = React.useState(5)
   const [searchTerm, setSearchTerm] = React.useState('')
   const [filterTerm, setFilterTerm] = React.useState<number | null>(null)
   const [dataToDisplay, setDataToDisplay] =
     React.useState<WorkTableDataProps[]>(rows)
 
   useEffect(() => {
+    setDataToDisplay(rows)
     if (searchTerm) handleSearch()
     if (filterTerm) handleFilter()
     if (!filterTerm && !searchTerm) {
       resetData()
     }
-  }, [searchTerm, filterTerm, dataToDisplay.length])
+  }, [searchTerm, filterTerm, dataToDisplay?.length, rows])
 
   const resetData = () => setDataToDisplay(rows)
 
@@ -88,18 +96,25 @@ const WorksTable = ({
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage)
+    onChangePage(newPage)
   }
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setRowsPerPage(+event.target.value)
+    const newRows = +event.target.value
+    console.log(newRows)
+    setRowsPerPage(newRows)
     setPage(0)
+    onChangeRowsPerPage(newRows)
+    onChangePage(0)
   }
 
   const getLabelById = (id: number) => {
     return categories.find((category) => category.id === id)?.name
   }
+
+  // console.log(rows)
 
   return (
     <>
@@ -136,6 +151,9 @@ const WorksTable = ({
               ))}
             </Select>
           </FormControl>
+          <Button variant='outlined' onClick={onRefreshTable}>
+            Refresh
+          </Button>
         </Stack>
         <Button
           variant='contained'
@@ -171,42 +189,36 @@ const WorksTable = ({
             </TableHead>
 
             <TableBody>
-              {dataToDisplay
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row: WorkTableDataProps, index: number) => (
-                  <TableRow
-                    onClick={() => onInfoRequest(row.id)}
-                    component='div'
-                    hover
-                    key={index}
-                  >
-                    {columns.map((column) => {
-                      let value = row[column?.id as keyof ModeratorWorkRow]
-                      return (
-                        <TableCell
-                          style={{
-                            minWidth: column.minWidth,
-                            cursor: 'pointer',
-                          }}
-                          key={column.id}
-                        >
-                          {column.id === 'category' ? (
-                            <Tag>{value}</Tag>
-                          ) : (
-                            value
-                          )}
-                        </TableCell>
-                      )
-                    })}
-                  </TableRow>
-                ))}
+              {dataToDisplay.map((row: WorkTableDataProps, index: number) => (
+                <TableRow
+                  onClick={() => onInfoRequest(row.id)}
+                  component='div'
+                  hover
+                  key={index}
+                >
+                  {columns.map((column) => {
+                    let value = row[column?.id as keyof ModeratorWorkRow]
+                    return (
+                      <TableCell
+                        style={{
+                          minWidth: column.minWidth,
+                          cursor: 'pointer',
+                        }}
+                        key={column.id}
+                      >
+                        {column.id === 'category' ? <Tag>{value}</Tag> : value}
+                      </TableCell>
+                    )
+                  })}
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
+          rowsPerPageOptions={[5, 10, 20]}
           component='div'
-          count={rows.length}
+          count={15}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

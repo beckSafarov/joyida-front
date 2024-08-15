@@ -12,6 +12,7 @@ export interface ResponseProps {
   isLoading: boolean
   error: AxiosError | null
   data: any | null
+  // refetch?: void | null
 }
 
 export interface TableRowFace {

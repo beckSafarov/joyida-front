@@ -1,6 +1,9 @@
 export const storeDataToLCS = (storeName: string, data: any) => {
   localStorage.setItem(storeName, JSON.stringify(data))
 }
+export const removeDataFromLCS = (storeName: string) => {
+  localStorage.removeItem(storeName)
+}
 
 export const getDataFromLCS = (storeName: string) => {
   return Boolean(localStorage.getItem(storeName))

@@ -16,20 +16,13 @@ const NewCategoryModal = (props: NewCategoryModalProps) => {
 
   const handleSubmit = async () => {
     const data = { name: categoryName, id: 1 }
-    props.onSubmit(data)
     const submitRes = await axios.post(
-      'https://admin.joida.uz/api/add-category',
+      `https://admin.joida.uz/api/add-category`,
       { name: categoryName }
     )
-    // const submitRes = useQuery({
-    //   queryKey: ['newCategorySubmit'],
-    //   queryFn: async () => {
-    //     const res = await axios.post('https://admin.joida.uz/api/add-category', data)
-    //     return res
-    //   },
-    // })
     console.log(submitRes)
-    // props.onClose()
+    props.onSubmit(data)
+    props.onClose()
   }
 
   return (
