@@ -14,6 +14,7 @@ const MapComponent: React.FC<MapComponentProps> = ({ onLocationSelect }) => {
     lat: -3.745,
     lng: -38.523,
   }) //
+  const [address, setAddress] = useState<Address>(addressDefaults)
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -29,7 +30,9 @@ const MapComponent: React.FC<MapComponentProps> = ({ onLocationSelect }) => {
         }
       )
     }
-  }, [])
+
+    if (selectedLocation) onLocationSelect(selectedLocation, address)
+  }, [selectedLocation, address])
 
   const handleMapClick = (event: google.maps.MapMouseEvent) => {
     if (event.latLng) {
@@ -37,14 +40,12 @@ const MapComponent: React.FC<MapComponentProps> = ({ onLocationSelect }) => {
       const lng = event.latLng.lng()
       const latLng = { lat, lng }
       setSelectedLocation(latLng)
-      const address = getAddressFromLatLng(latLng)
-      onLocationSelect(latLng, address)
+      getAddressFromLatLng(latLng)
     }
   }
 
-  const getAddressFromLatLng = (latLng: LatLng): Address => {
+  const getAddressFromLatLng = (latLng: LatLng) => {
     const geocoder = new google.maps.Geocoder()
-    let address: Address = addressDefaults
     geocoder.geocode({ location: latLng }, (results, status) => {
       if (status === 'OK' && results && results.length > 0) {
         const addressComponents = results[0].address_components
@@ -62,17 +63,17 @@ const MapComponent: React.FC<MapComponentProps> = ({ onLocationSelect }) => {
           }
         })
 
-        address = {
+        const address = {
           formattedAddress,
           street,
           houseNumber,
         }
+        setAddress(address)
         console.log(address)
       } else {
         console.error('Geocoder failed due to: ' + status)
       }
     })
-    return address
   }
 
   return (

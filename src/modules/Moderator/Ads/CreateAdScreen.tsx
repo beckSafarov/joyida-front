@@ -21,11 +21,23 @@ import { useRouter } from 'next/navigation'
 import CreateAdFormRow from '@/modules/Moderator/Ads/components/CreateAdFormRow'
 import UploadFileField from '@/modules/common/UploadFileField'
 import { CreateAdProps } from '@/interfaces/Ads'
+import { Address, LatLng } from '@/interfaces/Map'
+import MapComponent from '@/modules/common/MapComponent'
+
+type Location = {
+  latLng: LatLng | null
+  address: Address | null
+}
 
 const CreateAdScreen = () => {
+  const [loc, setLoc] = React.useState<Location>({
+    latLng: null,
+    address: null,
+  })
   const router = useRouter()
+
   const handleSubmit = (values: CreateAdProps) => {
-    console.log(values)
+    console.log({ ...values, address: loc.address?.formattedAddress })
   }
 
   const f = useFormik({
@@ -42,6 +54,22 @@ const CreateAdScreen = () => {
     },
     onSubmit: handleSubmit,
   })
+
+  const handleLocSelect = (latLng: LatLng, address: Address) => {
+    console.log(address.formattedAddress)
+    setLoc({ latLng, address })
+  }
+
+  const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLoc({
+      ...loc,
+      address: {
+        formattedAddress: e.target.value,
+        street: '',
+        houseNumber: '',
+      },
+    })
+  }
 
   const handleReset = () => {
     f.resetForm()
@@ -83,21 +111,6 @@ const CreateAdScreen = () => {
                   onBlur={f.handleBlur}
                   error={f.touched.title && Boolean(f.errors.title)}
                   helperText={f.touched.title && f.errors.title}
-                  sx={{ width: '400px' }}
-                />
-              </FormControl>
-              <FormControl>
-                <TextField
-                  id='address'
-                  label='Manzil'
-                  placeholder='Chilonzor, Arnasoy k, 24/3'
-                  name='address'
-                  aria-describedby='input'
-                  value={f.values.address}
-                  onChange={f.handleChange}
-                  onBlur={f.handleBlur}
-                  error={f.touched.address && Boolean(f.errors.address)}
-                  helperText={f.touched.address && f.errors.address}
                   sx={{ width: '400px' }}
                 />
               </FormControl>
@@ -157,6 +170,38 @@ const CreateAdScreen = () => {
                   onChange={f.handleChange}
                   onBlur={f.handleBlur}
                   error={f.touched.adEndDate && Boolean(f.errors.adEndDate)}
+                  sx={{ width: '400px' }}
+                />
+              </FormControl>
+            </CreateAdFormRow>
+            <CreateAdFormRow
+              title='Manzil'
+              subtitle='Reklamaning aniq joylashuvini belgilang'
+            >
+              <Box width='400px' height='300px'>
+                <MapComponent onLocationSelect={handleLocSelect} />
+              </Box>
+              <Box>
+                <Typography component='h3'>
+                  Latitude: {loc.latLng?.lat}
+                </Typography>
+                <Typography component='h3'>
+                  Longitude: {loc.latLng?.lng}
+                </Typography>
+              </Box>
+              <FormControl>
+                <TextField
+                  id='address'
+                  type='text'
+                  label='Manzil'
+                  placeholder='Chilonzor, Arnasoy k, 24/3'
+                  name='address'
+                  aria-describedby='input'
+                  value={loc.address?.formattedAddress || ''}
+                  onChange={handleAddressChange}
+                  onBlur={f.handleBlur}
+                  error={f.touched.address && Boolean(f.errors.address)}
+                  helperText={f.touched.address && f.errors.address}
                   sx={{ width: '400px' }}
                 />
               </FormControl>
