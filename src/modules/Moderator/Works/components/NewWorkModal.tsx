@@ -1,5 +1,5 @@
 'use client'
-import ModalBase from '@/modules/common/ModalBase'
+import ModalBase from '@/modules/common/Modals/ModalBase'
 import { NewWorkModalFace } from '@/interfaces/Works'
 import React, { useState } from 'react'
 import { NewWorkValues } from '@/interfaces/Works'

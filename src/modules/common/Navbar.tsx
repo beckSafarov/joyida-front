@@ -13,8 +13,8 @@ import Title from './Title'
 import Settings from '@mui/icons-material/Settings'
 import Logout from '@mui/icons-material/Logout'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import AccountModal from './AccountModal'
-import SettingsModal from './SettingsModal'
+import AccountModal from './Modals/AccountModal'
+import SettingsModal from './Modals/SettingsModal'
 
 interface AdminNavbarProps {
   showTitle?: boolean

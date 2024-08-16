@@ -11,7 +11,7 @@ import {
 import { useFormik } from 'formik'
 import { MuiTelInput } from 'mui-tel-input'
 import React from 'react'
-import ModalBase from '@/modules/common/ModalBase'
+import ModalBase from '@/modules/common/Modals/ModalBase'
 import { NewAdminModalProps, NewAdminValues } from '@/interfaces/superadmin'
 
 const defaultProps = {

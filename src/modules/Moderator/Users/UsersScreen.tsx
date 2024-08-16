@@ -1,5 +1,5 @@
 'use client'
-import { Box, Paper, Skeleton } from '@mui/material'
+import { Box, Paper } from '@mui/material'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import AdminLayout from '@/modules/common/AdminLayout'
 import {
@@ -12,7 +12,6 @@ import { useQuery } from '@tanstack/react-query'
 import { fetchUsers, getNormalizedUserData } from './utils'
 import { getDataFromLCS, storeDataToLCS } from '@/utils/lcsUtils'
 import UsersTable from './components/UsersTable'
-import axios from 'axios'
 import SkeletonLoading from '@/modules/common/SkeletonLoading'
 
 const UsersScreen = () => {

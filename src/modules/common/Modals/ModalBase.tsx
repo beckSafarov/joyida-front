@@ -1,7 +1,7 @@
 import { Modal } from '@mui/material'
 import { Box } from '@mui/system'
 import React from 'react'
-import Title from './Title'
+import Title from '../Title'
 import { ModalBaseProps } from '@/interfaces/common'
 
 const ModalBase = (props: ModalBaseProps) => {

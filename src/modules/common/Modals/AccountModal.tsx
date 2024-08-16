@@ -2,8 +2,8 @@ import React from 'react'
 import ModalBase from './ModalBase'
 import { ModalProps } from '@/interfaces/common'
 import { Avatar, Box, Divider, Typography } from '@mui/material'
-import VStack from './VStack'
-import Row from './Row'
+import VStack from '../VStack'
+import Row from '../Row'
 
 interface Props extends ModalProps {}
 

@@ -1,6 +1,6 @@
 'use client'
 import { Paper } from '@mui/material'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Title from '@/modules/common/Title'
 import AdminLayout from '@/modules/common/AdminLayout'
 import NewWorkModal from './components/NewWorkModal'
@@ -11,7 +11,6 @@ import {
   WorksDataFromServerProps,
   WorkTableDataProps,
 } from '@/interfaces/Works'
-import { getDataFromLCS } from '@/utils/lcsUtils'
 import { useQuery } from '@tanstack/react-query'
 import { fetchCategories, fetchServices } from './utils'
 import { ResponseProps } from '@/interfaces/common'

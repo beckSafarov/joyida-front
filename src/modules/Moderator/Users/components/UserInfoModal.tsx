@@ -1,6 +1,6 @@
 import { UserInfoProps, sampleUserInfo as user } from '@/data/usersData'
 import { UserInfoModalProps } from '@/interfaces/Users'
-import ModalBase from '@/modules/common/ModalBase'
+import ModalBase from '@/modules/common/Modals/ModalBase'
 import Row from '@/modules/common/Row'
 import Tag from '@/modules/common/Tag'
 import VStack from '@/modules/common/VStack'
