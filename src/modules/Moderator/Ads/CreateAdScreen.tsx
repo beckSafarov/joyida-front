@@ -23,6 +23,7 @@ import UploadFileField from '@/modules/common/UploadFileField'
 import { CreateAdProps } from '@/interfaces/Ads'
 import { Address, LatLng } from '@/interfaces/Map'
 import MapComponent from '@/modules/common/MapComponent'
+import UploadedFileField from '@/modules/common/UploadedFileField'
 
 type Location = {
   latLng: LatLng | null
@@ -95,8 +96,10 @@ const CreateAdScreen = () => {
               <UploadFileField
                 name={'image'}
                 onChange={f.handleChange}
+                onBlur={f.handleBlur}
                 value={f.values['image']}
               />
+              <UploadedFileField />
             </CreateAdFormRow>
             <CreateAdFormRow title="Boshlang'ich ma'lumotlar">
               <FormControl>
@@ -228,9 +231,10 @@ const CreateAdScreen = () => {
                 />
               </FormControl>
             </CreateAdFormRow>
-            <CreateAdFormRow title='Reklama ikonkasi'>
+            <CreateAdFormRow title='Logotip'>
               <UploadFileField
                 name='icon'
+                onBlur={f.handleBlur}
                 onChange={f.handleChange}
                 value={f.values['icon']}
               />
