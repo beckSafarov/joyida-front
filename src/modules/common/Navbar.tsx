@@ -13,6 +13,8 @@ import Title from './Title'
 import Settings from '@mui/icons-material/Settings'
 import Logout from '@mui/icons-material/Logout'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import AccountModal from './AccountModal'
+import SettingsModal from './SettingsModal'
 
 interface AdminNavbarProps {
   showTitle?: boolean
@@ -20,11 +22,43 @@ interface AdminNavbarProps {
 
 const AdminNavbar: React.FC<AdminNavbarProps> = ({ showTitle }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const [chosenOption, setChosenOption] = React.useState<number | null>(null)
   const open = Boolean(anchorEl)
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
   }
-  const handleClose = () => setAnchorEl(null)
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const handleAccountClick = () => {
+    setChosenOption(1)
+    handleClose()
+  }
+
+  const handleSettingsClick = () => {
+    setChosenOption(2)
+    handleClose()
+  }
+
+  const handleLogoutClick = () => {
+    if (window.confirm('Are you sure')) {
+      window.alert('you are logged out')
+    }
+  }
+
+  const menuItems = [
+    {
+      icon: AccountCircleIcon,
+      label: 'Profilim',
+      onClick: handleAccountClick,
+    },
+    { icon: Settings, label: 'Sozlamalar', onClick: handleSettingsClick },
+    { icon: Logout, label: 'Chiqish', onClick: handleLogoutClick },
+  ]
+
+  const handleCloseModal = () => setChosenOption(null)
+
   return (
     <React.Fragment>
       <Box
@@ -40,11 +74,7 @@ const AdminNavbar: React.FC<AdminNavbarProps> = ({ showTitle }) => {
         alignItems='center'
         justifyContent='space-between'
       >
-        <Title
-          // sx={{ display: showTitle ? 'block' : 'none' }}
-          size='sm'
-          fontStyle='bold'
-        >
+        <Title size='sm' fontStyle='bold'>
           JOYIDA
         </Title>
         <Button
@@ -66,26 +96,20 @@ const AdminNavbar: React.FC<AdminNavbarProps> = ({ showTitle }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleClose}>
-          <Stack direction='row' spacing={1}>
-            <AccountCircleIcon />
-            <Typography>Profilim</Typography>
-          </Stack>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Stack direction='row' spacing={1}>
-            <Settings />
-            <Typography>Sozlamalar</Typography>
-          </Stack>
-        </MenuItem>
-        <Divider />
-        <MenuItem onClick={handleClose}>
-          <Stack direction='row' spacing={1}>
-            <Logout />
-            <Typography>Chiqish</Typography>
-          </Stack>
-        </MenuItem>
+        {menuItems.map((item, i) => (
+          <>
+            {item.label === 'Chiqish' && <Divider />}
+            <MenuItem key={i} onClick={item.onClick}>
+              <Stack direction='row' spacing={1}>
+                <item.icon />
+                <Typography>{item.label}</Typography>
+              </Stack>
+            </MenuItem>
+          </>
+        ))}
       </Menu>
+      <AccountModal open={chosenOption === 1} onClose={handleCloseModal} />
+      <SettingsModal open={chosenOption === 2} onClose={handleCloseModal} />
     </React.Fragment>
   )
 }

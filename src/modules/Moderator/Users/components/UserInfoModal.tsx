@@ -8,22 +8,14 @@ import { Avatar, Box, Divider, Typography } from '@mui/material'
 import React from 'react'
 
 const infoRows = [
-  { label: 'IDsi', prop: 'id' },
-  { label: 'Jinsi', prop: 'gender' },
-  { label: 'Manzili', prop: 'address' },
-  { label: 'Telefon raqami', prop: 'phone' },
-  { label: 'Kasbi', prop: 'title' },
-  { label: 'Xizmatlari', prop: 'categories' },
-  { label: 'Tajribasi', prop: 'experience' },
+  { label: 'IDsi', name: 'id' },
+  { label: 'Jinsi', name: 'gender' },
+  { label: 'Manzili', name: 'address' },
+  { label: 'Telefon raqami', name: 'phone' },
+  { label: 'Kasbi', name: 'title' },
+  { label: 'Xizmatlari', name: 'categories' },
+  { label: 'Tajribasi', name: 'experience' },
 ]
-
-const RowText = (children: string) => {
-  return (
-    <Typography fontWeight='400' fontSize='16px'>
-      {children}
-    </Typography>
-  )
-}
 
 const UserInfoModal = (props: UserInfoModalProps) => {
   const getRefinedPropValue = (prop: string) => {
@@ -61,13 +53,13 @@ const UserInfoModal = (props: UserInfoModalProps) => {
           </Avatar>
         </Box>
         <VStack spacing={2}>
-          {infoRows.map((row: { label: string; prop: string }) => (
-            <React.Fragment key={row.prop}>
+          {infoRows.map((row: { label: string; name: string }) => (
+            <React.Fragment key={row.name}>
               <Row spacing={2}>
                 <Typography sx={{ flex: 1 }} fontWeight='500'>
                   {row.label}
                 </Typography>
-                <Box sx={{ flex: 2 }}>{getRefinedPropValue(row.prop)}</Box>
+                <Box sx={{ flex: 2 }}>{getRefinedPropValue(row.name)}</Box>
               </Row>
               <Divider />
             </React.Fragment>
