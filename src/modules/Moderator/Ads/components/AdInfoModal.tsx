@@ -1,5 +1,5 @@
 'use client'
-import ModalBase from '@/modules/common/ModalBase'
+import ModalBase from '@/modules/common/Modals/ModalBase'
 import Row from '@/modules/common/Row'
 import categoriesData from '@/data/categoriesData'
 import { AdInfoModalProps, AdInfoProps } from '@/interfaces/Ads'

@@ -1,4 +1,4 @@
-import ModalBase from '@/modules/common/ModalBase'
+import ModalBase from '@/modules/common/Modals/ModalBase'
 import Row from '@/modules/common/Row'
 import { ReelsViewProps } from '@/interfaces/Reels'
 import { Button, Typography } from '@mui/material'
