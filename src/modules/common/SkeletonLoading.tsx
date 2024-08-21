@@ -12,7 +12,7 @@ const SkeletonLoading = ({ rows, height, variant }: Props) => {
     <>
       {Array(rows)
         .fill(0)
-        .map((i) => (
+        .map((_, i) => (
           <Skeleton
             height={height || 30}
             key={i}
