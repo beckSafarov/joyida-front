@@ -10,6 +10,10 @@ import SecondaryText from '@/modules/common/SecondaryText'
 import Title from '@/modules/common/Title'
 import { LoginFormProps } from '@/interfaces/superadmin'
 import { useFormik } from 'formik'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
+import { getMe, verifyToken } from './utils'
+import { storeDataToLCS } from '@/utils/lcsUtils'
 
 const LoginScreen = () => {
   const initialValues: LoginFormProps = {
@@ -17,13 +21,59 @@ const LoginScreen = () => {
     password: '',
   }
 
+  const router = useRouter()
+  const secret = process.env.NEXT_PUBLIC_JWT_TOKEN || ''
+
+  const runGetMe = async () => {
+    try {
+      const data = await getMe()
+      storeDataToLCS('user', data)
+      if (data.user_role === 1) router.push('/superadmin')
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleServerRes = async (token: string) => {
+    document.cookie = `access_token=${token}`
+    const decoded = await verifyToken(token, secret)
+    const exp = decoded.payload.exp
+    const user_id = decoded.payload.user_id
+    storeDataToLCS('user_id', String(user_id))
+    storeDataToLCS('session', {
+      exp: exp,
+      created: new Date(),
+    })
+    await runGetMe()
+  }
+
+  const submitToServer = async (values: LoginFormProps) => {
+    try {
+      const res = await axios.post(
+        'https://account.joida.uz/auth/admin/login',
+        values
+      )
+      handleServerRes(res?.data?.access_token)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const sanitizeValues = (values: LoginFormProps) => {
+    return {
+      ...values,
+      phone: values.phone.slice(1).split(' ').join(''),
+    }
+  }
+
   const handleSubmit = (values: LoginFormProps, actions: any) => {
-    console.log(values)
+    const sanitized = sanitizeValues(values)
+    submitToServer(sanitized)
     actions.resetForm()
   }
 
   const formik = useFormik({
-    initialValues,
+    initialValues: initialValues,
     onSubmit: handleSubmit,
   })
 
