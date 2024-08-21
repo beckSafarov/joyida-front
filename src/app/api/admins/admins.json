@@ -1,0 +1,30 @@
+[
+  {
+    "first_name": "Karim",
+    "last_name": "Zaripov",
+    "phone": "998908871265",
+    "position": "moderator",
+    "created_at": "Date Mon Aug 19 2024 08:42:11 GMT+0500 (Uzbekistan Standard Time)"
+  },
+  {
+    "first_name": "Toshmat",
+    "last_name": "Eshmatov",
+    "phone": "998908871265",
+    "position": "superadmin",
+    "created_at": "Date Mon Aug 19 2024 08:42:11 GMT+0500 (Uzbekistan Standard Time)"
+  },
+  {
+    "first_name": "Salim",
+    "last_name": "Salimov",
+    "phone": "998953641987",
+    "position": "moderator",
+    "created_at": "Date Mon Aug 19 2024 08:42:11 GMT+0500 (Uzbekistan Standard Time)"
+  },
+  {
+    "first_name": "Azim",
+    "last_name": "Azimov",
+    "phone": "998991234567",
+    "position": "superadmin",
+    "created_at": "Date Mon Aug 19 2024 08:42:11 GMT+0500 (Uzbekistan Standard Time)"
+  }
+]

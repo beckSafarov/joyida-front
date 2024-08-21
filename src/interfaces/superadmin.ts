@@ -8,6 +8,21 @@ export interface LoginFormProps {
 }
 
 export interface NewAdminValues extends LoginFormProps {
-  name: string
+  first_name: string
+  last_name: string
   position: string
+}
+
+export interface AdminPropsFromServer {
+  first_name: string
+  last_name: string
+  phone: string
+  position: string
+  created_at: string
+}
+export interface NormalizedAdminProps {
+  name: string
+  phone: string
+  position: string
+  created_at: string
 }
