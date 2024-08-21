@@ -3,6 +3,7 @@ import {
   NormalizedUserDataProps,
 } from '@/interfaces/Users'
 import { formatDate } from '@/utils/dateUtils'
+import { getDataFromLCS } from '@/utils/lcsUtils'
 import axios from 'axios'
 
 export const getNormalizedUserData = (
@@ -20,11 +21,29 @@ export const getNormalizedUserData = (
   }
 }
 
-export const fetchUsers = async () => {
-  const response = await axios.get('https://account.joida.uz/auth/user/list', {
-    headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1LCJleHAiOjE3MjI5OTExMTV9.V2FJi4kpB7tatty-MKdTPcmZpeqqwnCSxhFF3i3o604`,
-    },
-  })
+function getCookie(cname: string) {
+  let name = cname + '='
+  let ca = document.cookie.split(';')
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i]
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1)
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length)
+    }
+  }
+  return ''
+}
+
+export const fetchUsers = async (offset: number, limit: number) => {
+  const token = getCookie('access_token')
+  console.log(token)
+  const response = await axios.get(
+    `https://account.joida.uz/auth/user/list?offset=${offset}&limit=${limit}`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  )
   return response.data
 }
