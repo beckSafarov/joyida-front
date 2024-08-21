@@ -4,10 +4,12 @@ import { ModalProps } from '@/interfaces/common'
 import { Avatar, Box, Divider, Typography } from '@mui/material'
 import VStack from '../VStack'
 import Row from '../Row'
+import { getDataFromLCS } from '@/utils/lcsUtils'
 
 interface Props extends ModalProps {}
 
 const AccountModal = (props: Props) => {
+  const userInfo = getDataFromLCS('user')
   return (
     <ModalBase width='400px' {...props} title='Eshmatov Toshmat'>
       <center>
@@ -20,7 +22,9 @@ const AccountModal = (props: Props) => {
           <Typography sx={{ flex: 1 }} fontWeight='500'>
             Login
           </Typography>
-          <Box sx={{ flex: 2 }}>+998 95 700 30 22</Box>
+          <Box sx={{ flex: 2 }}>
+            {userInfo ? `+${userInfo.phone}` : '+998 95 700 30 22'}
+          </Box>
         </Row>
         <Divider />
         <Row spacing={2}>
