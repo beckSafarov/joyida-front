@@ -31,11 +31,14 @@ type Props = {
   data: NormalizedUserDataProps[] | null
   onDataReset(): void
   onInfoRequest(id: number): void
+  rowsPerPage: number
+  onRowChange(row: number): void
+  page: number
+  onPageChange(page: number): void
 }
 
 const UsersTable = (props: Props) => {
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const { page, rowsPerPage, onRowChange, onPageChange } = props
   const [searchTerm, setSearchTerm] = React.useState('')
   const [filter, setFilter] = React.useState<SelectFilterOption>({
     name: '',
@@ -108,15 +111,13 @@ const UsersTable = (props: Props) => {
     handleFilter(newFilter)
   }
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage)
-  }
+  const handleChangePage = (event: unknown, newPage: number) => {}
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setRowsPerPage(+event.target.value)
-    setPage(0)
+    onRowChange(+event.target.value)
+    onPageChange(0)
   }
 
   return (
@@ -196,9 +197,8 @@ const UsersTable = (props: Props) => {
 
             <TableBody>
               {dataToDisplay &&
-                dataToDisplay
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row: NormalizedUserDataProps, index: number) => (
+                dataToDisplay.map(
+                  (row: NormalizedUserDataProps, index: number) => (
                     <TableRow
                       onClick={() => props.onInfoRequest(1)}
                       component='div'
@@ -218,7 +218,7 @@ const UsersTable = (props: Props) => {
                             }}
                             key={column.id}
                           >
-                            {column.id.match(/gender|isBusiness/) ? (
+                            {column.id.match(/gender|business/) ? (
                               <Tag
                                 variant={
                                   typeof value === 'string'
@@ -237,7 +237,8 @@ const UsersTable = (props: Props) => {
                         )
                       })}
                     </TableRow>
-                  ))}
+                  )
+                )}
             </TableBody>
           </Table>
         </TableContainer>

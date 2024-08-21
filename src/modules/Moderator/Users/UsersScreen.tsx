@@ -5,29 +5,27 @@ import AdminLayout from '@/modules/common/AdminLayout'
 import {
   DataFromServerProps,
   NormalizedUserDataProps,
-  UserRequestResponseProps,
 } from '@/interfaces/Users'
 import UserInfoModal from './components/UserInfoModal'
 import { useQuery } from '@tanstack/react-query'
 import { fetchUsers, getNormalizedUserData } from './utils'
-import { getDataFromLCS, storeDataToLCS } from '@/utils/lcsUtils'
+import { getDataFromLCS } from '@/utils/lcsUtils'
 import UsersTable from './components/UsersTable'
 import SkeletonLoading from '@/modules/common/SkeletonLoading'
 
 const UsersScreen = () => {
   const [openModal, setOpenModal] = React.useState(false)
+  const [page, setPage] = React.useState(0)
+  const [rowsPerPage, setRowsPerPage] = React.useState(10)
   const [dataToDisplay, setDataToDisplay] = React.useState<
     NormalizedUserDataProps[] | null
   >(null)
   const usersFromLC = useMemo(() => getDataFromLCS('users'), [])
-  const responseFromLC = { isLoading: false, error: null, data: usersFromLC }
 
-  const response: UserRequestResponseProps = usersFromLC
-    ? responseFromLC
-    : useQuery({
-        queryKey: ['usersData'],
-        queryFn: fetchUsers,
-      })
+  const response = useQuery({
+    queryKey: ['usersData'],
+    queryFn: () => fetchUsers(page * rowsPerPage, rowsPerPage),
+  })
 
   const getNormalizedDataFromResponse = () => {
     return response?.data?.map?.(
@@ -39,17 +37,11 @@ const UsersScreen = () => {
     setDataToDisplay(getNormalizedDataFromResponse())
   }
 
-  const loadData = () => setDataToDisplay(usersFromLC)
-  const backUpData = () => {
-    storeDataToLCS('users', getNormalizedDataFromResponse())
-  }
   const resetData = () => !!response.data && setNormalizedData()
 
   const handleLoadingData = useCallback(() => {
-    if (usersFromLC && !dataToDisplay) loadData()
-    if (!usersFromLC && !dataToDisplay && response.data) {
+    if (!dataToDisplay && response.data) {
       setNormalizedData()
-      backUpData()
     }
   }, [usersFromLC, typeof dataToDisplay, response.data])
 
@@ -67,7 +59,11 @@ const UsersScreen = () => {
             <UsersTable
               data={dataToDisplay}
               onDataReset={resetData}
-              onInfoRequest={(id) => setOpenModal(true)}
+              onInfoRequest={() => setOpenModal(true)}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              onPageChange={setPage}
+              onRowChange={setRowsPerPage}
             />
           </Paper>
         )}
