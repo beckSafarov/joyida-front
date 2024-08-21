@@ -86,7 +86,7 @@ const WorksTable = ({
   const handleFilter = () => {
     setSearchTerm('')
     setDataToDisplay(
-      rows.filter((row) => row.categoryId === filterTerm && row.category)
+      rows.filter((row) => row.categoryId === filterTerm && row.category.name)
     )
   }
 
@@ -113,8 +113,6 @@ const WorksTable = ({
   const getLabelById = (id: number) => {
     return categories.find((category) => category.id === id)?.name
   }
-
-  // console.log(rows)
 
   return (
     <>
@@ -206,7 +204,11 @@ const WorksTable = ({
                         }}
                         key={column.id}
                       >
-                        {column.id === 'category' ? <Tag>{value}</Tag> : value}
+                        {column.id === 'category' ? (
+                          <Tag>{row.category.name}</Tag>
+                        ) : (
+                          value.toString()
+                        )}
                       </TableCell>
                     )
                   })}

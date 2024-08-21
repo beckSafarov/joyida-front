@@ -8,8 +8,8 @@ export interface ModeratorWorkRow {
 
 // work category
 export interface category {
-  label: string
-  categoryId: number
+  name: string
+  id: number
 }
 
 export interface categoryFromServerProps {
@@ -39,7 +39,7 @@ export interface WorkTableDataProps {
   id: number
   name: string
   category: string
-  categoryId: number | null
+  categoryId: number
 }
 
 export interface CategoriesFromServerProps {
@@ -49,6 +49,7 @@ export interface CategoriesFromServerProps {
 
 export interface WorksDataFromServerProps extends CategoriesFromServerProps {
   category_id: number
+  category: category
 }
 
 

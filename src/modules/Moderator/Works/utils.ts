@@ -14,13 +14,12 @@ export const getCategoryNameById = (
 }
 
 export const getNormalizedWorksData = (
-  data: WorksDataFromServerProps,
-  categories: CategoriesFromServerProps[] | undefined
+  data: WorksDataFromServerProps
 ): WorkTableDataProps => {
   return {
     ...data,
-    categoryId: data.category_id,
-    category: getCategoryNameById(data.category_id, categories),
+    categoryId: data.category.id,
+    category: data.category.name,
   }
 }
 
