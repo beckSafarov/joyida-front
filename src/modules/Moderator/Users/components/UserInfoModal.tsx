@@ -29,7 +29,7 @@ const UserInfoModal = (props: UserInfoModalProps) => {
         return (
           <Row sx={{ width: 'inherit', flexWrap: 'wrap', gap: '10px' }}>
             {user.categories.map((category, i) => (
-              <Tag key={i}>{category.label}</Tag>
+              <Tag key={i}>{category.name}</Tag>
             ))}
           </Row>
         )

@@ -11,13 +11,13 @@ const NewWorkModal = (props: NewWorkModalFace) => {
   useState
   const initialValues: NewWorkValues = {
     name: '',
-    categoryId: 0,
+    category_id: 0,
   }
 
   const handleSubmit = async (values: NewWorkValues) => {
     const nameSanitized = sanitizeString(values.name)
     await axios.post(
-      `${process.env.NEXT_PUBLIC_API}/add-service?name=${nameSanitized}&category_id=${values.categoryId}`,
+      `${process.env.NEXT_PUBLIC_API}/add-service?name=${nameSanitized}&category_id=${values.category_id}`,
       values
     )
     props.onClose()

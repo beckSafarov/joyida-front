@@ -3,7 +3,6 @@ import { NewCategoryModal as NewCategoryModalProps } from '@/interfaces/Works'
 import ModalBase from '@/modules/common/Modals/ModalBase'
 import VStack from '@/modules/common/VStack'
 import { Button, FormControl, TextField } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import React, { useState } from 'react'
 

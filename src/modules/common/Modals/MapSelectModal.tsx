@@ -1,7 +1,8 @@
 import React from 'react'
 import ModalBase from './ModalBase'
 import { ModalProps } from '@/interfaces/common'
-import MapComponent from './MapComponent'
+import MapComponent from '../MapComponent'
+
 
 interface MapSelectModal extends ModalProps {}
 

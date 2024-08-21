@@ -5,7 +5,6 @@ import WorkFormBase from './WorkFormBase'
 import { WorkEditModalProps } from '@/interfaces/Works'
 import ModalBase from '@/modules/common/Modals/ModalBase'
 import axios from 'axios'
-import { sanitizeString } from '../utils'
 
 const WorkEditModal = (props: WorkEditModalProps) => {
   const initialValues: EditWorkValues = {
