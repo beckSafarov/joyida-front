@@ -6,7 +6,7 @@ import AdminLayout from '@/modules/common/AdminLayout'
 import NewWorkModal from './components/NewWorkModal'
 import WorkEditModal from './components/WorkEditModal'
 import WorksTable from './components/WorksTable'
-import { WorksDataFromServerProps } from '@/interfaces/Works'
+import { WorkDataProps } from '@/interfaces/Works'
 import { useQuery } from '@tanstack/react-query'
 import { fetchServices } from './utils'
 import SkeletonLoading from '@/modules/common/SkeletonLoading'
@@ -29,10 +29,10 @@ const WorksScreen = () => {
 
   const categories = useMemo(() => {
     if (!worksRes.data) return []
-    return worksRes.data.map(
-      (service: WorksDataFromServerProps) => service.category
-    )
+    return worksRes.data.map((service: WorkDataProps) => service.category)
   }, [worksRes.data])
+
+  console.log(categories)
 
   return (
     <AdminLayout role='moderator'>

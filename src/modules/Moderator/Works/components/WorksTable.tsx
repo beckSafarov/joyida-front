@@ -19,11 +19,7 @@ import {
 } from '@mui/material'
 import React, { useEffect } from 'react'
 import Tag from '@/modules/common/Tag'
-import {
-  categoryFromServerProps,
-  ModeratorWorkRow,
-  WorkTableDataProps,
-} from '@/interfaces/Works'
+import { category, ModeratorWorkRow, WorkDataProps } from '@/interfaces/Works'
 import { createColumnData } from '@/utils'
 
 const columns = [
@@ -38,8 +34,8 @@ type WorksTableProps = {
   onChangeRowsPerPage(rows: number): void
   onChangePage(page: number): void
   onRefreshTable(): void
-  categories: categoryFromServerProps[]
-  data: WorkTableDataProps[]
+  categories: category[]
+  data: WorkDataProps[]
 }
 
 const WorksTable = ({
@@ -56,7 +52,7 @@ const WorksTable = ({
   const [searchTerm, setSearchTerm] = React.useState('')
   const [filterTerm, setFilterTerm] = React.useState<number | null>(null)
   const [dataToDisplay, setDataToDisplay] =
-    React.useState<WorkTableDataProps[]>(rows)
+    React.useState<WorkDataProps[]>(rows)
 
   useEffect(() => {
     setDataToDisplay(rows)
@@ -86,7 +82,7 @@ const WorksTable = ({
   const handleFilter = () => {
     setSearchTerm('')
     setDataToDisplay(
-      rows.filter((row) => row.categoryId === filterTerm && row.category.name)
+      rows.filter((row) => row.category.id === filterTerm && row.category.name)
     )
   }
 
@@ -187,7 +183,7 @@ const WorksTable = ({
             </TableHead>
 
             <TableBody>
-              {dataToDisplay.map((row: WorkTableDataProps, index: number) => (
+              {dataToDisplay.map((row: WorkDataProps, index: number) => (
                 <TableRow
                   onClick={() => onInfoRequest(row.id)}
                   component='div'

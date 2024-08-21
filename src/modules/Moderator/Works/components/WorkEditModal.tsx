@@ -8,20 +8,17 @@ import axios from 'axios'
 import { sanitizeString } from '../utils'
 
 const WorkEditModal = (props: WorkEditModalProps) => {
-  // get the initialValues for the work info from the global state using props.id
   const initialValues: EditWorkValues = {
     name: '',
-    categoryId: 0,
+    category_id: 0,
   }
 
   const handleSubmit = async (values: EditWorkValues) => {
-    const nameSanitized = sanitizeString(values.name)
-    const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API}/add-service?name=${nameSanitized}&category_id=${values.categoryId}`,
-      values
+    const res = await axios.put(
+      `${process.env.NEXT_PUBLIC_API}/service/${props.workId}`,
+      { ...values, id: props.workId }
     )
     console.log(res)
-    // props.onClose()
   }
 
   const handleClose = () => {

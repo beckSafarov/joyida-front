@@ -1,9 +1,4 @@
-import {
-  NewWorkValues,
-  WorkFormBaseProps,
-  category,
-  categoryFromServerProps,
-} from '@/interfaces/Works'
+import { NewWorkValues, WorkFormBaseProps, category } from '@/interfaces/Works'
 import {
   Button,
   Divider,
@@ -62,7 +57,7 @@ const WorkFormBase = (props: WorkFormBaseProps) => {
     }
   }
 
-  const handleNewCategory = (newCategory: categoryFromServerProps) => {
+  const handleNewCategory = (newCategory: category) => {
     setAllCategories([...allCategories, newCategory])
     formik.setFieldValue('categoryId', newCategory.id)
   }
@@ -85,34 +80,32 @@ const WorkFormBase = (props: WorkFormBaseProps) => {
           <FormControl>
             <InputLabel>Kategoriya</InputLabel>
             <Select
-              name='categoryId'
+              name='category_id'
               labelId='demo-simple-select-label'
               id='category-select'
-              value={formik.values['categoryId']}
+              value={formik.values['category_id']}
               sx={{ width: '100%' }}
               onChange={formik.handleChange}
             >
-              {allCategories.map(
-                (category: categoryFromServerProps, i: number) => (
-                  <MenuItem key={i} value={category.id}>
-                    <Stack
-                      justifyContent={'space-between'}
-                      direction='row'
-                      sx={{ width: '100%' }}
-                    >
-                      <Typography>{category.name}</Typography>
-                      {/* <ContentEditable
+              {allCategories.map((category: category, i: number) => (
+                <MenuItem key={i} value={category.id}>
+                  <Stack
+                    justifyContent={'space-between'}
+                    direction='row'
+                    sx={{ width: '100%' }}
+                  >
+                    <Typography>{category.name}</Typography>
+                    {/* <ContentEditable
                         html={category.name}
                         onChange={(e) => e.target.value}
                       /> */}
-                      <Icon
-                        component={ClearIcon}
-                        onClick={() => handleDeleteCategory(category.id)}
-                      />
-                    </Stack>
-                  </MenuItem>
-                )
-              )}
+                    <Icon
+                      component={ClearIcon}
+                      onClick={() => handleDeleteCategory(category.id)}
+                    />
+                  </Stack>
+                </MenuItem>
+              ))}
               <Divider />
               <MenuItem onClick={() => setOpenNewCategoryModal(true)}>
                 <Typography color={blue[600]}>Yangi +</Typography>

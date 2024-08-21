@@ -1,27 +1,5 @@
-import {
-  CategoriesFromServerProps,
-  WorksDataFromServerProps,
-  WorkTableDataProps,
-} from '@/interfaces/Works'
 import axios from 'axios'
 import { escape, trim } from 'lodash'
-
-export const getCategoryNameById = (
-  id: number,
-  categories: CategoriesFromServerProps[] | undefined
-) => {
-  return categories?.find((cat) => cat.id === id)?.name || ''
-}
-
-export const getNormalizedWorksData = (
-  data: WorksDataFromServerProps
-): WorkTableDataProps => {
-  return {
-    ...data,
-    categoryId: data.category.id,
-    category: data.category.name,
-  }
-}
 
 export const fetchServices = async (offset: number = 0, limit: number = 10) => {
   const response = await axios.get(

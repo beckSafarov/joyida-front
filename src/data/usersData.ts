@@ -89,8 +89,8 @@ const usersData = [
     true,
     'Texnik muhandis',
     [
-      { label: 'texnik xizmatlar', categoryId: 12 },
-      { label: 'texnik konsultatsiya', categoryId: 13 },
+      { name: 'texnik xizmatlar', id: 12 },
+      { name: 'texnik konsultatsiya', id: 13 },
     ]
   ),
   createRowData(
@@ -110,8 +110,8 @@ const usersData = [
     true,
     'Yurist Konsultant',
     [
-      { label: 'yuridik xujjatlar', categoryId: 9 },
-      { label: 'yuridiki konsultatsiya', categoryId: 10 },
+      { name: 'yuridik xujjatlar', id: 9 },
+      { name: 'yuridiki konsultatsiya', id: 10 },
     ]
   ),
   createRowData(
@@ -135,9 +135,6 @@ const usersData = [
 ]
 export default usersData
 
-
-
-
 export interface UserInfoProps {
   id: 1
   name: string
@@ -159,10 +156,10 @@ export const sampleUserInfo: UserInfoProps = {
   title: 'Jurnalist',
   gender: true,
   categories: [
-    { label: 'maqola yozish', categoryId: 15 },
-    { label: 'boshlovchilik', categoryId: 16 },
-    { label: 'geosiyosat', categoryId: 17 },
-    { label: 'tarix', categoryId: 18 },
+    { name: 'maqola yozish', id: 15 },
+    { name: 'boshlovchilik', id: 16 },
+    { name: 'geosiyosat', id: 17 },
+    { name: 'tarix', id: 18 },
   ],
   address: "Guliston shahri, Yakkabog' tumani, 24",
   phone: '+998991354565',
