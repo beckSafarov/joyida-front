@@ -22,9 +22,7 @@ export interface NewCategoryModal extends NewAdminModalProps {
   onSubmit(newCategory: category): void
 }
 
-export interface NewWorkModalFace extends NewAdminModalProps {
-  categories: category[]
-}
+export interface NewWorkModalFace extends NewAdminModalProps {}
 
 export interface WorkEditModalProps extends NewAdminModalProps {
   workId: number | null

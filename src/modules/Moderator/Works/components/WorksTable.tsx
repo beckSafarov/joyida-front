@@ -36,6 +36,7 @@ type WorksTableProps = {
   onRefreshTable(): void
   categories: category[]
   data: WorkDataProps[]
+  totalServices: number
 }
 
 const WorksTable = ({
@@ -46,6 +47,7 @@ const WorksTable = ({
   onChangePage,
   categories,
   data: rows,
+  totalServices,
 }: WorksTableProps) => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
@@ -216,7 +218,7 @@ const WorksTable = ({
         <TablePagination
           rowsPerPageOptions={[5, 10, 20]}
           component='div'
-          count={15}
+          count={totalServices}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

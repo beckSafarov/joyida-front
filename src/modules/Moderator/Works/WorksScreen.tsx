@@ -6,9 +6,8 @@ import AdminLayout from '@/modules/common/AdminLayout'
 import NewWorkModal from './components/NewWorkModal'
 import WorkEditModal from './components/WorkEditModal'
 import WorksTable from './components/WorksTable'
-import { WorkDataProps } from '@/interfaces/Works'
 import { useQuery } from '@tanstack/react-query'
-import { fetchServices } from './utils'
+import { fetchServices, getCategoriesFromWorks } from './utils'
 import SkeletonLoading from '@/modules/common/SkeletonLoading'
 
 const WorksScreen = () => {
@@ -21,6 +20,7 @@ const WorksScreen = () => {
     queryKey: ['works'],
     queryFn: () => fetchServices(page * rowsPerPage, rowsPerPage),
   })
+  const works = worksRes?.data?.services
   const handleRefreshTable = () => worksRes.refetch()
 
   useEffect(() => {
@@ -28,11 +28,9 @@ const WorksScreen = () => {
   }, [rowsPerPage, page])
 
   const categories = useMemo(() => {
-    if (!worksRes.data) return []
-    return worksRes.data.map((service: WorkDataProps) => service.category)
-  }, [worksRes.data])
-
-  console.log(categories)
+    if (!works) return []
+    return getCategoriesFromWorks(works)
+  }, [works])
 
   return (
     <AdminLayout role='moderator'>
@@ -48,17 +46,14 @@ const WorksScreen = () => {
             onInfoRequest={setActiveRowId}
             onRefreshTable={handleRefreshTable}
             categories={categories}
-            data={worksRes?.data}
+            data={works}
             onChangeRowsPerPage={(rows: number) => setRowsPerPage(rows)}
             onChangePage={(page: number) => setPage(page)}
+            totalServices={worksRes?.data?.total_count || rowsPerPage}
           />
         </Paper>
       )}
-      <NewWorkModal
-        categories={categories}
-        open={openModal}
-        onClose={() => setOpenModal(false)}
-      />
+      <NewWorkModal open={openModal} onClose={() => setOpenModal(false)} />
       <WorkEditModal
         workId={activeRowId}
         open={!!activeRowId}

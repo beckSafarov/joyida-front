@@ -5,7 +5,8 @@ import React, { useState } from 'react'
 import { NewWorkValues } from '@/interfaces/Works'
 import WorkFormBase from './WorkFormBase'
 import axios from 'axios'
-import { sanitizeString } from '../utils'
+import { fetchCategories, sanitizeString } from '../utils'
+import { useQuery } from '@tanstack/react-query'
 
 const NewWorkModal = (props: NewWorkModalFace) => {
   useState
@@ -13,6 +14,11 @@ const NewWorkModal = (props: NewWorkModalFace) => {
     name: '',
     category_id: 0,
   }
+
+  const categories = useQuery({
+    queryKey: ['categories'],
+    queryFn: fetchCategories,
+  })
 
   const handleSubmit = async (values: NewWorkValues) => {
     const nameSanitized = sanitizeString(values.name)
@@ -30,7 +36,7 @@ const NewWorkModal = (props: NewWorkModalFace) => {
     <ModalBase {...props} title='Yangi Ish'>
       <WorkFormBase
         initialValues={initialValues}
-        categories={props.categories}
+        categories={categories.data}
         onSubmit={handleSubmit}
         onClose={handleClose}
       />
