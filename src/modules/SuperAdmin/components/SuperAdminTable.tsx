@@ -28,6 +28,7 @@ interface SuperAdminTableProps {
   onRowChange(row: number): void
   page: number
   onPageChange(page: number): void
+  onEditClicked(data: NormalizedAdminProps): void
 }
 
 const columns = [
@@ -41,6 +42,7 @@ const SuperAdminTable: React.FC<SuperAdminTableProps> = ({
   onNewAdminClick,
   onPageChange,
   onRowChange,
+  onEditClicked,
   page,
   rowsPerPage,
   data: rows,
@@ -172,7 +174,12 @@ const SuperAdminTable: React.FC<SuperAdminTableProps> = ({
               <TableBody>
                 {dataToDisplay.map(
                   (row: NormalizedAdminProps, index: number) => (
-                    <TableRow component='div' hover key={index}>
+                    <TableRow
+                      onClick={() => onEditClicked(row)}
+                      component='div'
+                      hover
+                      key={index}
+                    >
                       {columns.map((column) => {
                         let value =
                           row[column?.id as keyof NormalizedAdminProps]
