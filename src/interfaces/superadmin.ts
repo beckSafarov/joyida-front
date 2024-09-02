@@ -8,10 +8,18 @@ export interface LoginFormProps {
   password: string
 }
 
+export interface NewAdminFormProps extends LoginFormProps {
+  first_name: string
+  last_name: string
+  position: number
+}
+
 export interface NewAdminValues extends LoginFormProps {
   first_name: string
   last_name: string
-  position: string
+  is_admin: boolean
+  is_moderator: boolean
+  user_role: number
 }
 
 export interface AdminPropsFromServer {

@@ -2,8 +2,8 @@ import {
   DataFromServerProps,
   NormalizedUserDataProps,
 } from '@/interfaces/Users'
+import { getCookie } from '@/utils'
 import { formatDate } from '@/utils/dateUtils'
-import { getDataFromLCS } from '@/utils/lcsUtils'
 import axios from 'axios'
 
 export const getNormalizedUserData = (
@@ -21,23 +21,8 @@ export const getNormalizedUserData = (
   }
 }
 
-function getCookie(cname: string) {
-  let name = cname + '='
-  let ca = document.cookie.split(';')
-  for (let i = 0; i < ca.length; i++) {
-    let c = ca[i]
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1)
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length)
-    }
-  }
-  return ''
-}
-
 export const fetchUsers = async (offset: number, limit: number) => {
-  const token = getCookie('access_token')
+  const token = getCookie('refresh_token')
   console.log(token)
   const response = await axios.get(
     `https://account.joida.uz/auth/user/list?offset=${offset}&limit=${limit}`,

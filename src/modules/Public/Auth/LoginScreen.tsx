@@ -14,6 +14,7 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { getMe, verifyToken } from './utils'
 import { storeDataToLCS } from '@/utils/lcsUtils'
+import { setCookie } from '@/utils'
 
 const LoginScreen = () => {
   const initialValues: LoginFormProps = {
@@ -28,14 +29,14 @@ const LoginScreen = () => {
     try {
       const data = await getMe()
       storeDataToLCS('user', data)
-      if (data.user_role === 1) router.push('/superadmin')
+      if (data.user_role.id === 1) router.push('/superadmin')
     } catch (error) {
       console.error(error)
     }
   }
 
   const handleServerRes = async (token: string) => {
-    document.cookie = `access_token=${token}`
+    setCookie('access_token', token)
     const decoded = await verifyToken(token, secret)
     const exp = decoded.payload.exp
     const user_id = decoded.payload.user_id

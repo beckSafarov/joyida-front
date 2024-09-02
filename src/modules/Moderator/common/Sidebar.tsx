@@ -17,7 +17,6 @@ const MenuItems = [
     icon: PeopleAltIcon,
     path: '/moderator/users',
   },
-  { label: 'Reklamalar', icon: WebAssetIcon, path: '/moderator/ads' },
   { label: 'Videolar', icon: VideoLibraryIcon, path: '/moderator/reels' },
   {
     label: 'Shikoyatlar',

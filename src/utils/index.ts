@@ -1,17 +1,21 @@
-const createRowData = (
-  name: string,
-  phone: string,
-  position: string,
-  date: Date
-) => ({ name, phone, position, date })
+export const getCookie = (cname: string) => {
+  let name = cname + '='
+  let ca = document.cookie.split(';')
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i]
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1)
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length)
+    }
+  }
+  return ''
+}
 
-const rows = [
-  createRowData('Karim Zaripov', '+998957003022', 'moderator', new Date()),
-  createRowData('Toshmat Eshmatov', '+998957003022', 'superadmin', new Date()),
-  createRowData('Salim Salimov', '+998957003022', 'moderator', new Date()),
-  createRowData('Azim Azimov', '+998957003022', 'superadmin', new Date()),
-  createRowData('Tohir Saidov', '+998957003022', 'moderator', new Date()),
-]
+export const setCookie = (name: string, value: string) => {
+  document.cookie = `${name}=${value}`
+}
 
 export const createColumnData = (
   id: string,
@@ -19,15 +23,16 @@ export const createColumnData = (
   minWidth: number
 ) => ({ id, label, minWidth })
 
-// console.log(dateFormat(new Date('1/1/2024')))
-
-// const result = rows.map((row: RowFace, index: number) =>
-//   Object.keys(row).map((prop: string, j: number) => {
-//     return row[prop]
-//   })
-// )
-
-// console.log(result)
+export const refreshHeader = {
+  headers: {
+    Authorization: `Bearer ${getCookie('refresh_token')}`,
+  },
+}
+export const accessHeader = {
+  headers: {
+    Authorization: `Bearer ${getCookie('access_token')}`,
+  },
+}
 
 export const getAvatarLetters = (name: string) => {
   return name
@@ -35,5 +40,3 @@ export const getAvatarLetters = (name: string) => {
     .map((name) => name[0])
     .join('')
 }
-
-// console.log(getAvatarLetters('Bahrom Karimov'))
