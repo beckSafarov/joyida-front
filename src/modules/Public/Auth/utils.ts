@@ -1,8 +1,7 @@
 // import jwt from 'jsonwebtoken'
-import { LoggedUser } from '@/interfaces/Login'
-import { getDataFromLCS, storeDataToLCS } from '@/utils/lcsUtils'
+import { getDataFromLCS } from '@/utils/lcsUtils'
 import axios from 'axios'
-import { jwtVerify, KeyLike } from 'jose'
+import { jwtVerify } from 'jose'
 
 export const verifyToken = async (token: string, secret: string) => {
   try {

@@ -17,7 +17,6 @@ import {
   NormalizedAdminProps,
 } from '@/interfaces/superadmin'
 import Row from '@/modules/common/Row'
-import adminTypes from '@/data/adminTypes'
 
 interface AdminFormProps {
   onSubmit(values: NewAdminValues): void

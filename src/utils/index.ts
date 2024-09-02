@@ -1,4 +1,5 @@
 export const getCookie = (cname: string) => {
+  if (typeof document === 'undefined') return ''
   let name = cname + '='
   let ca = document.cookie.split(';')
   for (let i = 0; i < ca.length; i++) {
@@ -14,6 +15,7 @@ export const getCookie = (cname: string) => {
 }
 
 export const setCookie = (name: string, value: string) => {
+  if (typeof document === 'undefined') return
   document.cookie = `${name}=${value}`
 }
 
