@@ -14,7 +14,7 @@ const WorkEditModal = (props: WorkEditModalProps) => {
 
   const handleSubmit = async (values: EditWorkValues) => {
     const res = await axios.put(
-      `${process.env.NEXT_PUBLIC_API}/service/${props.workId}`,
+      `${process.env.NEXT_PUBLIC_API_1}/service/${props.workId}`,
       { ...values, id: props.workId }
     )
     console.log(res)
