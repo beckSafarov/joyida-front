@@ -1,5 +1,6 @@
-import axios from 'axios'
+import { AxiosError } from 'axios'
 import Cookies from 'js-cookie'
+import { toast } from 'react-toastify'
 
 export const setCookie = (name: string, value: string) => {
   if (typeof document === 'undefined') return
@@ -28,6 +29,10 @@ export const getAvatarLetters = (name: string) => {
     .split(' ')
     .map((name) => name[0])
     .join('')
+}
+
+export const displayAxiosError = (error: AxiosError | any) => {
+  return toast(`${error.name}: ${error.message}`, { type: 'error' })
 }
 
 // export const fetchData = async(address: string, payload: any) => {

@@ -10,11 +10,14 @@ import SecondaryText from '@/modules/common/SecondaryText'
 import Title from '@/modules/common/Title'
 import { LoginFormProps } from '@/interfaces/superadmin'
 import { useFormik } from 'formik'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { useRouter } from 'next/navigation'
 import { getMe, verifyToken } from './utils'
 import { storeDataToLCS } from '@/utils/lcsUtils'
-import { setCookie } from '@/utils'
+import { displayAxiosError, setCookie } from '@/utils'
+import CustomToastContainer from '@/modules/common/CustomToastContainer'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const LoginScreen = () => {
   const initialValues: LoginFormProps = {
@@ -30,7 +33,8 @@ const LoginScreen = () => {
       const data = await getMe()
       storeDataToLCS('user', data)
       if (data.user_role.id === 1) router.push('/superadmin')
-    } catch (error) {
+    } catch (error: AxiosError | any) {
+      displayAxiosError(error)
       console.error(error)
     }
   }
@@ -55,7 +59,8 @@ const LoginScreen = () => {
         values
       )
       handleServerRes(res?.data?.access_token)
-    } catch (error) {
+    } catch (error: AxiosError | any) {
+      displayAxiosError(error)
       console.error(error)
     }
   }
@@ -80,6 +85,7 @@ const LoginScreen = () => {
 
   return (
     <PublicScreenLayout showButtons={false}>
+      <CustomToastContainer />
       <FullyCentered top='40%'>
         <Title sx={{ mb: '40px' }}>Kirish</Title>
         <Paper elevation={2} sx={{ width: '600px', padding: '16px' }}>
