@@ -59,7 +59,7 @@ const UsersScreen = () => {
             <UsersTable
               data={dataToDisplay}
               onDataReset={resetData}
-              onInfoRequest={() => setOpenModal(true)}
+              onRowClicked={() => setOpenModal(true)}
               page={page}
               rowsPerPage={rowsPerPage}
               onPageChange={setPage}

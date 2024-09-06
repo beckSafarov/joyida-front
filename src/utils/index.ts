@@ -1,18 +1,5 @@
-export const getCookie = (cname: string) => {
-  if (typeof document === 'undefined') return ''
-  let name = cname + '='
-  let ca = document.cookie.split(';')
-  for (let i = 0; i < ca.length; i++) {
-    let c = ca[i]
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1)
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length)
-    }
-  }
-  return ''
-}
+import axios from 'axios'
+import Cookies from 'js-cookie'
 
 export const setCookie = (name: string, value: string) => {
   if (typeof document === 'undefined') return
@@ -27,12 +14,12 @@ export const createColumnData = (
 
 export const refreshHeader = {
   headers: {
-    Authorization: `Bearer ${getCookie('refresh_token')}`,
+    Authorization: `Bearer ${Cookies.get('refresh_token')}`,
   },
 }
 export const accessHeader = {
   headers: {
-    Authorization: `Bearer ${getCookie('access_token')}`,
+    Authorization: `Bearer ${Cookies.get('access_token')}`,
   },
 }
 
@@ -42,3 +29,14 @@ export const getAvatarLetters = (name: string) => {
     .map((name) => name[0])
     .join('')
 }
+
+// export const fetchData = async(address: string, payload: any) => {
+//   const token = Cookies.get('refresh_token')
+//   const response = await axios.get(
+//     `${address}/pa`,
+//     {
+//       headers: { Authorization: `Bearer ${token}` },
+//     }
+//   )
+//   return response.data
+// }

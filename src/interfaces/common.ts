@@ -50,3 +50,13 @@ export interface ModalProps {
   open: boolean
   onClose(): void
 }
+
+export interface TableDataProps<T> {
+  data: T[] | null
+  onDataReset(): void
+  onRowClicked(id: number): void
+  rowsPerPage: number
+  onRowChange(row: number): void
+  page: number
+  onPageChange(page: number): void
+}

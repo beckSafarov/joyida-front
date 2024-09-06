@@ -24,20 +24,11 @@ import {
   SelectFilterOption,
 } from '@/interfaces/Users'
 import Tag from '@/modules/common/Tag'
+import { TableDataProps } from '@/interfaces/common'
 const columns = usersTableColumns
 const rows = usersData
 
-type Props = {
-  data: NormalizedUserDataProps[] | null
-  onDataReset(): void
-  onInfoRequest(id: number): void
-  rowsPerPage: number
-  onRowChange(row: number): void
-  page: number
-  onPageChange(page: number): void
-}
-
-const UsersTable = (props: Props) => {
+const UsersTable = (props: TableDataProps<NormalizedUserDataProps>) => {
   const { page, rowsPerPage, onRowChange, onPageChange } = props
   const [searchTerm, setSearchTerm] = React.useState('')
   const [filter, setFilter] = React.useState<SelectFilterOption>({
@@ -200,7 +191,7 @@ const UsersTable = (props: Props) => {
                 dataToDisplay.map(
                   (row: NormalizedUserDataProps, index: number) => (
                     <TableRow
-                      onClick={() => props.onInfoRequest(1)}
+                      onClick={() => props.onRowClicked(1)}
                       component='div'
                       hover
                       key={index}

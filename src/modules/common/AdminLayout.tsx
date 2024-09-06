@@ -8,17 +8,18 @@ import Sidebar from '@/modules/Moderator/common/Sidebar'
 import StoreProvider from './StoreProvider'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import 'react-toastify/dist/ReactToastify.css'
-import { getCookie, setCookie } from '@/utils'
+import { setCookie } from '@/utils'
 import axios, { AxiosError } from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import { getDataFromLCS, storeDataToLCS } from '@/utils/lcsUtils'
 import { fromNowToUnixDate } from '@/utils/dateUtils'
 import { verifyToken } from '../Public/Auth/utils'
+import Cookies from 'js-cookie'
 const queryClient = new QueryClient()
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ role, title, children }) => {
-  const accessToken = useMemo(() => getCookie('access_token'), [])
-  const refreshToken = useMemo(() => getCookie('refresh_token'), [])
+  const accessToken = useMemo(() => Cookies.get('access_token'), [])
+  const refreshToken = useMemo(() => Cookies.get('refresh_token'), [])
   const secret = process.env.NEXT_PUBLIC_JWT_TOKEN || ''
 
   useEffect(() => {
@@ -41,7 +42,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ role, title, children }) => {
       const { data } = await axios.post(
         'https://account.joida.uz/auth/token/refresh',
         {
-          access_token: getCookie('access_token'),
+          access_token: Cookies.get('access_token'),
         }
       )
       handleResToRefresh(data.access_token)

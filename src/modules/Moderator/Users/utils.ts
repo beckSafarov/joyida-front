@@ -2,9 +2,9 @@ import {
   DataFromServerProps,
   NormalizedUserDataProps,
 } from '@/interfaces/Users'
-import { getCookie } from '@/utils'
 import { formatDate } from '@/utils/dateUtils'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 export const getNormalizedUserData = (
   dataFromServer: DataFromServerProps
@@ -22,7 +22,7 @@ export const getNormalizedUserData = (
 }
 
 export const fetchUsers = async (offset: number, limit: number) => {
-  const token = getCookie('refresh_token')
+  const token = Cookies.get('refresh_token')
   console.log(token)
   const response = await axios.get(
     `https://account.joida.uz/auth/user/list?offset=${offset}&limit=${limit}`,
