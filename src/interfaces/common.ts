@@ -41,6 +41,8 @@ export interface ModalBaseProps {
   titleAlign?: 'left' | 'center'
   top?: string
   width?: string
+  height?: string
+  sx?: SxProps
   children?: React.ReactNode
 }
 

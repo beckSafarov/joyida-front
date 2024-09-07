@@ -8,7 +8,7 @@ import Sidebar from '@/modules/Moderator/common/Sidebar'
 import StoreProvider from './StoreProvider'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import 'react-toastify/dist/ReactToastify.css'
-import { setCookie } from '@/utils'
+import { displayAxiosError, setCookie } from '@/utils'
 import axios, { AxiosError } from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import { getDataFromLCS, storeDataToLCS } from '@/utils/lcsUtils'
@@ -24,7 +24,6 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ role, title, children }) => {
 
   useEffect(() => {
     if (!refreshToken) handleRefreshSession()
-    // if (refreshToken) checkTokenIfExpiring()
   }, [accessToken, refreshToken])
 
   const handleResToRefresh = async (token: string) => {
@@ -47,8 +46,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ role, title, children }) => {
       )
       handleResToRefresh(data.access_token)
     } catch (error: AxiosError | any) {
+      displayAxiosError(error)
       console.error(error)
-      toast(`${error.name}: ${error.message}`, { type: 'error' })
     }
   }
 

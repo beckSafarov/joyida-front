@@ -3,13 +3,16 @@ import { createColumnData } from '@/utils'
 import locationsData from './locationsData'
 
 export const usersTableColumns = [
+  createColumnData('id', 'ID', 100),
   createColumnData('name', 'Foydalanuvchi', 200),
   createColumnData('phone', 'Telefon raqami', 100),
-  createColumnData('address', 'Manzili', 200),
-  createColumnData('date', "Qo'shilgan sana", 200),
-  createColumnData('gender', 'Jinsi', 200),
-  createColumnData('isBusiness', 'Akkaunt turi', 100),
-  createColumnData('jobTitle', 'Ish turi', 100),
+  createColumnData('email', 'Email', 100),
+  createColumnData('birthDate', "Tug'ilgan yili", 200),
+  createColumnData('gender', 'Jinsi', 100),
+  createColumnData('businessStatus', 'Akkaunt turi', 100),
+  createColumnData('activeStatus', 'Aktivlik', 100),
+  // createColumnData('address', 'Manzili', 200),
+  // createColumnData('jobTitle', 'Ish turi', 100),
 ]
 
 export const genderOptions = [

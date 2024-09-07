@@ -203,7 +203,7 @@ const WorksTable = ({
                         key={column.id}
                       >
                         {column.id === 'category' ? (
-                          <Tag>{row.category.name}</Tag>
+                          <Tag variant='secondary'>{row.category.name}</Tag>
                         ) : (
                           value.toString()
                         )}

@@ -13,10 +13,20 @@ import { getDataFromLCS } from '@/utils/lcsUtils'
 import UsersTable from './components/UsersTable'
 import SkeletonLoading from '@/modules/common/SkeletonLoading'
 
+interface SelectedRow {
+  open: boolean
+  data: NormalizedUserDataProps | null
+  originalData: DataFromServerProps | null
+}
+
 const UsersScreen = () => {
-  const [openModal, setOpenModal] = React.useState(false)
+  const [openModal, setOpenModal] = React.useState<SelectedRow>({
+    open: false,
+    data: null,
+    originalData: null,
+  })
   const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const [rowsPerPage, setRowsPerPage] = React.useState(5)
   const [dataToDisplay, setDataToDisplay] = React.useState<
     NormalizedUserDataProps[] | null
   >(null)
@@ -27,8 +37,10 @@ const UsersScreen = () => {
     queryFn: () => fetchUsers(page * rowsPerPage, rowsPerPage),
   })
 
+  console.log(response.data)
+
   const getNormalizedDataFromResponse = () => {
-    return response?.data?.map?.(
+    return response?.data?.data?.map?.(
       (d: DataFromServerProps) => getNormalizedUserData(d) || []
     )
   }
@@ -49,6 +61,19 @@ const UsersScreen = () => {
     handleLoadingData()
   }, [typeof dataToDisplay, response.data, usersFromLC])
 
+  const handleRowClick = (id: number) => {
+    const selectedRow = dataToDisplay?.find(
+      (data: NormalizedUserDataProps) => data.id === id
+    )
+    setOpenModal({
+      open: true,
+      data: selectedRow || null,
+      originalData: response?.data?.data?.find(
+        (prson: DataFromServerProps) => prson.id === id
+      ),
+    })
+  }
+
   return (
     <AdminLayout role='moderator' title='Foydalanuvchilar'>
       <Box my='50px'>
@@ -59,7 +84,7 @@ const UsersScreen = () => {
             <UsersTable
               data={dataToDisplay}
               onDataReset={resetData}
-              onRowClicked={() => setOpenModal(true)}
+              onRowClicked={handleRowClick}
               page={page}
               rowsPerPage={rowsPerPage}
               onPageChange={setPage}
@@ -68,7 +93,10 @@ const UsersScreen = () => {
           </Paper>
         )}
       </Box>
-      <UserInfoModal open={openModal} onClose={() => setOpenModal(false)} />
+      <UserInfoModal
+        {...openModal}
+        onClose={() => setOpenModal({ ...openModal, open: false })}
+      />
     </AdminLayout>
   )
 }

@@ -35,6 +35,9 @@ export const displayAxiosError = (error: AxiosError | any) => {
   return toast(`${error.name}: ${error.message}`, { type: 'error' })
 }
 
+
+
+
 // export const fetchData = async(address: string, payload: any) => {
 //   const token = Cookies.get('refresh_token')
 //   const response = await axios.get(

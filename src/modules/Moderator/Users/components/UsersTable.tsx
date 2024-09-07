@@ -1,6 +1,5 @@
 'use client'
 import {
-  Box,
   FormControl,
   InputLabel,
   MenuItem,
@@ -61,8 +60,10 @@ const UsersTable = (props: TableDataProps<NormalizedUserDataProps>) => {
     if (!dataToDisplay) return []
     const rgx = new RegExp(searchTerm, 'gi')
     setDataToDisplay(
-      dataToDisplay?.filter(({ first_name, last_name, phone }) => {
-        return rgx.test(first_name) || rgx.test(last_name) || rgx.test(phone)
+      dataToDisplay?.filter((data: NormalizedUserDataProps) => {
+        return (
+          rgx.test(data.name) || rgx.test(data.email) || rgx.test(data.phone)
+        )
       })
     )
   }
@@ -191,7 +192,7 @@ const UsersTable = (props: TableDataProps<NormalizedUserDataProps>) => {
                 dataToDisplay.map(
                   (row: NormalizedUserDataProps, index: number) => (
                     <TableRow
-                      onClick={() => props.onRowClicked(1)}
+                      onClick={() => props.onRowClicked(row.id)}
                       component='div'
                       hover
                       key={index}
@@ -209,11 +210,11 @@ const UsersTable = (props: TableDataProps<NormalizedUserDataProps>) => {
                             }}
                             key={column.id}
                           >
-                            {column.id.match(/gender|business/) ? (
+                            {column.id.match(/gender|business|activeStatus/) ? (
                               <Tag
                                 variant={
                                   typeof value === 'string'
-                                    ? value.match(/erkak|biznes/gi)
+                                    ? value.match(/erkak|biznes|aktiv/gi)
                                       ? 'primary'
                                       : 'secondary'
                                     : 'secondary'
@@ -234,9 +235,9 @@ const UsersTable = (props: TableDataProps<NormalizedUserDataProps>) => {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
+          rowsPerPageOptions={[5, 10, 20]}
           component='div'
-          count={rows.length}
+          count={props?.data?.length || 10}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

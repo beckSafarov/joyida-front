@@ -15,7 +15,7 @@ export interface UsersTableRowProps {
 
 export interface DataFromServerProps {
   id: number
-  birth_of_date: string
+  birthDate: string
   business: string
   created_at: string
   email: string
@@ -34,19 +34,21 @@ export interface UserRequestResponseProps {
   data: any | null
 }
 
-type AdaptedProps = {
-  id: string
+export interface NormalizedUserDataProps {
+  id: number
+  email: string
   name: string
-  isActive: string
-  updatedAt: string
+  activeStatus: string
+  businessStatus: string
   birthDate: string
   createdAt: string
-  isBusiness: string
+  phone: string
+  gender: string
 }
 
-export interface NormalizedUserDataProps
-  extends Omit<DataFromServerProps, keyof AdaptedProps>,
-    AdaptedProps {}
+// export interface NormalizedUserDataProps
+//   extends Omit<DataFromServerProps, keyof AdaptedProps>,
+//     AdaptedProps {}
 
 export interface UsersTableDataToDisplay {
   name: string
@@ -75,5 +77,6 @@ export interface SelectFilterOption extends FilterOption {
 }
 
 export interface UserInfoModalProps extends NewAdminModalProps {
-  id?: number
+  data: NormalizedUserDataProps | null
+  originalData?: DataFromServerProps | null
 }
