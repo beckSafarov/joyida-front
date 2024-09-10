@@ -14,10 +14,10 @@ import axios, { AxiosError } from 'axios'
 import { useRouter } from 'next/navigation'
 import { getMe, verifyToken } from './utils'
 import { storeDataToLCS } from '@/utils/lcsUtils'
-import { displayAxiosError, setCookie } from '@/utils'
+import { displayAxiosError } from '@/utils'
 import CustomToastContainer from '@/modules/common/CustomToastContainer'
-import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import Cookies from 'js-cookie'
 
 const LoginScreen = () => {
   const initialValues: LoginFormProps = {
@@ -33,6 +33,7 @@ const LoginScreen = () => {
       const data = await getMe()
       storeDataToLCS('user', data)
       if (data.user_role.id === 1) router.push('/superadmin')
+      if (data.user_role.id === 3) router.push('/moderator/works')
     } catch (error: AxiosError | any) {
       displayAxiosError(error)
       console.error(error)
@@ -40,16 +41,21 @@ const LoginScreen = () => {
   }
 
   const handleServerRes = async (token: string) => {
-    setCookie('access_token', token)
-    const decoded = await verifyToken(token, secret)
-    const exp = decoded.payload.exp
-    const user_id = decoded.payload.user_id
-    storeDataToLCS('user_id', String(user_id))
-    storeDataToLCS('session', {
-      exp: exp,
-      created: new Date(),
-    })
-    await runGetMe()
+    try {
+      const decoded = await verifyToken(token, secret)
+      const exp = decoded.payload.exp
+      const user_id = decoded.payload.user_id
+      Cookies.set('access_token', token, { expires: exp })
+      storeDataToLCS('user_id', String(user_id))
+      storeDataToLCS('session', {
+        exp: exp,
+        created: new Date(),
+      })
+      await runGetMe()
+    } catch (error: AxiosError | any) {
+      displayAxiosError(error)
+      console.error(error)
+    }
   }
 
   const submitToServer = async (values: LoginFormProps) => {
