@@ -1,10 +1,18 @@
 import { SxProps } from '@mui/material'
+import { AxiosError } from 'axios'
 import React from 'react'
 
 export interface ColumnProps {
   id: string
   label: string
   minWidth: number
+}
+
+export interface ResponseProps {
+  isLoading: boolean
+  error: AxiosError | null
+  data: any | null
+  // refetch?: void | null
 }
 
 export interface TableRowFace {
@@ -33,7 +41,24 @@ export interface ModalBaseProps {
   titleAlign?: 'left' | 'center'
   top?: string
   width?: string
+  height?: string
+  sx?: SxProps
   children?: React.ReactNode
 }
 
 export interface VStackProps extends RowProps {}
+
+export interface ModalProps {
+  open: boolean
+  onClose(): void
+}
+
+export interface TableDataProps<T> {
+  data: T[] | null
+  onDataReset(): void
+  onRowClicked(id: number): void
+  rowsPerPage: number
+  onRowChange(row: number): void
+  page: number
+  onPageChange(page: number): void
+}

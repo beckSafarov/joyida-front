@@ -1,7 +1,7 @@
 import { Modal } from '@mui/material'
 import { Box } from '@mui/system'
 import React from 'react'
-import Title from './Title'
+import Title from '../Title'
 import { ModalBaseProps } from '@/interfaces/common'
 
 const ModalBase = (props: ModalBaseProps) => {
@@ -15,7 +15,10 @@ const ModalBase = (props: ModalBaseProps) => {
         position: 'fixed',
         top: props.top || '15%',
         width: props.width || '500px',
+        height: props.height || '600px',
+        overflowY: 'scroll',
         margin: '0 auto',
+        ...props.sx,
       }}
     >
       <Box bgcolor={'white'} p='44px' borderRadius='4px' zIndex='2'>

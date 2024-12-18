@@ -1,8 +1,9 @@
 'use client'
 import { NewCategoryModal as NewCategoryModalProps } from '@/interfaces/Works'
-import ModalBase from '@/modules/common/ModalBase'
+import ModalBase from '@/modules/common/Modals/ModalBase'
 import VStack from '@/modules/common/VStack'
 import { Button, FormControl, TextField } from '@mui/material'
+import axios from 'axios'
 import React, { useState } from 'react'
 
 const NewCategoryModal = (props: NewCategoryModalProps) => {
@@ -12,8 +13,14 @@ const NewCategoryModal = (props: NewCategoryModalProps) => {
     setCategoryName(e.target.value)
   }
 
-  const handleSubmit = () => {
-    props.onSubmit({ label: categoryName, categoryId: 1 })
+  const handleSubmit = async () => {
+    const data = { name: categoryName, id: 1 }
+    const submitRes = await axios.post(
+      `https://admin.joida.uz/api/add-category`,
+      { name: categoryName }
+    )
+    console.log(submitRes)
+    props.onSubmit(data)
     props.onClose()
   }
 

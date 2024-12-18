@@ -1,17 +1,11 @@
-const createRowData = (
-  name: string,
-  phone: string,
-  position: string,
-  date: Date
-) => ({ name, phone, position, date })
+import { AxiosError } from 'axios'
+import Cookies from 'js-cookie'
+import { toast } from 'react-toastify'
 
-const rows = [
-  createRowData('Karim Zaripov', '+998957003022', 'moderator', new Date()),
-  createRowData('Toshmat Eshmatov', '+998957003022', 'superadmin', new Date()),
-  createRowData('Salim Salimov', '+998957003022', 'moderator', new Date()),
-  createRowData('Azim Azimov', '+998957003022', 'superadmin', new Date()),
-  createRowData('Tohir Saidov', '+998957003022', 'moderator', new Date()),
-]
+export const setCookie = (name: string, value: string) => {
+  if (typeof document === 'undefined') return
+  document.cookie = `${name}=${value}`
+}
 
 export const createColumnData = (
   id: string,
@@ -19,15 +13,16 @@ export const createColumnData = (
   minWidth: number
 ) => ({ id, label, minWidth })
 
-// console.log(dateFormat(new Date('1/1/2024')))
-
-// const result = rows.map((row: RowFace, index: number) =>
-//   Object.keys(row).map((prop: string, j: number) => {
-//     return row[prop]
-//   })
-// )
-
-// console.log(result)
+export const refreshHeader = {
+  headers: {
+    Authorization: `Bearer ${Cookies.get('refresh_token')}`,
+  },
+}
+export const accessHeader = {
+  headers: {
+    Authorization: `Bearer ${Cookies.get('access_token')}`,
+  },
+}
 
 export const getAvatarLetters = (name: string) => {
   return name
@@ -36,4 +31,20 @@ export const getAvatarLetters = (name: string) => {
     .join('')
 }
 
-// console.log(getAvatarLetters('Bahrom Karimov'))
+export const displayAxiosError = (error: AxiosError | any) => {
+  return toast(`${error.name}: ${error.message}`, { type: 'error' })
+}
+
+
+
+
+// export const fetchData = async(address: string, payload: any) => {
+//   const token = Cookies.get('refresh_token')
+//   const response = await axios.get(
+//     `${address}/pa`,
+//     {
+//       headers: { Authorization: `Bearer ${token}` },
+//     }
+//   )
+//   return response.data
+// }

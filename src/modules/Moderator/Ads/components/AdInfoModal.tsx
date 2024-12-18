@@ -1,5 +1,5 @@
 'use client'
-import ModalBase from '@/modules/common/ModalBase'
+import ModalBase from '@/modules/common/Modals/ModalBase'
 import Row from '@/modules/common/Row'
 import categoriesData from '@/data/categoriesData'
 import { AdInfoModalProps, AdInfoProps } from '@/interfaces/Ads'
@@ -30,7 +30,7 @@ const infoRows: InfoRowType[] = [
 const sampleAd: AdInfoProps = {
   image: '/images/working.jpg',
   title: 'Bro Barbershop',
-  address: "Chilonzor, Arnasoy ko'chasi, 24",
+  address: 'Chilonzor, Arnasoy ko&apos;chasi, 24',
   category: categoriesData[0].label,
   workingTime: 'Dushanba - Juma, 9:00 - 18:00',
   adStartDate: new Date('07/24/2024'),
@@ -66,7 +66,7 @@ const AdInfoModal = (props: AdInfoModalProps) => {
         </Box>
         <Box flex='2' pl='50px'>
           <Typography fontWeight='600' fontSize='20px'>
-            Boshlang'ich ma'lumotlar
+            Boshlang&apos;ich ma&apos;lumotlar
           </Typography>
           <VStack spacing={2} sx={{ mt: '18px' }}>
             {infoRows.map((row) => {
@@ -90,10 +90,10 @@ const AdInfoModal = (props: AdInfoModalProps) => {
       </Box>
       <Row spacing={2} sx={{ justifyContent: 'right', mt: '21px' }}>
         <Button onClick={handleDelete} variant='outlined' color='error'>
-          O'chirish
+          O&apos;chirish
         </Button>
         <Button variant='outlined' color='info'>
-          O'zgartirish
+          O&apos;zgartirish
         </Button>
       </Row>
     </ModalBase>

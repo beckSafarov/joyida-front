@@ -1,78 +1,71 @@
 'use client'
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  TextField,
+} from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TablePagination from '@mui/material/TablePagination'
 import TableRow from '@mui/material/TableRow'
-import { Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Stack, TextField } from '@mui/material'
+import Tag from '@/modules/common/Tag'
+import { NormalizedAdminProps } from '@/interfaces/superadmin'
 
-type Column = {
-  id: string,
-  label: string,
-  minWidth: number,
-}
-type Sort = {
-  id: string,
-  desc: boolean,
-}
-type FilterOption = {
-  value: string,
-  label: string,
-}
-type Filter = {
-  id: string,
-  options: FilterOption[]
-}
-type Button = {
-  label: string,
-  variant: string,
-  onClick(): void,
+interface SuperAdminTableProps {
+  data: NormalizedAdminProps[] | []
+  onNewAdminClick(open: boolean): void
+  rowsPerPage: number
+  onRowChange(row: number): void
+  page: number
+  onPageChange(page: number): void
+  onEditClicked(data: NormalizedAdminProps): void
 }
 
-type Search = {
-  props: String[],
-  label: String
-}
+const columns = [
+  { id: 'name', label: 'Admin', minWidth: 300 },
+  { id: 'phone', label: 'Telefon raqami', minWidth: 250 },
+  { id: 'position', label: 'Vazifasi', minWidth: 250 },
+  { id: 'created_at', label: "Qo'shilgan sana", minWidth: 250 },
+]
 
-type Props = {
-  columns: Column[],
-  rows: [],
-  search: Search,
-  sort: Sort[],
-  filter: Filter[],
-  rowsPerPage: number,
-  buttons: Button[],
-}
-
-const TableBuilder = ({columns, rows, search:propsToSearch, sort:propsToSortBy, filter:propsToFilterBy, rowsPerPage:passedRowsPerPage, buttons}: Props) => {
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(passedRowsPerPage)
+const SuperAdminTable: React.FC<SuperAdminTableProps> = ({
+  onNewAdminClick,
+  onPageChange,
+  onRowChange,
+  onEditClicked,
+  page,
+  rowsPerPage,
+  data: rows,
+}) => {
   const [searchTerm, setSearchTerm] = React.useState('')
-  const [filterTerm, setFilterTerm] = React.useState('')
-  const [openModal, setOpenModal] = React.useState(false)
-  const [dataToDisplay, setDataToDisplay] = useState<TableRowFace[]>(rows)
+  const [filterPosition, setFilterPosition] = React.useState('')
+  const [dataToDisplay, setDataToDisplay] = useState<
+    NormalizedAdminProps[] | []
+  >([])
 
   useEffect(() => {
+    if (rows) setDataToDisplay(rows)
     if (searchTerm) handleSearch()
-    if (filterTerm) handleFilter()
-    if (!filterTerm && !searchTerm) resetData()
-  }, [searchTerm, filterTerm])
+    if (filterPosition) handleFilter()
+    if (!filterPosition && !searchTerm) resetData()
+  }, [searchTerm, filterPosition, rows])
 
   const resetData = () => setDataToDisplay(rows)
 
   const handleSearch = () => {
     const rgx = new RegExp(searchTerm, 'gi')
     setDataToDisplay(
-      rows.filter((row) => {
-        for (let i = 0; i < propsToSearch.props.length; i++) {
-          rgx.test(row[propsToSearch.props[i]])
-          
-        }
-        // 
-      })
+      rows.filter((row) => rgx.test(row.name) || rgx.test(row.phone))
     )
   }
 
@@ -80,33 +73,37 @@ const TableBuilder = ({columns, rows, search:propsToSearch, sort:propsToSortBy, 
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setSearchTerm(event.target.value)
-    setFilterTerm('')
+    setFilterPosition('')
   }
 
   const handleFilter = () => {
     setSearchTerm('')
-    setDataToDisplay(rows.filter((row) => row[propsToFilterBy[0].id] === filterTerm))
+    setDataToDisplay(rows.filter((row) => row.position === filterPosition))
   }
 
-  const handleFilterChange = (event: SelectChangeEvent) => {
-    setFilterTerm(event.target.value)
+  const handleSelectChange = (event: SelectChangeEvent) => {
+    setFilterPosition(event.target.value)
   }
 
   const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage)
+    onPageChange(newPage)
   }
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setRowsPerPage(+event.target.value)
-    setPage(0)
+    onRowChange(+event.target.value)
+    onPageChange(0)
   }
 
   return (
-     <Stack pb='16px' direction='row' justifyContent={'space-between'}>
+    <>
+      <Box mt='100px'>
+        <Paper elevation={1} sx={{ p: '24px' }}>
+          <Stack pb='16px' direction='row' justifyContent={'space-between'}>
             <Stack
               width='100%'
+              // sx={{ bgcolor: 'blue' }}
               direction='row'
               spacing={4}
               alignItems={'center'}
@@ -129,21 +126,20 @@ const TableBuilder = ({columns, rows, search:propsToSearch, sort:propsToSortBy, 
                   labelId='demo-simple-select-label'
                   size='small'
                   id='position-select'
-                  value={filterTerm}
+                  value={filterPosition}
                   label='Position'
                   sx={{ width: '180px' }}
-                  onChange={handleFilterChange}
+                  onChange={handleSelectChange}
                 >
-                  {propsToFilterBy[0].options.map((option)=>(
-                    <MenuItem key={option.value} value={option.value}>{option.label}</MenuItem>
-                  ))}
+                  <MenuItem value={'moderator'}>Moderator</MenuItem>
+                  <MenuItem value={'superadmin'}>Superadmin</MenuItem>
                 </Select>
               </FormControl>
             </Stack>
             <Button
               variant='contained'
               size='small'
-              onClick={() => setOpenModal(true)}
+              onClick={() => onNewAdminClick(true)}
               sx={{
                 height: 'fit-content',
                 minWidth: '80px',
@@ -152,8 +148,13 @@ const TableBuilder = ({columns, rows, search:propsToSearch, sort:propsToSortBy, 
               Yangi +
             </Button>
           </Stack>
-          {filterTerm && (
-            <Tag onClear={() => setFilterTerm('')}>{filterTerm} </Tag>
+          {filterPosition && (
+            <Tag
+              variant={filterPosition === 'moderator' ? 'secondary' : 'primary'}
+              onClear={() => setFilterPosition('')}
+            >
+              {filterPosition}{' '}
+            </Tag>
           )}
           <center>
             <TableContainer aria-label='sticky table'>
@@ -171,12 +172,17 @@ const TableBuilder = ({columns, rows, search:propsToSearch, sort:propsToSortBy, 
               </TableHead>
 
               <TableBody>
-                {dataToDisplay
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row: TableRowFace, index: number) => (
-                    <TableRow component='div' hover key={index}>
+                {dataToDisplay.map(
+                  (row: NormalizedAdminProps, index: number) => (
+                    <TableRow
+                      onClick={() => onEditClicked(row)}
+                      component='div'
+                      hover
+                      key={index}
+                    >
                       {columns.map((column) => {
-                        let value = row[column?.id as keyof TableRowFace]
+                        let value =
+                          row[column?.id as keyof NormalizedAdminProps]
                         value =
                           typeof value === 'object' ? String(value) : value
                         return (
@@ -188,7 +194,15 @@ const TableBuilder = ({columns, rows, search:propsToSearch, sort:propsToSortBy, 
                             key={column.id}
                           >
                             {column.id === 'position' ? (
-                              <Tag>{value}</Tag>
+                              <Tag
+                                variant={
+                                  row.position === 'moderator'
+                                    ? 'secondary'
+                                    : 'primary'
+                                }
+                              >
+                                {value}
+                              </Tag>
                             ) : (
                               value
                             )}
@@ -196,7 +210,8 @@ const TableBuilder = ({columns, rows, search:propsToSearch, sort:propsToSortBy, 
                         )
                       })}
                     </TableRow>
-                  ))}
+                  )
+                )}
               </TableBody>
             </TableContainer>
             <TablePagination
@@ -209,7 +224,10 @@ const TableBuilder = ({columns, rows, search:propsToSearch, sort:propsToSortBy, 
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </center>
+        </Paper>
+      </Box>
+    </>
   )
 }
 
-export default TableBuilder
+export default SuperAdminTable

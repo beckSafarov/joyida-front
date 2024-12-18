@@ -3,13 +3,16 @@ import { createColumnData } from '@/utils'
 import locationsData from './locationsData'
 
 export const usersTableColumns = [
+  createColumnData('id', 'ID', 100),
   createColumnData('name', 'Foydalanuvchi', 200),
-  createColumnData('phone', 'Telefon raqami', 200),
-  createColumnData('address', 'Manzili', 200),
-  createColumnData('date', "Qo'shilgan sana", 200),
-  createColumnData('gender', 'Jinsi', 200),
-  createColumnData('isBusiness', 'Akkaunt turi', 200),
-  createColumnData('jobTitle', 'Ish turi', 200),
+  createColumnData('phone', 'Telefon raqami', 100),
+  createColumnData('email', 'Email', 100),
+  createColumnData('birthDate', "Tug'ilgan yili", 200),
+  createColumnData('gender', 'Jinsi', 100),
+  createColumnData('businessStatus', 'Akkaunt turi', 100),
+  createColumnData('activeStatus', 'Aktivlik', 100),
+  // createColumnData('address', 'Manzili', 200),
+  // createColumnData('jobTitle', 'Ish turi', 100),
 ]
 
 export const genderOptions = [
@@ -71,11 +74,11 @@ const createRowData = (
   jobTitle,
   categories,
 })
-export default [
+const usersData = [
   createRowData(
     'Eshmatov Toshmat',
     '+998988884554',
-    "Arnasoy ko'chasi, 14-uy, 2",
+    'Arnasoy ko&apos;chasi, 14-uy, 2',
     new Date('11/02/2024'),
     'male',
     false
@@ -83,20 +86,20 @@ export default [
   createRowData(
     'Xamza Rahmatov',
     '+998988884554',
-    "Arnasoy ko'chasi, 14-uy, 2",
+    'Arnasoy ko&apos;chasi, 14-uy, 2',
     new Date('10/02/2024'),
     'male',
     true,
     'Texnik muhandis',
     [
-      { label: 'texnik xizmatlar', categoryId: 12 },
-      { label: 'texnik konsultatsiya', categoryId: 13 },
+      { name: 'texnik xizmatlar', id: 12 },
+      { name: 'texnik konsultatsiya', id: 13 },
     ]
   ),
   createRowData(
     'Ibrohim Qosimov',
     '+998988884554',
-    "Arnasoy ko'chasi, 14-uy, 2",
+    'Arnasoy ko&apos;chasi, 14-uy, 2',
     new Date('12/02/2024'),
     'male',
     false
@@ -104,20 +107,20 @@ export default [
   createRowData(
     'Zafar Asliddinov',
     '+998988884554',
-    "Arnasoy ko'chasi, 14-uy, 2",
+    'Arnasoy ko&apos;chasi, 14-uy, 2',
     new Date('02/13/2024'),
     'male',
     true,
     'Yurist Konsultant',
     [
-      { label: 'yuridik xujjatlar', categoryId: 9 },
-      { label: 'yuridiki konsultatsiya', categoryId: 10 },
+      { name: 'yuridik xujjatlar', id: 9 },
+      { name: 'yuridiki konsultatsiya', id: 10 },
     ]
   ),
   createRowData(
     'Qudratilla Sadiyev',
     '+998988884554',
-    "Arnasoy ko'chasi, 14-uy, 2",
+    'Arnasoy ko&apos;chasi, 14-uy, 2',
     new Date('04/15/2024'),
     'male',
     false,
@@ -126,16 +129,14 @@ export default [
   createRowData(
     'Tatasha Sharipova',
     '+998977845165',
-    "Arnasoy ko'chasi, 14-uy, 2",
+    'Arnasoy ko&apos;chasi, 14-uy, 2',
     new Date('04/15/2024'),
     'female',
     false,
     ''
   ),
 ]
-
-
-
+export default usersData
 
 export interface UserInfoProps {
   id: 1
@@ -158,10 +159,10 @@ export const sampleUserInfo: UserInfoProps = {
   title: 'Jurnalist',
   gender: true,
   categories: [
-    { label: 'maqola yozish', categoryId: 15 },
-    { label: 'boshlovchilik', categoryId: 16 },
-    { label: 'geosiyosat', categoryId: 17 },
-    { label: 'tarix', categoryId: 18 },
+    { name: 'maqola yozish', id: 15 },
+    { name: 'boshlovchilik', id: 16 },
+    { name: 'geosiyosat', id: 17 },
+    { name: 'tarix', id: 18 },
   ],
   address: "Guliston shahri, Yakkabog' tumani, 24",
   phone: '+998991354565',

@@ -5,6 +5,7 @@ import UploadFileIcon from '@mui/icons-material/UploadFile'
 
 interface UploadFileFieldProps {
   onChange(e: React.SyntheticEvent): void
+  onBlur(e: React.SyntheticEvent): void
   value: string
   name: string
 }
@@ -37,11 +38,9 @@ const UploadFileField = (props: UploadFileFieldProps) => {
           yoki tortib olib keling
         </FormLabel>
         <Input
+          {...props}
           id='image'
-          name={props.name}
           type='file'
-          onChange={props.onChange}
-          value={props.value}
           sx={{ visibility: 'hidden', width: '1px', height: '1px' }}
         />
       </FormControl>

@@ -8,36 +8,40 @@ export interface ModeratorWorkRow {
 
 // work category
 export interface category {
-  label: string
-  categoryId: number
+  name: string
+  id: number
 }
 
 export interface NewWorkValues {
   name: string
-  categoryId: number
+  category_id: number
 }
+export interface EditWorkValues extends NewWorkValues {}
 
 export interface NewCategoryModal extends NewAdminModalProps {
   onSubmit(newCategory: category): void
 }
 
-export interface NewWorkModalFace extends NewAdminModalProps {
-  categories: category[]
-}
+export interface NewWorkModalFace extends NewAdminModalProps {}
 
 export interface WorkEditModalProps extends NewAdminModalProps {
-  workId: string
+  workId: number | null
   categories: category[]
 }
 
-export interface EditWorkValues extends NewWorkValues {}
+export interface WorkDataProps {
+  id: number
+  name: string
+  category_id: number
+  category: category
+}
 
 export interface WorkFormBaseProps {
   initialValues: {
     name: string
-    categoryId: number
+    category_id: number
   }
-  onSubmit(values: { name: string; categoryId: number }): void
+  onSubmit(values: { name: string; category_id: number }): void
   onClose(): void
   categories: category[]
   mode?: 'create' | 'update'

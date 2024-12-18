@@ -3,18 +3,21 @@ import { EditWorkValues } from '@/interfaces/Works'
 import React from 'react'
 import WorkFormBase from './WorkFormBase'
 import { WorkEditModalProps } from '@/interfaces/Works'
-import ModalBase from '@/modules/common/ModalBase'
+import ModalBase from '@/modules/common/Modals/ModalBase'
+import axios from 'axios'
 
 const WorkEditModal = (props: WorkEditModalProps) => {
-  // get the initialValues for the work info from the global state using props.id
   const initialValues: EditWorkValues = {
     name: '',
-    categoryId: '',
+    category_id: 0,
   }
 
-  const handleSubmit = (values: EditWorkValues) => {
-    console.log(values)
-    props.onClose()
+  const handleSubmit = async (values: EditWorkValues) => {
+    const res = await axios.put(
+      `${process.env.NEXT_PUBLIC_API_1}/service/${props.workId}`,
+      { ...values, id: props.workId }
+    )
+    console.log(res)
   }
 
   const handleClose = () => {

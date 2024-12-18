@@ -1,10 +1,11 @@
-import AdsScreen from '@/modules/Moderator/Ads/AdsScreen'
+// import AdsScreen from '@/modules/Moderator/Ads/AdsScreen'
 import React from 'react'
 
 type Props = {}
 
 const AdsPage = (props: Props) => {
-  return <AdsScreen />
+  return <>Page is unavailable</>
+  // return <AdsScreen />
 }
 
 export default AdsPage

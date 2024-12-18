@@ -3,6 +3,7 @@ import {
   Button,
   Divider,
   FormControl,
+  Icon,
   InputLabel,
   MenuItem,
   Select,
@@ -15,6 +16,7 @@ import ClearIcon from '@mui/icons-material/Clear'
 import React, { useState } from 'react'
 import { blue } from '@mui/material/colors'
 import NewCategoryModal from './NewCategoryModal'
+import axios from 'axios'
 
 const WorkFormBase = (props: WorkFormBaseProps) => {
   const { initialValues } = props
@@ -22,7 +24,7 @@ const WorkFormBase = (props: WorkFormBaseProps) => {
   const [openNewCategoryModal, setOpenNewCategoryModal] = useState(false)
 
   const handleSubmit = (values: NewWorkValues, actions: any) => {
-    console.log(values)
+    // console.log(values)
     actions.resetForm()
     props.onSubmit(values)
   }
@@ -38,11 +40,26 @@ const WorkFormBase = (props: WorkFormBaseProps) => {
   }
 
   const handleEditCategory = () => {}
-  const handleDeleteCategory = () => {}
+
+  const handleDeleteCategory = async (id: number) => {
+    if (
+      window.confirm(
+        `Are you sure to delet the category "${
+          allCategories.find((cat) => cat.id === id)?.name
+        }"? This action is irreversible`
+      )
+    ) {
+      const submitRes = await axios.delete(
+        `https://admin.joida.uz/api/category/${id}`
+      )
+      setAllCategories((data) => data.filter((cat) => cat.id !== id))
+      console.log(submitRes)
+    }
+  }
 
   const handleNewCategory = (newCategory: category) => {
     setAllCategories([...allCategories, newCategory])
-    formik.setFieldValue('categoryId', newCategory.categoryId)
+    formik.setFieldValue('categoryId', newCategory.id)
   }
 
   return (
@@ -63,22 +80,29 @@ const WorkFormBase = (props: WorkFormBaseProps) => {
           <FormControl>
             <InputLabel>Kategoriya</InputLabel>
             <Select
-              name='categoryId'
+              name='category_id'
               labelId='demo-simple-select-label'
               id='category-select'
-              value={formik.values['categoryId']}
+              value={formik.values['category_id']}
               sx={{ width: '100%' }}
               onChange={formik.handleChange}
             >
               {allCategories.map((category: category, i: number) => (
-                <MenuItem key={i} value={category.categoryId}>
+                <MenuItem key={i} value={category.id}>
                   <Stack
                     justifyContent={'space-between'}
                     direction='row'
                     sx={{ width: '100%' }}
                   >
-                    <Typography>{category.label}</Typography>
-                    <ClearIcon />
+                    <Typography>{category.name}</Typography>
+                    {/* <ContentEditable
+                        html={category.name}
+                        onChange={(e) => e.target.value}
+                      /> */}
+                    <Icon
+                      component={ClearIcon}
+                      onClick={() => handleDeleteCategory(category.id)}
+                    />
                   </Stack>
                 </MenuItem>
               ))}

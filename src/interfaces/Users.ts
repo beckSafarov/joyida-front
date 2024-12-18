@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios'
 import { category } from './Works'
 import { NewAdminModalProps } from './superadmin'
 
@@ -11,6 +12,43 @@ export interface UsersTableRowProps {
   jobTitle?: string
   categories?: category[]
 }
+
+export interface DataFromServerProps {
+  id: number
+  birthDate: string
+  business: string
+  created_at: string
+  email: string
+  first_name: string
+  last_name: string
+  gender: string
+  image_path: string
+  is_active: boolean
+  phone: string
+  updated_at: string
+}
+
+export interface UserRequestResponseProps {
+  isLoading: boolean
+  error: AxiosError | null
+  data: any | null
+}
+
+export interface NormalizedUserDataProps {
+  id: number
+  email: string
+  name: string
+  activeStatus: string
+  businessStatus: string
+  birthDate: string
+  createdAt: string
+  phone: string
+  gender: string
+}
+
+// export interface NormalizedUserDataProps
+//   extends Omit<DataFromServerProps, keyof AdaptedProps>,
+//     AdaptedProps {}
 
 export interface UsersTableDataToDisplay {
   name: string
@@ -39,5 +77,6 @@ export interface SelectFilterOption extends FilterOption {
 }
 
 export interface UserInfoModalProps extends NewAdminModalProps {
-  id?: number
+  data: NormalizedUserDataProps | null
+  originalData?: DataFromServerProps | null
 }

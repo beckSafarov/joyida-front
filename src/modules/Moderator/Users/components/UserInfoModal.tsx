@@ -1,44 +1,77 @@
-import { UserInfoProps, sampleUserInfo as user } from '@/data/usersData'
-import { UserInfoModalProps } from '@/interfaces/Users'
-import ModalBase from '@/modules/common/ModalBase'
+import React from 'react'
+import { sampleUserInfo as user } from '@/data/usersData'
+import { NormalizedUserDataProps, UserInfoModalProps } from '@/interfaces/Users'
+import CustomToastContainer from '@/modules/common/CustomToastContainer'
+import ModalBase from '@/modules/common/Modals/ModalBase'
 import Row from '@/modules/common/Row'
 import Tag from '@/modules/common/Tag'
 import VStack from '@/modules/common/VStack'
-import { Avatar, Box, Divider, Typography } from '@mui/material'
-import React from 'react'
+import { displayAxiosError, getAvatarLetters, refreshHeader } from '@/utils'
+import { Avatar, Box, Button, Divider, Typography } from '@mui/material'
+import axios, { AxiosError } from 'axios'
+import { toast } from 'react-toastify'
 
-const infoRows = [
-  { label: 'IDsi', prop: 'id' },
-  { label: 'Jinsi', prop: 'gender' },
-  { label: 'Manzili', prop: 'address' },
-  { label: 'Telefon raqami', prop: 'phone' },
-  { label: 'Kasbi', prop: 'title' },
-  { label: 'Xizmatlari', prop: 'categories' },
-  { label: 'Tajribasi', prop: 'experience' },
-]
+const labelsLookup = {
+  id: 'ID',
+  activeStatus: 'Statusi',
+  birthDate: "Tug'ilgan sana",
+  createdAt: "Ro'yxatdan o'tgan sana",
+  businessStatus: 'Biznesmi?',
+  email: 'Email',
+  phone: 'Telefoni',
+  services: 'Xizmatlari',
+  name: 'Ismi',
+  gender: 'Jinsi',
+}
 
-const RowText = (children: string) => {
-  return (
-    <Typography fontWeight='400' fontSize='16px'>
-      {children}
-    </Typography>
-  )
+interface infoRow {
+  label: string
+  name: string
 }
 
 const UserInfoModal = (props: UserInfoModalProps) => {
+  const user = props?.data
+  const originalData = props?.originalData
+  console.log(props?.data)
+  const infoRows = props.data
+    ? Object.keys(props?.data)?.map((prop) => ({
+        label: prop,
+        name: String(props?.data?.[prop as keyof NormalizedUserDataProps]),
+      }))
+    : []
+
   const getRefinedPropValue = (prop: string) => {
-    const correspondingValue = user[prop as keyof UserInfoProps]
+    if (!user) return ''
+    const correspondingValue = user[prop as keyof NormalizedUserDataProps]
     switch (prop) {
       case 'gender':
-        return <Typography>{prop ? 'Erkak' : 'Ayol'}</Typography>
-      case 'isBusiness':
-        return <Typography>{prop ? 'Biznes' : 'Oddiy'}</Typography>
+        return (
+          <Tag
+            variant={props?.data?.gender === 'Erkak' ? 'primary' : 'secondary'}
+          >
+            {correspondingValue}
+          </Tag>
+        )
+      case 'activeStatus':
+        return (
+          <Tag variant={originalData?.is_active ? 'primary' : 'error'}>
+            {correspondingValue}
+          </Tag>
+        )
+      case 'businessStatus':
+        return (
+          <Tag
+            variant={correspondingValue === 'Biznes' ? 'primary' : 'secondary'}
+          >
+            {correspondingValue}
+          </Tag>
+        )
       case 'categories':
         return (
           <Row sx={{ width: 'inherit', flexWrap: 'wrap', gap: '10px' }}>
-            {user.categories.map((category) => (
-              <Tag>{category.label}</Tag>
-            ))}
+            {/* {user.categories.map((category, i) => (
+              <Tag key={i}>{category.name}</Tag>
+            ))} */}
           </Row>
         )
       case 'experience':
@@ -48,37 +81,78 @@ const UserInfoModal = (props: UserInfoModalProps) => {
     }
   }
 
+  // console.log(user)
+  const handleDeactivate = async () => {
+    if (
+      confirm(
+        `${props?.data?.name} degan foydalanuvchini ovozini o'chiraylikmi?`
+      )
+    ) {
+      try {
+        const updatingData = {
+          // ...props?.originalData,
+          // gender: 1,
+          is_active: !props.originalData?.is_active,
+        }
+
+        await axios.patch(
+          `${process.env.NEXT_PUBLIC_API_2}/user/update/${props?.data?.id}`,
+          updatingData,
+          refreshHeader
+        )
+
+        toast('Muvaffaqiyatli yangilandi', { type: 'success' })
+      } catch (error: AxiosError | any) {
+        displayAxiosError(error)
+        console.error(error)
+      }
+    }
+  }
+
   return (
-    <ModalBase {...props} title={user.name} titleAlign='left' width='700px'>
-      <Row sx={{ width: '100%' }} spacing={4}>
-        <Box>
-          <Avatar
-            variant='rounded'
-            sx={{ width: '60px', height: '60px' }}
-            src={user.avatar}
+    <>
+      <CustomToastContainer />
+      <ModalBase
+        {...props}
+        title={user?.name || ''}
+        titleAlign='center'
+        width='500px'
+        height='650px'
+        top='10%'
+        // sx={{ overflowY: 'hidden' }}
+      >
+        <Row sx={{ width: '100%' }} spacing={4}>
+          <Box>
+            <Avatar variant='rounded' sx={{ width: '60px', height: '60px' }}>
+              {getAvatarLetters(props?.data?.name || '')}
+            </Avatar>
+          </Box>
+          <VStack spacing={2}>
+            {infoRows.map((row: { label: string; name: string }) => (
+              <React.Fragment key={row.name}>
+                <Row spacing={2}>
+                  <Typography sx={{ flex: 1 }} fontWeight='500'>
+                    {labelsLookup[row.label as keyof NormalizedUserDataProps]}
+                  </Typography>
+                  <Box sx={{ flex: 2 }}>{getRefinedPropValue(row.label)}</Box>
+                </Row>
+                <Divider />
+              </React.Fragment>
+            ))}
+          </VStack>
+        </Row>
+        <Box sx={{ p: '30px 0 10px 0', w: '100%' }}>
+          <Button
+            onClick={handleDeactivate}
+            variant='contained'
+            color={props.originalData?.is_active ? 'error' : 'success'}
+            fullWidth
           >
-            LE
-          </Avatar>
+            {props.originalData?.is_active ? 'Deaktivatsiya' : 'Aktivatsiya'}
+          </Button>
         </Box>
-        <VStack spacing={2}>
-          {infoRows.map((row: { label: string; prop: string }) => (
-            <React.Fragment>
-              <Row spacing={2} key={row.prop}>
-                <Typography sx={{ flex: 1 }} fontWeight='500'>
-                  {row.label}
-                </Typography>
-                <Box sx={{ flex: 2 }}>{getRefinedPropValue(row.prop)}</Box>
-              </Row>
-              <Divider />
-            </React.Fragment>
-          ))}
-          {/* <Row spacing={2}>
-            <Typography fontWeight='500'>Manzili: </Typography>
-            <Typography fontWeight='400'>{user.address}</Typography>
-          </Row> */}
-        </VStack>
-      </Row>
-    </ModalBase>
+      </ModalBase>
+    </>
   )
 }
 
